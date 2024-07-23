@@ -6,6 +6,9 @@ function Signup(){
         <>
         <AppLogo />
         <SignupForm />
+        <p>
+            Already have an account? Log in <a href="/">here</a>
+        </p>
     </>
     )
 }
