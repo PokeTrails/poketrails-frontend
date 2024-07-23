@@ -5,7 +5,7 @@ function Signup(){
     return(    
         <>
         <AppLogo />
-        {/* <SignupForm /> */}
+        <SignupForm />
     </>
     )
 }
