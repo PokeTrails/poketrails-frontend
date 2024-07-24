@@ -21,7 +21,7 @@ const lightTheme = createTheme({
         root: {
           '& .MuiOutlinedInput-root': {
             backgroundColor: '#fff',
-            borderRadius: 4,
+            borderRadius: 4, // Required to remove white pixel on corner of inputs
           },
         },
       },
@@ -30,7 +30,7 @@ const lightTheme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: '#fff',
-          borderRadius: 4,
+          borderRadius: 4, // Required to remove white pixel on corner of inputs
         },
       },
     },

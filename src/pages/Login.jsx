@@ -6,8 +6,8 @@ import LoginForm from '../components/LoginForm'; // Adjust the import path as ne
 function Login() {
   return (
     <>
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <AppLogo />
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+          <AppLogo />
         <LoginForm />
         <p>
           Don't have an account? Sign up <a href="./signup">here</a>
