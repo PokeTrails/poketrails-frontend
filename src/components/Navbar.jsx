@@ -15,7 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import appLogo from '../assets/app_logo.png';
 
 const pages = ['Home', 'Party', 'Trails', 'Pokédex', 'Store'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['User Settings', 'Logout'];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
