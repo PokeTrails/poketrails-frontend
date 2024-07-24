@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Box, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Button } from '@mui/material';
 
 export default function SignupForm() {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -65,6 +66,7 @@ export default function SignupForm() {
           label="Confirm Password"
         />
       </FormControl>
+      <Button variant="contained" size="medium" sx={{width: "60%", marginTop: "10px"}}>Sign Up</Button>
     </Box>
   );
 }
