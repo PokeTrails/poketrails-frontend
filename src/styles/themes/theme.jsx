@@ -1,26 +1,40 @@
-import * as React from 'react';
 import { createTheme } from '@mui/material/styles';
 
-// Can create duplicate instance if want dark and light
-// Only has light theme for now
+// Created a light theme with custom component styles
 const lightTheme = createTheme({
-    palette: {    
-      primary: {
-        main: '#FF7070',
-        // light: will be calculated from palette.primary.main,
-        // dark: will be calculated from palette.primary.main,
-        // contrastText: will be calculated to contrast with palette.primary.main
+  palette: {
+    primary: {
+      main: '#FF7070',
+    },
+    secondary: {
+      main: '#C9EECF',
+      light: '#F5EBFF',
+      contrastText: '#000',
+    },
+    background: {
+      default: "#C9EECF",
+    },
+  },
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiOutlinedInput-root': {
+            backgroundColor: '#fff',
+            borderRadius: 4,
+          },
+        },
       },
-      secondary: {
-        main: '#C9EECF',
-        light: '#F5EBFF',
-        // dark: will be calculated from palette.secondary.main,
-        contrastText: '#000',
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#fff',
+          borderRadius: 4,
+        },
       },
-      background: {
-        default: "#C9EECF"
-      },
-    }
-  });
+    },
+  },
+});
 
 export default lightTheme;
