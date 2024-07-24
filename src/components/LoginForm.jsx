@@ -19,8 +19,7 @@ export default function LoginForm() {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-      <div>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <TextField
           label="Username"
           id="username"
@@ -46,7 +45,6 @@ export default function LoginForm() {
             label="Password"
           />
         </FormControl>
-      </div>
     </Box>
   );
 }

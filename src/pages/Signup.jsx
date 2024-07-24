@@ -6,7 +6,7 @@ import SignupForm from "../components/SignupForm";
 function Signup(){
     return(    
     <>
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <AppLogo />
             <SignupForm />
             <p>

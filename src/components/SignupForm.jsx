@@ -19,8 +19,7 @@ export default function SignupForm() {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-      <div>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <TextField
           label="Username"
           id="username"
@@ -71,7 +70,6 @@ export default function SignupForm() {
             label="Confirm Password"
           />
         </FormControl>
-      </div>
     </Box>
   );
 }
