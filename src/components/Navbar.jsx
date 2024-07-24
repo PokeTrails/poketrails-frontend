@@ -55,7 +55,7 @@ function Navbar() {
               textDecoration: 'none',
             }}
           >
-            <img src={appLogo} alt="Application Logo" height={50} />
+            <img src={appLogo} alt="Application Logo" height={40} />
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
