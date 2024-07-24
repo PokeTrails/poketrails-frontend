@@ -37,7 +37,7 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ bgcolor: "white" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -51,7 +51,7 @@ function Navbar() {
               fontFamily: 'Roboto',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: 'red',
               textDecoration: 'none',
             }}
           >
@@ -65,7 +65,7 @@ function Navbar() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              color="red"
             >
               <MenuIcon />
             </IconButton>
@@ -117,7 +117,7 @@ function Navbar() {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'black', display: 'block' }}
               >
                 {page}
               </Button>
