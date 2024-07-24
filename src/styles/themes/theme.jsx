@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { createTheme } from '@mui/material/styles';
 
-const theme = createTheme({
-    palette: {
+// Can create duplicate instance if want dark and light
+// Only has light theme for now
+const lightTheme = createTheme({
+    palette: {    
       primary: {
         main: '#FF7070',
         // light: will be calculated from palette.primary.main,
@@ -15,7 +17,10 @@ const theme = createTheme({
         // dark: will be calculated from palette.secondary.main,
         contrastText: '#000',
       },
-    },
+      background: {
+        default: "#C9EECF"
+      },
+    }
   });
 
-export default theme;
+export default lightTheme;
