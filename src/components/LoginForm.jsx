@@ -20,7 +20,7 @@ export default function LoginForm() {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: "20px" }}>
         <TextField
           label="Username"
           id="username"
