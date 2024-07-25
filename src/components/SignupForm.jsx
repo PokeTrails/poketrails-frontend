@@ -175,7 +175,7 @@ export default function Signup() {
           </RadioGroup>
         </Box>
       </Box>
-      <Button variant="contained" size="large" sx={{ width: '25%', marginTop: '10px' }}>Sign Up</Button>
+      <Button variant="contained" size="large" sx={{ width: {sm: '50%', md: '30%'}, marginTop: '10px' }}>Sign Up</Button>
     </Box>
   );
 }
