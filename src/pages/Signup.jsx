@@ -10,7 +10,7 @@ function Signup(){
             <AppLogo />
             <SignupForm />
             <Typography variant="body1" paragraph sx={{marginTop: "20px"}}>
-                Already have an account? <Link href="/">Log in here!</Link>
+                Already have an account? <Link to="/">Log in here!</Link>
             </Typography>
         </Box>
     </>
