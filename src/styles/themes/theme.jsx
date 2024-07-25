@@ -13,7 +13,11 @@ const lightTheme = createTheme({
       contrastText: '#000',
     },
     background: {
-      default: "#C9EECF",
+      default: '#C9EECF',
+    },
+    action: {
+      shadow: '#FF7070',
+      hover: '#F0F0F0',
     },
   },
   components: {
@@ -32,6 +36,18 @@ const lightTheme = createTheme({
         root: {
           backgroundColor: '#fff',
           borderRadius: 4, // Required to remove white pixel on corner of inputs
+        },
+      },
+    },
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          textDecoration: 'none',
+          color: 'blue',
+          '&:hover': {
+            textDecoration: 'underline',
+            color: '#FF7070',
+          },
         },
       },
     },
