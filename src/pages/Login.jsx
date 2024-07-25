@@ -1,7 +1,7 @@
 import { Box, Typography, Link } from '@mui/material';
 
-import AppLogo from '../components/AppLogo'; // Adjust the import path as needed
-import LoginForm from '../components/LoginForm'; // Adjust the import path as needed
+import AppLogo from '../components/AppLogo';
+import LoginForm from '../components/LoginForm';
 
 function Login() {
   return (
@@ -10,11 +10,12 @@ function Login() {
           <AppLogo />
           <LoginForm />
           <Typography variant="body1" paragraph>
-            Don't have an account? <Link href="/signup">Sign up here!</Link>
+            Don't have an account? <Link to="/signup">Sign up here!</Link>
           </Typography>
           <Typography variant="body1">
-            <Link href="mailto:support@poketrails.tech">Forgot your password?</Link>
+            <Link to="mailto:support@poketrails.tech">Forgot your password?</Link>
           </Typography>
+          
       </Box>
     </>
   );
