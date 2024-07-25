@@ -152,12 +152,6 @@ function Navbar() {
               <MenuItem
                 key={setting}
                 onClick={handleCloseUserMenu}
-                sx={{
-                  '&:hover': {
-                    color: 'action.hover', // Hover text color: pastel red
-                    backgroundColor: 'action.shadow', // Hover background color: very light gray
-                  }
-                }}
               >
                 <Typography textAlign="center">{setting}</Typography>
               </MenuItem>
