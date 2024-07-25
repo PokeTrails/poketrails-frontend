@@ -1,8 +1,20 @@
-# React + Vite
+![PokeTrails App Logo](./src/assets/app_logo.png)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# PokéTrails Front End Application
 
-Currently, two official plugins are available:
+**Developed by Rahal Abeyrathna, Suraj Shrestha, and Talie Hodge**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
+
+## 🚀 Deployed Applications
+
+- **Front End:** [https://poketrails.tech](https://poketrails.tech)
+- **Back End:** *(In Progress)*
+
+## 📂 Repositories
+
+- **Part A Docs:** [PokeTrailsDocs](https://github.com/PokeTrails/PokeTrailsDocs)
+- **Client:** [poketrails-frontend](https://github.com/PokeTrails/poketrails-frontend)
+- **Server:** [poketrails-backend](https://github.com/PokeTrails/poketrails-backend)
+
+## 📄 Documentation
