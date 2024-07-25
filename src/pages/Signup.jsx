@@ -1,4 +1,4 @@
-import Box from '@mui/material/Box';
+import { Box, Typography, Link } from '@mui/material';
 
 import AppLogo from "../components/AppLogo";
 import SignupForm from "../components/SignupForm";
@@ -6,12 +6,12 @@ import SignupForm from "../components/SignupForm";
 function Signup(){
     return(    
     <>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: "5%" }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: "5%"}}>
             <AppLogo />
             <SignupForm />
-            <p>
-                Already have an account? Log in <a href="/">here</a>
-            </p>
+            <Typography variant="body1" paragraph sx={{marginTop: "20px"}}>
+                Already have an account? <Link href="/">Log in here!</Link>
+            </Typography>
         </Box>
     </>
     )
