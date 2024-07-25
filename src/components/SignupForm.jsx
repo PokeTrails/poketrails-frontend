@@ -1,46 +1,60 @@
-import * as React from 'react';
+import React from 'react';
+import { Box, Typography, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Button, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import femaleSprite from '../assets/trainer_sprites/female_static.png';
+import maleSprite from '../assets/trainer_sprites/male_static.png';
+import femaleSpriteAnimated from '../assets/trainer_sprites/female_animated.png';
+import maleSpriteAnimated from '../assets/trainer_sprites/male_animated.png';
 
-import { Box, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Typography } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Button } from '@mui/material';
-
-import femaleSprite from '../assets/trainer_sprites/female.png';
-import maleSprite from '../assets/trainer_sprites/male.png';
-
-export default function SignupForm() {
+export default function Signup() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const [selectedSprite, setSelectedSprite] = React.useState('female'); // Default selected sprite
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
-
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  const handleSpriteChange = (event) => {
+    setSelectedSprite(event.target.value);
   };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <Box
         sx={{
-          display: { xs: 'block', md: 'flex' },
+          display: 'flex',
           flexDirection: { xs: 'column', md: 'row' },
           alignItems: 'center',
           justifyContent: 'center',
-          flexWrap: 'nowrap',
+          flexWrap: 'wrap',
+          gap: '20px',
+          width: '100%',
         }}
       >
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            flex: 1,
+            maxWidth: '600px',
+          }}
+        >
           <TextField
             label="Username"
             id="username"
-            sx={{ m: 1, width: '25ch' }}
+            sx={{ m: 1, width: '100%' }}
           />
           <TextField
             label="Trainer name"
             id="trainer-name"
-            sx={{ m: 1, width: '25ch' }}
+            sx={{ m: 1, width: '100%' }}
           />
-          <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+          <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
             <InputLabel htmlFor="password">Password</InputLabel>
             <OutlinedInput
               id="password"
@@ -60,7 +74,7 @@ export default function SignupForm() {
               label="Password"
             />
           </FormControl>
-          <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+          <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
             <InputLabel htmlFor="confirm-password">Confirm Password</InputLabel>
             <OutlinedInput
               id="confirm-password"
@@ -81,38 +95,87 @@ export default function SignupForm() {
             />
           </FormControl>
         </Box>
+
         <Box
           sx={{
-            display: { xs: 'block', md: 'flex' },
+            display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            width: '100%',
+            flex: 1,
             maxWidth: '600px',
-            textAlign: 'center',
-            flexWrap: 'nowrap',
           }}
         >
           <Typography
             variant="h6"
-            sx={{ fontWeight: 'bold'}}
+            sx={{ fontWeight: 'bold', textAlign: 'center' }}
           >
             Select a Trainer Sprite:
           </Typography>
-          <Box sx={{height: "200px"}}>
-            <img
-              src={femaleSprite}
-              alt="Female Trainer Sprite"
-              style={{ width: 'auto', height: '100%' }}
-            />
-            <img
-              src={maleSprite}
-              alt="Male Trainer Sprite"
-              style={{ width: 'auto', height: '100%' }}
-            />
-          </Box>
+
+          <RadioGroup
+            value={selectedSprite}
+            onChange={handleSpriteChange}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '20px',
+              mt: 2,
+            }}
+          >
+            <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+              <FormControlLabel
+                value="female"
+                control={<Radio sx={{ display: 'none' }} />}
+                label={
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      position: 'relative',
+                      '& img': {
+                        transition: 'transform 0.3s ease',
+                        transform: selectedSprite === 'female' ? 'scale(1.1)' : 'scale(1)',
+                      },
+                    }}
+                  >
+                    <img
+                      src={selectedSprite === 'female' ? femaleSpriteAnimated : femaleSprite}
+                      alt="Female Trainer Sprite"
+                      style={{ width: 'auto', height: '150px' }}
+                    />
+                  </Box>
+                }
+              />
+              <FormControlLabel
+                value="male"
+                control={<Radio sx={{ display: 'none' }} />}
+                label={
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      position: 'relative',
+                      '& img': {
+                        transition: 'transform 0.3s ease',
+                        transform: selectedSprite === 'male' ? 'scale(1.1)' : 'scale(1)',
+                      },
+                    }}
+                  >
+                    <img
+                      src={selectedSprite === 'male' ? maleSpriteAnimated : maleSprite}
+                      alt="Male Trainer Sprite"
+                      style={{ width: 'auto', height: '150px' }}
+                    />
+                  </Box>
+                }
+              />
+            </Box>
+          </RadioGroup>
         </Box>
       </Box>
-      <Button variant="contained" size="large" sx={{ width: {sm: "50%", md: "30%"}, marginTop: '10px' }}>Sign Up</Button>
+      <Button variant="contained" size="large" sx={{ width: {sm: '50%', md: '30%'}, marginTop: '10px' }}>Sign Up</Button>
     </Box>
   );
 }
