@@ -2,8 +2,10 @@ import React from 'react';
 import { Box, Typography, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Button, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import femaleSprite from '../assets/trainer_sprites/female.png';
-import maleSprite from '../assets/trainer_sprites/male.png';
+import femaleSprite from '../assets/trainer_sprites/female_static.png';
+import maleSprite from '../assets/trainer_sprites/male_static.png';
+import femaleSpriteAnimated from '../assets/trainer_sprites/female_animated.png';
+import maleSpriteAnimated from '../assets/trainer_sprites/male_animated.png';
 
 export default function Signup() {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -110,49 +112,67 @@ export default function Signup() {
             Select a Trainer Sprite:
           </Typography>
 
-          
-            <RadioGroup
-              value={selectedSprite}
-              onChange={handleSpriteChange}
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                gap: '20px',
-                mt: 2,
-              }}
-            >
-              <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+          <RadioGroup
+            value={selectedSprite}
+            onChange={handleSpriteChange}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '20px',
+              mt: 2,
+            }}
+          >
+            <Box sx={{ display: 'flex', flexDirection: 'row' }}>
               <FormControlLabel
                 value="female"
-                control={<Radio />}
+                control={<Radio sx={{ display: 'none' }} />}
                 label={
-                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      position: 'relative',
+                      '& img': {
+                        transition: 'transform 0.3s ease',
+                        transform: selectedSprite === 'female' ? 'scale(1.1)' : 'scale(1)',
+                      },
+                    }}
+                  >
                     <img
-                      src={femaleSprite}
+                      src={selectedSprite === 'female' ? femaleSpriteAnimated : femaleSprite}
                       alt="Female Trainer Sprite"
                       style={{ width: 'auto', height: '150px' }}
                     />
-                    <Typography>Female</Typography>
                   </Box>
                 }
               />
               <FormControlLabel
                 value="male"
-                control={<Radio />}
+                control={<Radio sx={{ display: 'none' }} />}
                 label={
-                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      position: 'relative',
+                      '& img': {
+                        transition: 'transform 0.3s ease',
+                        transform: selectedSprite === 'male' ? 'scale(1.1)' : 'scale(1)',
+                      },
+                    }}
+                  >
                     <img
-                      src={maleSprite}
+                      src={selectedSprite === 'male' ? maleSpriteAnimated : maleSprite}
                       alt="Male Trainer Sprite"
                       style={{ width: 'auto', height: '150px' }}
                     />
-                    <Typography>Male</Typography>
-                </Box>
-              }
-            />
+                  </Box>
+                }
+              />
             </Box>
           </RadioGroup>
-          
         </Box>
       </Box>
       <Button variant="contained" size="large" sx={{ width: '25%', marginTop: '10px' }}>Sign Up</Button>
