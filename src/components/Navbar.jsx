@@ -117,7 +117,7 @@ function Navbar() {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'black', display: 'block' }}
+                sx={{ my: 2, color: 'black', display: 'block', '&:hover': { color: 'action.hover', backgroundColor: 'action.shadow' } }}
               >
                 {page}
               </Button>
@@ -149,10 +149,19 @@ function Navbar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem
+                key={setting}
+                onClick={handleCloseUserMenu}
+                sx={{
+                  '&:hover': {
+                    color: 'action.hover', // Hover text color: pastel red
+                    backgroundColor: 'action.shadow', // Hover background color: very light gray
+                  }
+                }}
+              >
+                <Typography textAlign="center">{setting}</Typography>
+              </MenuItem>
+            ))}
             </Menu>
           </Box>
         </Toolbar>

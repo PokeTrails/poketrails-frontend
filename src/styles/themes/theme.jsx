@@ -15,6 +15,10 @@ const lightTheme = createTheme({
     background: {
       default: "#C9EECF",
     },
+    action: {
+      shadow: '#FF7070',
+      hover: '#F0F0F0',
+    }
   },
   components: {
     MuiTextField: {
