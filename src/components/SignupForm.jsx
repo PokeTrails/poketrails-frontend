@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { Box, Typography, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Button, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -21,6 +23,8 @@ export default function Signup() {
 
   const apiURL = import.meta.env.VITE_API_SERVER_URL;
 
+  const navigate = useNavigate();
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
@@ -41,10 +45,16 @@ export default function Signup() {
       const response = await axios.post(`${apiURL}/user/create`, {
         username,
         password,
-        trainerSprite: selectedSprite
+        trainerName,
+        sprite: selectedSprite
       });
-      console.log(response.data);
+
+      const { jwt } = response.data;
+      localStorage.setItem('jwt', jwt);
+
       alert('Signup successful');
+      navigate('/home');
+
     } catch (error) {
       console.error(error);
       alert(error);
