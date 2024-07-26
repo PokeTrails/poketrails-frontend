@@ -7,6 +7,7 @@ import lightTheme from '../styles/themes/theme';
 import Navbar from '../components/Navbar';
 import Login from './Login';
 import Signup from './Signup';
+import PageNotFound from './PageNotFound';
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>
