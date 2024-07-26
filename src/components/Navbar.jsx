@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,7 +12,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-
 import appLogo from '../assets/app_logo.png';
 
 const pages = ['Home', 'Party', 'Trails', 'Pokédex', 'Store'];
@@ -21,11 +20,11 @@ const settings = ['User Settings', 'Logout'];
 export default function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -36,6 +35,11 @@ export default function Navbar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleNavClick = (page) => {
+    navigate(`/${page.toLowerCase().replace('é', 'e')}`);
+    handleCloseNavMenu();
   };
 
   return (
@@ -90,17 +94,12 @@ export default function Navbar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Link to={`/${page.toLowerCase().replace('é', 'e')}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <Typography textAlign="center">
-                      {page}
-                    </Typography>
-                  </Link>
+                <MenuItem key={page} onClick={() => handleNavClick(page)}>
+                  <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-
           <Typography
             variant="h5"
             noWrap
@@ -119,17 +118,15 @@ export default function Navbar() {
           >
             <img src={appLogo} alt="Application Logo" height={50} />
           </Typography>
-
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                component={Link}
+                to={`/${page.toLowerCase().replace('é', 'e')}`}
                 sx={{ my: 2, color: 'black', display: 'block', '&:hover': { color: 'action.hover', backgroundColor: 'action.shadow' } }}
               >
-                <Link to={`/${page.toLowerCase().replace('é', 'e')}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                  {page}
-                </Link>
+                {page}
               </Button>
             ))}
           </Box>
