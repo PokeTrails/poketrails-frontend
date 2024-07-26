@@ -4,7 +4,7 @@ import { Link as ReactLink } from 'react-router-dom';
 import AppLogo from "../components/AppLogo";
 import SignupForm from "../components/SignupForm";
 
-function Signup(){
+export default function Signup(){
     return(    
     <>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: "5%"}}>
@@ -20,5 +20,3 @@ function Signup(){
     </>
     )
 }
-
-export default Signup;

@@ -4,7 +4,7 @@ import { Link as ReactLink } from 'react-router-dom';
 import AppLogo from '../components/AppLogo';
 import LoginForm from '../components/LoginForm';
 
-function Login() {
+export default function Login() {
   return (
     <>
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: "5%" }}>
@@ -25,5 +25,3 @@ function Login() {
     </>
   );
 }
-
-export default Login;

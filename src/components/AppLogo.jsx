@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import appLogo from '../assets/app_logo.png';
 
-function AppLogo() {
+export default function AppLogo() {
   return (
     <Box
       sx={{
@@ -19,5 +19,3 @@ function AppLogo() {
     </Box>
   );
 }
-
-export default AppLogo;

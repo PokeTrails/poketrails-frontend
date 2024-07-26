@@ -8,7 +8,7 @@ import Navbar from '../components/Navbar';
 import Login from './Login';
 import Signup from './Signup';
 
-function App() {
+export default function App() {
   return (
     
     <BrowserRouter>
@@ -24,5 +24,3 @@ function App() {
     </BrowserRouter>
   );
 }
-
-export default App;

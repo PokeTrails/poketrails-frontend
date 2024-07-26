@@ -17,7 +17,7 @@ import appLogo from '../assets/app_logo.png';
 const pages = ['Home', 'Party', 'Trails', 'Pokédex', 'Store'];
 const settings = ['User Settings', 'Logout'];
 
-function Navbar() {
+export default function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -163,4 +163,3 @@ function Navbar() {
     </AppBar>
   );
 }
-export default Navbar;
