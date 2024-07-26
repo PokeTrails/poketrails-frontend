@@ -9,6 +9,7 @@ import Login from './Login';
 import Signup from './Signup';
 import PageNotFound from './PageNotFound';
 import Home from './Home';
+import Redirect from './Redirect';
 
 export default function App() {
   return (
@@ -19,9 +20,10 @@ export default function App() {
       <GlobalStyles styles={{ html: { backgroundColor: lightTheme.palette.background.default } }} />
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Redirect />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/home" element={<Home />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </ThemeProvider>

@@ -1,20 +1,8 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-const Home = () => {
-  const navigate = useNavigate();
-
-
-  // Add check here for JWT token
-  useEffect(() => {
-    navigate('/login');
-  }, [navigate]);
-
-  return (
-    <div>
-      <p>Redirecting... Please wait..</p>
-    </div>
-  );
-};
-
-export default Home;
+export default function Home() {
+    return (
+      <div>
+        <h1>Welcome to the home page!</h1>
+      </div>
+    );
+}
