@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Button, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
+import axios from 'axios';
+
 import femaleSprite from '../assets/trainer_sprites/female_static.png';
 import maleSprite from '../assets/trainer_sprites/male_static.png';
 import femaleSpriteAnimated from '../assets/trainer_sprites/female_animated.png';
@@ -11,6 +14,11 @@ export default function Signup() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const [selectedSprite, setSelectedSprite] = React.useState('female'); // Default selected sprite
+  const [username, setUsername] = useState('');
+  const [trainerName, setTrainerName] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
@@ -22,8 +30,30 @@ export default function Signup() {
     setSelectedSprite(event.target.value);
   };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+    try {
+      const response = await axios.post('http://localhost:8080/user/create', {
+        username,
+        password,
+        trainerSprite: selectedSprite
+      });
+      console.log(response.data);
+      alert('Signup successful');
+    } catch (error) {
+      console.error(error);
+      alert(error);
+    }
+  };
+
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <Box component="form"
+      onSubmit={handleSubmit}
+      sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <Box
         sx={{
           display: 'flex',
@@ -47,11 +77,15 @@ export default function Signup() {
           <TextField
             label="Username"
             id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             sx={{ m: 1, width: '100%' }}
           />
           <TextField
             label="Trainer name"
             id="trainer-name"
+            value={trainerName}
+            onChange={(e) => setTrainerName(e.target.value)}
             sx={{ m: 1, width: '100%' }}
           />
           <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
@@ -59,6 +93,8 @@ export default function Signup() {
             <OutlinedInput
               id="password"
               type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -79,6 +115,8 @@ export default function Signup() {
             <OutlinedInput
               id="confirm-password"
               type={showConfirmPassword ? 'text' : 'password'}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -175,7 +213,7 @@ export default function Signup() {
           </RadioGroup>
         </Box>
       </Box>
-      <Button variant="contained" size="large" sx={{ width: {sm: '50%', md: '30%'}, marginTop: '10px' }}>Sign Up</Button>
+      <Button type="submit" variant="contained" size="large" sx={{ width: { sm: '50%', md: '30%' }, marginTop: '10px' }}>Sign Up</Button>
     </Box>
   );
 }
