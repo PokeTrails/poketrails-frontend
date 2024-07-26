@@ -4,11 +4,16 @@ import { useNavigate } from 'react-router-dom';
 const Redirect = () => {
   const navigate = useNavigate();
 
-
-  // Add check here for JWT token
+  // check if JWT exists in localstorage, redirec to home if does, else redirect to login
   useEffect(() => {
-    navigate('/login');
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      navigate('/home');
+    } else {
+      navigate('/login');
+    }
   }, [navigate]);
+
 
   return (
     <div>
