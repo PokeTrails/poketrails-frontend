@@ -163,7 +163,7 @@ export default function Signup() {
           >
             <Box sx={{ display: 'flex', flexDirection: 'row' }}>
               <FormControlLabel
-                value="female"
+                value="default_female"
                 control={<Radio sx={{ display: 'none' }} />}
                 label={
                   <Box
@@ -174,7 +174,7 @@ export default function Signup() {
                       position: 'relative',
                       '& img': {
                         transition: 'transform 0.3s ease',
-                        transform: selectedSprite === 'female' ? 'scale(1.1)' : 'scale(1)',
+                        transform: selectedSprite === 'default_female' ? 'scale(1.1)' : 'scale(1)',
                       },
                     }}
                   >
@@ -187,7 +187,7 @@ export default function Signup() {
                 }
               />
               <FormControlLabel
-                value="male"
+                value="default_male"
                 control={<Radio sx={{ display: 'none' }} />}
                 label={
                   <Box
@@ -203,7 +203,7 @@ export default function Signup() {
                     }}
                   >
                     <img
-                      src={selectedSprite === 'male' ? maleSpriteAnimated : maleSprite}
+                      src={selectedSprite === 'default_male' ? maleSpriteAnimated : maleSprite}
                       alt="Male Trainer Sprite"
                       style={{ width: 'auto', height: '150px' }}
                     />
