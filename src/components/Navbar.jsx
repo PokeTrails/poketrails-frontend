@@ -39,7 +39,7 @@ export default function Navbar() {
   };
 
   return (
-    <AppBar position="static" sx={{ bgcolor: 'white' }}>
+    <AppBar position="sticky" sx={{ bgcolor: 'white' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
