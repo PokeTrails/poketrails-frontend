@@ -41,9 +41,13 @@ export default function Signup() {
       const response = await axios.post(`${apiURL}/user/create`, {
         username,
         password,
-        trainerSprite: selectedSprite
+        trainerName,
+        sprite: selectedSprite
       });
-      console.log(response.data);
+
+      const { jwt } = response.data;
+      localStorage.setItem('jwt', jwt);
+
       alert('Signup successful');
     } catch (error) {
       console.error(error);
