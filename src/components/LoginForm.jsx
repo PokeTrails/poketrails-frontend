@@ -39,7 +39,10 @@ export default function LoginForm() {
         username,
         password,
       });
-      console.log(response.data);
+      
+      const { jwt } = response.data;
+      localStorage.setItem('jwt', jwt);
+      
       alert('Login successful');
     } catch (error) {
       console.error(error);
