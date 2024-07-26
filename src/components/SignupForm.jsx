@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { Box, Typography, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Button, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -20,6 +22,8 @@ export default function Signup() {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const apiURL = import.meta.env.VITE_API_SERVER_URL;
+
+  const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
@@ -49,6 +53,8 @@ export default function Signup() {
       localStorage.setItem('jwt', jwt);
 
       alert('Signup successful');
+      navigate('/home');
+
     } catch (error) {
       console.error(error);
       alert(error);
