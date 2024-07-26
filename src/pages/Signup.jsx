@@ -12,7 +12,7 @@ export default function Signup(){
             <SignupForm />
             <Typography variant="body1" paragraph sx={{marginTop: "20px"}}>
                 Already have an account? {' '}
-                <MuiLink component={ReactLink} to="/" underline="hover">
+                <MuiLink component={ReactLink} to="/login" underline="hover">
                  Log in here!
                 </MuiLink>
             </Typography>

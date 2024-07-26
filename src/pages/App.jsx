@@ -8,6 +8,7 @@ import Navbar from '../components/Navbar';
 import Login from './Login';
 import Signup from './Signup';
 import PageNotFound from './PageNotFound';
+import Home from './Home';
 
 export default function App() {
   return (
@@ -18,7 +19,8 @@ export default function App() {
       <GlobalStyles styles={{ html: { backgroundColor: lightTheme.palette.background.default } }} />
         <Navbar />
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
