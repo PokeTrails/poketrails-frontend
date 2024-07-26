@@ -8,8 +8,8 @@
 
 ## 🚀 Deployed Applications
 
-- **Front End:** [https://poketrails.tech](https://poketrails.tech)
-- **Back End:** *(In Progress)*
+- **Front End:** [https://poketrails.com](https://poketrails.com)
+- **Back End:** [https://api.poketrails.com](https://api.poketrails.com)
 
 ## 📂 Repositories
 
