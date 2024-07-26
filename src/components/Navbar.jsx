@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -92,8 +91,10 @@ export default function Navbar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Link to={`/${page.toLowerCase()}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <Typography textAlign="center">{page}</Typography>
+                  <Link to={`/${page.toLowerCase().replace('é', 'e')}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Typography textAlign="center">
+                      {page}
+                    </Typography>
                   </Link>
                 </MenuItem>
               ))}
@@ -126,14 +127,13 @@ export default function Navbar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'black', display: 'block', '&:hover': { color: 'action.hover', backgroundColor: 'action.shadow' } }}
               >
-                <Link to={`/${page.toLowerCase()}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link to={`/${page.toLowerCase().replace('é', 'e')}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                   {page}
                 </Link>
               </Button>
             ))}
           </Box>
 
-          {/* Add conditional rendering here to check if user is logged in */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
