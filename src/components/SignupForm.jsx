@@ -19,6 +19,7 @@ export default function Signup() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  const apiURL = import.meta.env.VITE_API_SERVER_URL;
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
@@ -37,7 +38,7 @@ export default function Signup() {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:8080/user/create', {
+      const response = await axios.post(`${apiURL}/user/create`, {
         username,
         password,
         trainerSprite: selectedSprite
