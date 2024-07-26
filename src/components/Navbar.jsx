@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -17,13 +18,14 @@ import appLogo from '../assets/app_logo.png';
 const pages = ['Home', 'Party', 'Trails', 'Pokédex', 'Store'];
 const settings = ['User Settings', 'Logout'];
 
-function Navbar() {
+export default function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -37,14 +39,14 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="static" sx={{ bgcolor: "white" }}>
+    <AppBar position="sticky" sx={{ bgcolor: 'white' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
+            component={Link}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -89,16 +91,21 @@ function Navbar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Link to={`/${page.toLowerCase().replace('é', 'e')}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Typography textAlign="center">
+                      {page}
+                    </Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
+
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+            component={Link}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -112,6 +119,7 @@ function Navbar() {
           >
             <img src={appLogo} alt="Application Logo" height={50} />
           </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -119,13 +127,13 @@ function Navbar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'black', display: 'block', '&:hover': { color: 'action.hover', backgroundColor: 'action.shadow' } }}
               >
-                {page}
+                <Link to={`/${page.toLowerCase().replace('é', 'e')}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  {page}
+                </Link>
               </Button>
             ))}
           </Box>
 
-
-            {/* Add conditional rendering here to check if user is logged in */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -149,13 +157,10 @@ function Navbar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-              <MenuItem
-                key={setting}
-                onClick={handleCloseUserMenu}
-              >
-                <Typography textAlign="center">{setting}</Typography>
-              </MenuItem>
-            ))}
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
             </Menu>
           </Box>
         </Toolbar>
@@ -163,4 +168,3 @@ function Navbar() {
     </AppBar>
   );
 }
-export default Navbar;

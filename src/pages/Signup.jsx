@@ -4,7 +4,7 @@ import { Link as ReactLink } from 'react-router-dom';
 import AppLogo from "../components/AppLogo";
 import SignupForm from "../components/SignupForm";
 
-function Signup(){
+export default function Signup(){
     return(    
     <>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: "5%"}}>
@@ -12,7 +12,7 @@ function Signup(){
             <SignupForm />
             <Typography variant="body1" paragraph sx={{marginTop: "20px"}}>
                 Already have an account? {' '}
-                <MuiLink component={ReactLink} to="/" underline="hover">
+                <MuiLink component={ReactLink} to="/login" underline="hover">
                  Log in here!
                 </MuiLink>
             </Typography>
@@ -20,5 +20,3 @@ function Signup(){
     </>
     )
 }
-
-export default Signup;

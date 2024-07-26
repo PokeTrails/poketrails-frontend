@@ -7,8 +7,11 @@ import lightTheme from '../styles/themes/theme';
 import Navbar from '../components/Navbar';
 import Login from './Login';
 import Signup from './Signup';
+import PageNotFound from './PageNotFound';
+import Home from './Home';
+import Redirect from './Redirect';
 
-function App() {
+export default function App() {
   return (
     
     <BrowserRouter>
@@ -17,12 +20,13 @@ function App() {
       <GlobalStyles styles={{ html: { backgroundColor: lightTheme.palette.background.default } }} />
         <Navbar />
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Redirect />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>
   );
 }
-
-export default App;

@@ -179,7 +179,7 @@ export default function Signup() {
                     }}
                   >
                     <img
-                      src={selectedSprite === 'female' ? femaleSpriteAnimated : femaleSprite}
+                      src={selectedSprite === 'default_female' ? femaleSpriteAnimated : femaleSprite}
                       alt="Female Trainer Sprite"
                       style={{ width: 'auto', height: '150px' }}
                     />
@@ -198,7 +198,7 @@ export default function Signup() {
                       position: 'relative',
                       '& img': {
                         transition: 'transform 0.3s ease',
-                        transform: selectedSprite === 'male' ? 'scale(1.1)' : 'scale(1)',
+                        transform: selectedSprite === 'default_male' ? 'scale(1.1)' : 'scale(1)',
                       },
                     }}
                   >
