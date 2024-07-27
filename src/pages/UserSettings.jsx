@@ -2,7 +2,7 @@
 export default function UserSettings() {
     return (
       <div>
-        <h1>Welcome to the user settings page!</h1>
+        <h1>Welcome to the User Settings page!</h1>
       </div>
     );
 }
