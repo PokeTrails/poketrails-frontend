@@ -43,7 +43,13 @@ export default function Navbar() {
   };
 
   const handleSettingsClick = (setting) => {
-    navigate(`/${setting.toLowerCase()}`);
+    if (setting === 'Logout') {
+      localStorage.removeItem('jwt');
+      navigate('/login');
+    }
+    else if (setting === 'User Settings'){
+      navigate('/user-settings');
+    }
     handleCloseUserMenu();
   };
 
