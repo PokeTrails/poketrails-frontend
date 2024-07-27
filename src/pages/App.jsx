@@ -10,6 +10,7 @@ import Signup from './Signup';
 import PageNotFound from './PageNotFound';
 import Home from './Home';
 import Redirect from './Redirect';
+import UserSettings from './UserSettings';
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/user-settings" element={<UserSettings />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </ThemeProvider>

@@ -38,7 +38,11 @@ export default function Navbar() {
   };
 
   const handleNavClick = (page) => {
-    navigate(`/${page.toLowerCase().replace('é', 'e')}`);
+    if (page === 'home') {
+      navigate('/?redirect=home'); // Pass 'home' as a query parameter
+    } else {
+      navigate('/?redirect=' + page.toLowerCase().replace('é', 'e')); // Pass the page name as a query parameter
+    }
     handleCloseNavMenu();
   };
 
@@ -46,8 +50,7 @@ export default function Navbar() {
     if (setting === 'Logout') {
       localStorage.removeItem('jwt');
       navigate('/login');
-    }
-    else if (setting === 'User Settings'){
+    } else if (setting === 'User Settings') {
       navigate('/user-settings');
     }
     handleCloseUserMenu();
@@ -133,8 +136,7 @@ export default function Navbar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                component={Link}
-                to={`/${page.toLowerCase().replace('é', 'e')}`}
+                onClick={() => handleNavClick(page)}
                 sx={{ my: 2, color: 'black', display: 'block', '&:hover': { color: 'action.hover', backgroundColor: 'action.shadow' } }}
               >
                 {page}
