@@ -51,7 +51,7 @@ export default function Navbar() {
       localStorage.removeItem('jwt');
       navigate('/login');
     } else if (setting === 'User Settings') {
-      navigate('/user-settings');
+      navigate('/?redirect=user-settings'); // Pass 'home' as a query parameter
     }
     handleCloseUserMenu();
   };
