@@ -42,6 +42,11 @@ export default function Navbar() {
     handleCloseNavMenu();
   };
 
+  const handleSettingsClick = (setting) => {
+    navigate(`/${setting.toLowerCase()}`);
+    handleCloseUserMenu();
+  };
+
   return (
     <AppBar position="sticky" sx={{ bgcolor: 'white' }}>
       <Container maxWidth="xl">
@@ -154,7 +159,7 @@ export default function Navbar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={() => handleSettingsClick(setting)}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
