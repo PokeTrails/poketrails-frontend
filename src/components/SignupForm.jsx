@@ -46,7 +46,7 @@ export default function Signup() {
         username,
         password,
         trainerName,
-        sprite: selectedSprite
+        trainerSprite: selectedSprite
       });
 
       const { jwt } = response.data;
