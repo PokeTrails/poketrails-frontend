@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 
@@ -14,9 +15,12 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Button } from '@mui/material';
 
-const apiURL = import.meta.env.VITE_API_SERVER_URL;
+
 
 export default function LoginForm() {
+  const apiURL = import.meta.env.VITE_API_SERVER_URL;
+  const navigate = useNavigate();
+  
   const [showPassword, setShowPassword] = React.useState(false);
 
   const [username, setUsername] = useState('');
@@ -44,6 +48,8 @@ export default function LoginForm() {
       localStorage.setItem('jwt', jwt);
       
       alert('Login successful');
+      navigate('/home');
+
     } catch (error) {
       console.error(error);
       alert(error);
