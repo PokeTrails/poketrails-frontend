@@ -15,7 +15,7 @@ import maleSpriteAnimated from '../assets/trainer_sprites/male_animated.png';
 export default function Signup() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-  const [selectedSprite, setSelectedSprite] = React.useState('female'); // Default selected sprite
+  const [selectedSprite, setSelectedSprite] = React.useState('default_female'); // Default selected sprite
   const [username, setUsername] = useState('');
   const [trainerName, setTrainerName] = useState('');
   const [password, setPassword] = useState('');
