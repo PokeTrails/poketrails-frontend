@@ -1,19 +1,21 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Redirect = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // check if JWT exists in localstorage, redirec to home if does, else redirect to login
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
+    const queryParams = new URLSearchParams(location.search);
+    const redirectPage = queryParams.get('redirect') || 'home'; // Default to 'home' if not specified
+
     if (jwt) {
-      navigate('/home');
+      navigate(`/${redirectPage}`);
     } else {
       navigate('/login');
     }
-  }, [navigate]);
-
+  }, [navigate, location]);
 
   return (
     <div>

@@ -38,8 +38,22 @@ export default function Navbar() {
   };
 
   const handleNavClick = (page) => {
-    navigate(`/${page.toLowerCase().replace('é', 'e')}`);
+    if (page === 'home') {
+      navigate('/?redirect=home'); // Pass 'home' as a query parameter
+    } else {
+      navigate('/?redirect=' + page.toLowerCase().replace('é', 'e')); // Pass the page name as a query parameter
+    }
     handleCloseNavMenu();
+  };
+
+  const handleSettingsClick = (setting) => {
+    if (setting === 'Logout') {
+      localStorage.removeItem('jwt');
+      navigate('/login');
+    } else if (setting === 'User Settings') {
+      navigate('/?redirect=user-settings'); // Pass 'home' as a query parameter
+    }
+    handleCloseUserMenu();
   };
 
   return (
@@ -122,8 +136,7 @@ export default function Navbar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                component={Link}
-                to={`/${page.toLowerCase().replace('é', 'e')}`}
+                onClick={() => handleNavClick(page)}
                 sx={{ my: 2, color: 'black', display: 'block', '&:hover': { color: 'action.hover', backgroundColor: 'action.shadow' } }}
               >
                 {page}
@@ -154,7 +167,7 @@ export default function Navbar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={() => handleSettingsClick(setting)}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

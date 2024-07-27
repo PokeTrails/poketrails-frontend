@@ -10,6 +10,11 @@ import Signup from './Signup';
 import PageNotFound from './PageNotFound';
 import Home from './Home';
 import Redirect from './Redirect';
+import UserSettings from './UserSettings';
+import Store from './Store';
+import Pokedex from './Pokedex';
+import Party from './Party';
+import Trails from './Trails';
 
 export default function App() {
   return (
@@ -24,6 +29,11 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/store" element={<Store />} />
+          <Route path="/pokedex" element={<Pokedex />} />
+          <Route path="/party" element={<Party />} />
+          <Route path="/trails" element={<Trails />} />
+          <Route path="/user-settings" element={<UserSettings />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </ThemeProvider>
