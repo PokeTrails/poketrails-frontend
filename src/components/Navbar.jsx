@@ -22,6 +22,8 @@ export default function Navbar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
 
+  const jwt = localStorage.getItem('jwt');
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -143,8 +145,10 @@ export default function Navbar() {
               </Button>
             ))}
           </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
+          
+         
+          {jwt && (
+            <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -173,6 +177,9 @@ export default function Navbar() {
               ))}
             </Menu>
           </Box>
+        )}
+
+
         </Toolbar>
       </Container>
     </AppBar>
