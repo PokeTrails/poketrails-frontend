@@ -40,7 +40,6 @@ export default function LoginForm() {
       const { jwt } = response.data;
       localStorage.setItem('jwt', jwt);
       
-      alert('Login successful');
       navigate('/home');
 
     } catch (error) {
