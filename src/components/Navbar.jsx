@@ -1,17 +1,7 @@
 import * as React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { AppBar, Box, Toolbar, Typography, IconButton, Menu, MenuIcon, MenuItem, Container, Avatar, Button, Tooltip } from '@mui/material';
+
 import appLogo from '../assets/app_logo.png';
 
 const pages = ['Home', 'Party', 'Trails', 'Pokédex', 'Store'];
@@ -21,6 +11,7 @@ export default function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const jwt = localStorage.getItem('jwt');
 
@@ -40,7 +31,7 @@ export default function Navbar() {
   };
 
   const handleNavClick = (page) => {
-    if (page === 'home') {
+    if (page === 'Home') {
       navigate('/?redirect=home'); // Pass 'home' as a query parameter
     } else {
       navigate('/?redirect=' + page.toLowerCase().replace('é', 'e')); // Pass the page name as a query parameter
@@ -57,6 +48,14 @@ export default function Navbar() {
     }
     handleCloseUserMenu();
   };
+
+  const getCurrentPage = () => {
+    const path = location.pathname.substring(1); // Remove leading '/'
+    if (path === '') return 'home';
+    return path.toLowerCase().replace('é', 'e').replace('-', ' '); // Replace dashes with spaces and handle special characters
+  };
+
+  const currentPage = getCurrentPage();
 
   return (
     <AppBar position="sticky" sx={{ bgcolor: 'white' }}>
@@ -110,7 +109,13 @@ export default function Navbar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={() => handleNavClick(page)}>
+                <MenuItem
+                  key={page}
+                  onClick={() => handleNavClick(page)}
+                  sx={{
+                    color: currentPage === page.toLowerCase().replace('é', 'e') ? 'primary.main' : 'inherit',
+                  }}
+                >
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -139,47 +144,49 @@ export default function Navbar() {
               <Button
                 key={page}
                 onClick={() => handleNavClick(page)}
-                sx={{ my: 2, color: 'black', display: 'block', '&:hover': { color: 'action.hover', backgroundColor: 'action.shadow' } }}
+                sx={{
+                  my: 2,
+                  color: currentPage === page.toLowerCase().replace('é', 'e') ? 'primary.main' : 'black',
+                  display: 'block',
+                  '&:hover': { color: 'action.hover', backgroundColor: 'action.shadow' },
+                }}
               >
                 {page}
               </Button>
             ))}
           </Box>
-          
-         
+
           {jwt && (
             <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={() => handleSettingsClick(setting)}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-        )}
-
-
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={() => handleSettingsClick(setting)}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
