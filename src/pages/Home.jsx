@@ -7,6 +7,7 @@ const Home = () => {
   return (
     <MenuGridLayout 
     pageText={pageText}
+    numItems={4}
     />
   );
 };
