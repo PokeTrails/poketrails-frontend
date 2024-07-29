@@ -1,33 +1,33 @@
 
 import MenuGridLayout from '../components/MenuGridLayout';
 
-import partyImage from '../assets/main-pages/party.webp';
-import trailImage from '../assets/main-pages/trails.jpeg';
-import storeImage from '../assets/main-pages/store.jpg';
-import pokedexImage from '../assets/main-pages/pokedex.png';
+import partyImg from '../assets/main_pages/party.webp';
+import trailImg from '../assets/main_pages/trails.jpeg';
+import storeImg from '../assets/main_pages/store.jpg';
+import pokedexImg from '../assets/main_pages/pokedex.png';
 
 const pageOptions = {
   party: {
     menuText: "Party",
-    menuImage: partyImage,
+    menuImage: partyImg,
     menuPath: "/party",
     imageAlt: "Party Page Icon",
   },
   trails: {
     menuText: "Trails",
-    menuImage: trailImage,
+    menuImage: trailImg,
     menuPath: "/trails",
     imageAlt: "Trail page icon",
   },
   store: {
     menuText: "Store",
-    menuImage: storeImage,
+    menuImage: storeImg,
     menuPath: "/store",
     imageAlt: "Store Page Icon",
   },
   pokedex: {
     menuText: "Pokédex",
-    menuImage: pokedexImage,
+    menuImage: pokedexImg,
     menuPath: "/pokedex",
     imageAlt: "Pokédex Page Icon",
   },

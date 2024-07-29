@@ -18,7 +18,7 @@ const MenuItem = ({ menuImage, menuPath, menuText, imageAlt }) => {
           component={Link}
           to={menuPath}
           variant="contained"
-          sx={{ mt: 4, width: '50%' }}
+          sx={{ mt: 4, width: '70%' }}
         >
           {menuText}
         </Button>
