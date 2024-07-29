@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { AppBar, Box, Toolbar, Typography, IconButton, Menu, MenuIcon, MenuItem, Container, Avatar, Button, Tooltip } from '@mui/material';
+import { AppBar, Box, Toolbar, Typography, IconButton, Menu, MenuItem, Container, Avatar, Button, Tooltip } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 
 import appLogo from '../assets/app_logo.png';
 
