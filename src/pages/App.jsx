@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { CssBaseline, GlobalStyles } from '@mui/material/';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
