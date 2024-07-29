@@ -9,18 +9,18 @@ const Image = styled('img')({
   borderRadius: '8px',
 });
 
-const MenuItem = ({ menuImage, path, text, alt }) => {
+const MenuItem = ({ menuImage, menuPath, menuText, imageAlt }) => {
   return (
     <Grid item xs={6} sm={6} md={3}>
       <Box display="flex" flexDirection="column" alignItems="center">
-        <Image src={menuImage} alt={alt} />
+        <Image src={menuImage} alt={imageAlt} />
         <Button
           component={Link}
-          to={path}
+          to={menuPath}
           variant="contained"
           sx={{ mt: 4, width: '50%' }}
         >
-          {text}
+          {menuText}
         </Button>
       </Box>
     </Grid>
@@ -29,9 +29,9 @@ const MenuItem = ({ menuImage, path, text, alt }) => {
 
 MenuItem.propTypes = {
     menuImage: PropTypes.string.isRequired,
-    path: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
+    menuPath: PropTypes.string.isRequired,
+    imageAlt: PropTypes.string.isRequired,
+    menuText: PropTypes.string.isRequired,
 };
 
 export default MenuItem;

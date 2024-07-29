@@ -2,12 +2,7 @@ import PropTypes from 'prop-types';
 import { Container, Grid, Typography, Box } from '@mui/material';
 import MenuItem from './MenuItem'; // Ensure this path is correct
 
-import image1 from '../assets/main-pages/party.webp';
-import image2 from '../assets/main-pages/trails.jpeg';
-import image3 from '../assets/main-pages/store.jpg';
-import image4 from '../assets/main-pages/pokedex.png';
-
-const MenuGridLayout = ({ pageText }) => {
+const MenuGridLayout = ({ pageText, pageOptions }) => {
   return (
     <Container
       sx={{
@@ -24,11 +19,20 @@ const MenuGridLayout = ({ pageText }) => {
           {pageText}
         </Typography>
       </Box>
+
       <Grid container spacing={5} justifyContent="center">
-        <MenuItem menuImage={image1} path="/party" text="Party" alt="Image 1" />
-        <MenuItem menuImage={image2} path="/trails" text="Trails" alt="Image 2" />
-        <MenuItem menuImage={image3} path="/store" text="Store" alt="Image 3" />
-        <MenuItem menuImage={image4} path="/pokedex" text="Pokédex" alt="Image 4" />
+        {Object.keys(pageOptions).map((key) => {
+            const { menuText, menuImage, menuPath, imageAlt } = pageOptions[key];
+            return (
+                <MenuItem
+                key={key}
+                menuImage={menuImage}
+                menuPath={menuPath}
+                menuText={menuText}
+                imageAlt={imageAlt}
+                />
+            );
+            })}
       </Grid>
     </Container>
   );
@@ -36,6 +40,7 @@ const MenuGridLayout = ({ pageText }) => {
 
 MenuGridLayout.propTypes = {
   pageText: PropTypes.string.isRequired,
+  pageOptions: PropTypes.object.isRequired,
 };
 
 export default MenuGridLayout;
