@@ -14,6 +14,7 @@ import maleSpriteAnimated from '../assets/trainer_sprites/male_animated.png';
 
 import useError from '../hooks/useError';
 import useLoading from '../hooks/useLoading';
+import SelectTrainerSprite from './SelectTrainerSprite';
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
@@ -65,7 +66,7 @@ export default function Signup() {
       navigate('/home');
     } catch (error) {
       console.error(error);
-      setError(`An error occured, please try again. ${error}`);
+      setError(`An error occurred, please try again. ${error}`);
     } finally {
       setIsLoading(false);
     }
@@ -184,56 +185,24 @@ export default function Signup() {
                 value="default_female"
                 control={<Radio sx={{ display: 'none' }} />}
                 label={
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      position: 'relative',
-                      // border: selectedSprite === 'default_female' ? '2px solid #FF7070' : 'none',
-                      // borderRadius: '6px',
-                      // padding: '10px',
-                      '& img': {
-                        transition: 'transform 0.3s ease',
-                        transform: selectedSprite === 'default_female' ? 'scale(1.1)' : 'scale(0.9)',
-                        filter: selectedSprite === 'default_female' ? 'none' : 'grayscale(100%)',
-                      },
-                    }}
-                  >
-                    <img
-                      src={selectedSprite === 'default_female' ? femaleSpriteAnimated : femaleSprite}
-                      alt="Female Trainer Sprite"
-                      style={{ width: 'auto', height: '150px' }}
-                    />
-                  </Box>
+                  <SelectTrainerSprite
+                    selectedSprite={selectedSprite}
+                    spriteId="default_female"
+                    staticSprite={femaleSprite}
+                    animatedSprite={femaleSpriteAnimated}
+                  />
                 }
               />
               <FormControlLabel
                 value="default_male"
                 control={<Radio sx={{ display: 'none' }} />}
                 label={
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      position: 'relative',
-                      // border: selectedSprite === 'default_male' ? '2px solid #FF7070' : 'none',
-                      // borderRadius: '6px',
-                      // padding: '10px',
-                      '& img': {
-                        transition: 'transform 0.3s ease',
-                        transform: selectedSprite === 'default_male' ? 'scale(1.1)' : 'scale(0.9)',
-                        filter: selectedSprite === 'default_male' ? 'none' : 'grayscale(100%)',
-                      },
-                    }}
-                  >
-                    <img
-                      src={selectedSprite === 'default_male' ? maleSpriteAnimated : maleSprite}
-                      alt="Male Trainer Sprite"
-                      style={{ width: 'auto', height: '150px' }}
-                    />
-                  </Box>
+                  <SelectTrainerSprite
+                    selectedSprite={selectedSprite}
+                    spriteId="default_male"
+                    staticSprite={maleSprite}
+                    animatedSprite={maleSpriteAnimated}
+                  />
                 }
               />
             </Box>
