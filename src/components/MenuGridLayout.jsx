@@ -15,13 +15,13 @@ const MenuGridLayout = ({ pageOptions, pageDetails }) => {
       }}
     >
       <Box>
-        <Typography variant="h3" align="center" sx={{mt: 4, color: pageDetails.headingColour}}>
+        <Typography variant="h3" align="center" sx={{ fontSize: {xs: '35px', md: '40px'}, mt: 4, color: pageDetails.headingColour}}>
           {pageDetails.pageHeading}
         </Typography>
       </Box>
 
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h6" align="center" sx={{ mt: 4, mb: 15, color: pageDetails.textColour }}>
+        <Typography variant="h6" align="center" sx={{ fontSize: {xs: '18px', md: '20px'}, mt: 4, mb: {xs: 5, md: 12}, color: pageDetails.textColour }}>
           {pageDetails.pageText}
         </Typography>
       </Box>
