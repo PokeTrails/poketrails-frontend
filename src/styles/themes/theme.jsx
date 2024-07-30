@@ -1,7 +1,23 @@
 import { createTheme } from '@mui/material/styles';
 
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import '@fontsource/saira/300.css';
+import '@fontsource/saira/400.css';
+import '@fontsource/saira/500.css';
+import '@fontsource/saira/700.css';
+
 // Created a light theme with custom component styles
 const lightTheme = createTheme({
+  typography: {
+    fontFamily: [
+      'Saira',
+      'Roboto',
+      'sans-serif',
+    ].join(','),
+  },
   palette: {
     primary: {
       main: '#FF7070',
