@@ -1,8 +1,8 @@
-
 import MenuGridLayout from '../components/MenuGridLayout';
 
 import pokemonPageImg from '../assets/store_images/pokemon_page.png';
 import storePageImg from '../assets/store_images/store_page.png';
+import backgroundImg from '../assets/store_images/main-background.jpg';
 
 const pageOptions = {
   wild: {
@@ -24,13 +24,15 @@ const pageDetails = {
   pageText: "Welcome to the Professor Store!",
   headingColour: "#357387",
   textColour: "#000",
+  backgroundColour: "rgba(188, 227, 255, 0.9)",
+  backgroundImg: backgroundImg,
 };
 
 const Store = () => {
   return (
     <MenuGridLayout
-    pageOptions={pageOptions}
-    pageDetails={pageDetails}
+      pageOptions={pageOptions}
+      pageDetails={pageDetails}
     />
   );
 };
