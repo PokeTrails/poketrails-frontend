@@ -19,13 +19,18 @@ const pageOptions = {
   },
 };
 
-const pageText = "Welcome to the Professor Store!"
+const pageDetails = {
+  pageHeading: "Professor Store",
+  pageText: "Welcome to the Professor Store!",
+  headingColour: "#357387",
+  textColour: "#000",
+};
 
 const Store = () => {
   return (
     <MenuGridLayout
-    pageText={pageText}
     pageOptions={pageOptions}
+    pageDetails={pageDetails}
     />
   );
 };

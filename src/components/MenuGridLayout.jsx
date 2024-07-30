@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Container, Grid, Typography, Box } from '@mui/material';
 import MenuItem from './MenuItem'; // Ensure this path is correct
 
-const MenuGridLayout = ({ pageText, pageOptions }) => {
+const MenuGridLayout = ({ pageOptions, pageDetails }) => {
   return (
     <Container
       sx={{
@@ -14,9 +14,15 @@ const MenuGridLayout = ({ pageText, pageOptions }) => {
         textAlign: 'center',
       }}
     >
+      <Box>
+        <Typography variant="h3" align="center" sx={{mt: 4, color: pageDetails.headingColour}}>
+          {pageDetails.pageHeading}
+        </Typography>
+      </Box>
+
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h6" align="center" sx={{ mt: 10, mb: 15 }}>
-          {pageText}
+        <Typography variant="h6" align="center" sx={{ mt: 4, mb: 15, color: pageDetails.textColour }}>
+          {pageDetails.pageText}
         </Typography>
       </Box>
 
@@ -41,6 +47,7 @@ const MenuGridLayout = ({ pageText, pageOptions }) => {
 MenuGridLayout.propTypes = {
   pageText: PropTypes.string.isRequired,
   pageOptions: PropTypes.object.isRequired,
+  pageDetails: PropTypes.object,
 };
 
 export default MenuGridLayout;

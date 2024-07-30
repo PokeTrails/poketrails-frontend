@@ -33,12 +33,18 @@ const pageOptions = {
   },
 };
 
-const pageText = "Select from one of the options below"
+const pageDetails = {
+  pageHeading: "Main Menu",
+  pageText: "Select from one of the options below",
+  headingColour: "#FF7070",
+  textColour: "#000",
+};
+
 
 const Home = () => {
   return (
     <MenuGridLayout
-    pageText={pageText}
+    pageDetails={pageDetails}
     pageOptions={pageOptions}
     />
   );

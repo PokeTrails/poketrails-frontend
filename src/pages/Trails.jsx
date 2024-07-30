@@ -33,12 +33,17 @@ const pageOptions = {
   },
 };
 
-const pageText = "Select from one of the trails below"
+const pageDetails = {
+  pageHeading: "Trails",
+  pageText: "Select from one of the trails below",
+  headingColour: "#66b768",
+  textColour: "#000",
+};
 
 const Trails = () => {
   return (
     <MenuGridLayout
-    pageText={pageText}
+    pageDetails={pageDetails}
     pageOptions={pageOptions}
     />
   );
