@@ -37,11 +37,20 @@ export default function Navbar() {
   const handleNavClick = (page) => {
     if (page === 'Home') {
       navigate('/?redirect=home'); // Pass 'home' as a query parameter
-    } else {
+    } 
+    else {
       navigate('/?redirect=' + page.toLowerCase().replace('é', 'e')); // Pass the page name as a query parameter
     }
     handleCloseNavMenu();
   };
+
+  const handleNavButtonClick = (navButton) => {
+    if (navButton === 'Sign Up') {
+      navigate('/signup');
+    } else if (navButton === 'Log In') {
+      navigate('/login');
+    }
+  }
 
   const handleSettingsClick = (setting) => {
     if (setting === 'Logout') {
@@ -58,6 +67,8 @@ export default function Navbar() {
     if (path === '') return 'home';
     return path.toLowerCase().replace('é', 'e').replace('-', ' '); // Replace dashes with spaces and handle special characters
   };
+
+  const navButton = location.pathname === '/login' ? 'Sign Up' : 'Log In';
 
   const currentPage = getCurrentPage();
 
@@ -167,6 +178,19 @@ export default function Navbar() {
               </Button>
             ))}
           </Box>
+          
+          {/* Renders Sign Up/Log In button if user is not logged in */}
+          {!jwt && (<Button variant="outlined"
+          key={navButton}
+          onClick={() => handleNavButtonClick(navButton)}
+          sx={{
+            display: 'block',
+            '&:hover': { color: 'action.hover', backgroundColor: 'action.shadow' },
+            width: { xs: 'auto', md: '12%' },
+          }}
+          >
+            {navButton}
+          </Button>)}
 
 
           {/* Renders User Settings Menu if user is logged in */}
