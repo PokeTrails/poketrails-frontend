@@ -24,7 +24,7 @@ const pageDetails = {
   pageText: "Welcome to the Professor Store!",
   headingColour: "#357387",
   textColour: "#000",
-  backgroundColour: "rgba(188, 227, 255, 0.9)",
+  backgroundColour: "#bce3ff",
   backgroundImg: backgroundImg,
 };
 

@@ -5,6 +5,7 @@ import wildTrailImg from '../assets/trail_images/wild_trail.png';
 import rockyTrailImg from '../assets/trail_images/rocky_trail.png';
 import frostyTrailImg from '../assets/trail_images/frosty_trail.png';
 import wetTrailImg from '../assets/trail_images/wet_trail.png';
+import backgroundImg from '../assets/trail_images/main_background.jpg';
 
 const pageOptions = {
   wild: {
@@ -38,7 +39,10 @@ const pageDetails = {
   pageText: "Select from one of the trails below",
   headingColour: "#66b768",
   textColour: "#000",
+  backgroundColour: "#C9EECF",
+  backgroundImg: backgroundImg,
 };
+
 
 const Trails = () => {
   return (

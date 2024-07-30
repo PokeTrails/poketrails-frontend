@@ -1,45 +1,23 @@
 import PropTypes from 'prop-types';
+
 import { Container, Grid, Typography, Box } from '@mui/material';
-import MenuItem from './MenuItem'; // Ensure this path is correct
+import MenuItem from './MenuItem';
+import Background from './Background';
 
 const MenuGridLayout = ({ pageOptions, pageDetails }) => {
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100vh',
-        textAlign: 'center',
-        backgroundImage: `url(${pageDetails.backgroundImg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
+    <Background
+      backgroundImg={pageDetails.backgroundImg}
+      backgroundColour={pageDetails.backgroundColour}
     >
-      {/* Overlay color */}
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            backgroundColor: pageDetails.backgroundColour,
-            zIndex: 1,
-          }}
-        />
-
       <Container
         sx={{
           position: 'relative',
-          zIndex: 2, // Ensure content is above overlay
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '50vh',
+          height: '100vh',
           textAlign: 'center',
+          mt: 4,
         }}
       >
         <Box>
@@ -69,7 +47,7 @@ const MenuGridLayout = ({ pageOptions, pageDetails }) => {
           })}
         </Grid>
       </Container>
-    </Box>
+      </Background>
   );
 };
 
