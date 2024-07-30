@@ -62,6 +62,8 @@ export default function Navbar() {
     <AppBar position="sticky" sx={{ bgcolor: 'white' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+
+          {/* Tablet/Desktop App Icon Rendering */}
           <Typography
             variant="h6"
             noWrap
@@ -80,6 +82,8 @@ export default function Navbar() {
             <img src={appLogo} alt="Application Logo" height={50} />
           </Typography>
 
+
+          {/* Renders dropdown page menu for mobile displays */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -122,6 +126,8 @@ export default function Navbar() {
               ))}
             </Menu>
           </Box>
+
+          {/* Mobile App Icon Rendering */}
           <Typography
             variant="h5"
             noWrap
@@ -140,6 +146,8 @@ export default function Navbar() {
           >
             <img src={appLogo} alt="Application Logo" height={50} />
           </Typography>
+
+          {/* Renders page links for tablet and desktop displays */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -157,6 +165,8 @@ export default function Navbar() {
             ))}
           </Box>
 
+
+          {/* Renders User Settings Menu if user is logged in */}
           {jwt && (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
