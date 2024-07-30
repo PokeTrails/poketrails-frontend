@@ -33,6 +33,7 @@ const Store = () => {
     <MenuGridLayout
       pageOptions={pageOptions}
       pageDetails={pageDetails}
+      iconSize={4}
     />
   );
 };

@@ -4,7 +4,7 @@ import { Container, Grid, Typography, Box } from '@mui/material';
 import MenuItem from './MenuItem';
 import Background from './Background';
 
-const MenuGridLayout = ({ pageOptions, pageDetails }) => {
+const MenuGridLayout = ({ pageOptions, pageDetails, iconSize }) => {
   return (
     <Background
       backgroundImg={pageDetails.backgroundImg}
@@ -42,6 +42,7 @@ const MenuGridLayout = ({ pageOptions, pageDetails }) => {
                 menuPath={menuPath}
                 menuText={menuText}
                 imageAlt={imageAlt}
+                iconSize={iconSize}
               />
             );
           })}
@@ -61,6 +62,7 @@ MenuGridLayout.propTypes = {
     backgroundColour: PropTypes.string,
     backgroundImg: PropTypes.string,
   }).isRequired,
+  iconSize: PropTypes.number.isRequired
 };
 
 export default MenuGridLayout;

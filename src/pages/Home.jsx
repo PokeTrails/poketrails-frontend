@@ -49,6 +49,7 @@ const Home = () => {
     <MenuGridLayout
     pageDetails={pageDetails}
     pageOptions={pageOptions}
+    iconSize={3}
     />
   );
 };

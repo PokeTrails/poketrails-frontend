@@ -49,6 +49,7 @@ const Trails = () => {
     <MenuGridLayout
     pageDetails={pageDetails}
     pageOptions={pageOptions}
+    iconSize={3}
     />
   );
 };
