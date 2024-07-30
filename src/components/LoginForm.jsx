@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,18 +5,17 @@ import axios from 'axios';
 
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import CircularProgress from '@mui/material/CircularProgress';
 import { Button, Box, TextField, FormControl, InputAdornment, InputLabel, OutlinedInput, IconButton } from '@mui/material';
-
-
 
 export default function LoginForm() {
   const apiURL = import.meta.env.VITE_API_SERVER_URL;
   const navigate = useNavigate();
   
-  const [showPassword, setShowPassword] = React.useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -31,6 +29,7 @@ export default function LoginForm() {
       alert('Please enter a password');
       return;
     }
+    setIsLoading(true);
     try {
       const response = await axios.post(`${apiURL}/login`, {
         username,
@@ -41,10 +40,11 @@ export default function LoginForm() {
       localStorage.setItem('jwt', jwt);
       
       navigate('/home');
-
     } catch (error) {
       console.error(error);
       alert(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -81,7 +81,15 @@ export default function LoginForm() {
             label="Password"
           />
         </FormControl>
-        <Button type="submit" variant="contained" size="medium" sx={{width: "60%", marginTop: "10px"}}>Log In</Button>
+        <Button 
+          type="submit" 
+          variant="contained" 
+          size="medium" 
+          sx={{ width: "60%", marginTop: "10px" }}
+          disabled={isLoading}
+        >
+          {isLoading ? <CircularProgress size={24} /> : 'Log In'}
+        </Button>
     </Box>
   );
 }
