@@ -17,6 +17,8 @@ import useLoading from '../hooks/useLoading';
 import SelectTrainerSprite from './SelectTrainerSprite';
 
 export default function Signup() {
+
+  // Declare states for form fields
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [selectedSprite, setSelectedSprite] = useState('default_female');
@@ -25,33 +27,40 @@ export default function Signup() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  // API URL from .env file
   const apiURL = import.meta.env.VITE_API_SERVER_URL;
   const navigate = useNavigate();
 
+  // Import hooks for error and loading states
   const { error, setError, clearError } = useError();
   const { isLoading, setIsLoading } = useLoading();
 
+  // Event handlers for password visibility
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
+  // Event handler for sprite selection
   const handleSpriteChange = (event) => {
     setSelectedSprite(event.target.value);
   };
 
+  // Event handler for form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
-    clearError();
+    clearError(); // Clear any existing errors
 
     if (password !== confirmPassword) {
       setError('Passwords do not match. Please try again');
       return;
     }
 
+    // Set loading state to true to disable form submission
     setIsLoading(true);
 
+    // Make a POST request to the API to create a new user
     try {
       const response = await axios.post(`${apiURL}/user/create`, {
         username,
@@ -59,25 +68,30 @@ export default function Signup() {
         trainerName,
         trainerSprite: selectedSprite,
       });
-
+      // Store the JWT token in local storage and navigate to the home page
       const { jwt } = response.data;
       localStorage.setItem('jwt', jwt);
 
       navigate('/home');
-    } catch (error) {
+    } 
+    // Catch any errors and set the error state
+    catch (error) {
       console.error(error);
       setError(`An error occurred, please try again. ${error}`);
-    } finally {
+    } 
+    // Set loading state to false after the request is complete
+    finally {
       setIsLoading(false);
     }
   };
 
   return (
+    // Form component with form fields and submit button
     <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <Box
         sx={{
           display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
+          flexDirection: { xs: 'column', md: 'row' }, // Change flex direction based on screen size
           alignItems: 'center',
           justifyContent: 'center',
           flexWrap: 'wrap',
@@ -94,6 +108,7 @@ export default function Signup() {
             maxWidth: '600px',
           }}
         >
+          {/* Form fields for username, trainer name, password, and confirm password */}
           <TextField
             label="Username"
             id="username"
@@ -130,6 +145,8 @@ export default function Signup() {
               label="Password"
             />
           </FormControl>
+
+          {/* Confirm password field with visibility toggle */}
           <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
             <InputLabel htmlFor="confirm-password">Confirm Password</InputLabel>
             <OutlinedInput
@@ -154,6 +171,7 @@ export default function Signup() {
           </FormControl>
         </Box>
 
+        {/* Trainer sprite selection component */}
         <Box
           sx={{
             display: 'flex',
@@ -169,7 +187,6 @@ export default function Signup() {
           >
             Select a Trainer Sprite:
           </Typography>
-
           <RadioGroup
             value={selectedSprite}
             onChange={handleSpriteChange}
@@ -180,6 +197,7 @@ export default function Signup() {
               mt: 2,
             }}
           >
+            {/* Options for selecting the trainer sprite, imported using external component */}
             <Box sx={{ display: 'flex', flexDirection: 'row' }}>
               <FormControlLabel
                 value="default_female"
@@ -210,12 +228,14 @@ export default function Signup() {
         </Box>
       </Box>
 
+      {/* Displays any errors if exists */}
       {error && (
         <Typography variant="body2" color="error" sx={{ mt: 2, mb: 2 }}>
           {error}
         </Typography>
       )}
 
+      {/* Submit button with loading spinner */}
       <Button
         type="submit"
         variant="contained"
