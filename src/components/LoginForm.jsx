@@ -6,7 +6,7 @@ import axios from 'axios';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Button, Box, TextField, FormControl, InputAdornment, InputLabel, OutlinedInput, IconButton } from '@mui/material';
+import { Button, Box, TextField, FormControl, InputAdornment, InputLabel, OutlinedInput, IconButton, Typography } from '@mui/material';
 
 export default function LoginForm() {
   const apiURL = import.meta.env.VITE_API_SERVER_URL;
@@ -16,6 +16,7 @@ export default function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -25,8 +26,9 @@ export default function LoginForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setError('');
     if (!password) {
-      alert('Please enter a password');
+      setError('Please enter a password');
       return;
     }
     setIsLoading(true);
@@ -42,7 +44,7 @@ export default function LoginForm() {
       navigate('/home');
     } catch (error) {
       console.error(error);
-      alert(error);
+      setError('Invalid username or password.');
     } finally {
       setIsLoading(false);
     }
@@ -81,6 +83,13 @@ export default function LoginForm() {
             label="Password"
           />
         </FormControl>
+        
+        {error && (
+          <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+            {error}
+          </Typography>
+        )}
+
         <Button 
           type="submit" 
           variant="contained" 
