@@ -12,13 +12,13 @@ import maleSprite from '../assets/trainer_sprites/male_static.png';
 import femaleSpriteAnimated from '../assets/trainer_sprites/female_animated.png';
 import maleSpriteAnimated from '../assets/trainer_sprites/male_animated.png';
 
-import useError from '../hooks/useError'; // Import useError hook
-import useLoading from '../hooks/useLoading'; // Import useLoading hook
+import useError from '../hooks/useError';
+import useLoading from '../hooks/useLoading';
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [selectedSprite, setSelectedSprite] = useState('default_female'); // Default selected sprite
+  const [selectedSprite, setSelectedSprite] = useState('default_female');
   const [username, setUsername] = useState('');
   const [trainerName, setTrainerName] = useState('');
   const [password, setPassword] = useState('');
@@ -27,8 +27,8 @@ export default function Signup() {
   const apiURL = import.meta.env.VITE_API_SERVER_URL;
   const navigate = useNavigate();
 
-  const { error, setError, clearError } = useError(); // Use useError hook
-  const { isLoading, setIsLoading } = useLoading(); // Use useLoading hook
+  const { error, setError, clearError } = useError();
+  const { isLoading, setIsLoading } = useLoading();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
@@ -45,7 +45,7 @@ export default function Signup() {
     clearError();
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError('Passwords do not match. Please try again');
       return;
     }
 
@@ -190,9 +190,13 @@ export default function Signup() {
                       flexDirection: 'column',
                       alignItems: 'center',
                       position: 'relative',
+                      // border: selectedSprite === 'default_female' ? '2px solid #FF7070' : 'none',
+                      // borderRadius: '6px',
+                      // padding: '10px',
                       '& img': {
                         transition: 'transform 0.3s ease',
-                        transform: selectedSprite === 'default_female' ? 'scale(1.1)' : 'scale(1)',
+                        transform: selectedSprite === 'default_female' ? 'scale(1.1)' : 'scale(0.9)',
+                        filter: selectedSprite === 'default_female' ? 'none' : 'grayscale(100%)',
                       },
                     }}
                   >
@@ -214,9 +218,13 @@ export default function Signup() {
                       flexDirection: 'column',
                       alignItems: 'center',
                       position: 'relative',
+                      // border: selectedSprite === 'default_male' ? '2px solid #FF7070' : 'none',
+                      // borderRadius: '6px',
+                      // padding: '10px',
                       '& img': {
                         transition: 'transform 0.3s ease',
-                        transform: selectedSprite === 'default_male' ? 'scale(1.1)' : 'scale(1)',
+                        transform: selectedSprite === 'default_male' ? 'scale(1.1)' : 'scale(0.9)',
+                        filter: selectedSprite === 'default_male' ? 'none' : 'grayscale(100%)',
                       },
                     }}
                   >
