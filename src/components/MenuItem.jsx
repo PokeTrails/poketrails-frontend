@@ -9,9 +9,9 @@ const Image = styled('img')({
   borderRadius: '8px',
 });
 
-const MenuItem = ({ menuImage, menuPath, menuText, imageAlt }) => {
+const MenuItem = ({ menuImage, menuPath, menuText, imageAlt, iconSize }) => {
   return (
-    <Grid item xs={6} sm={6} md={3}>
+    <Grid item xs={6} sm={6} md={iconSize}>
       <Box display="flex" flexDirection="column" alignItems="center">
         <Image src={menuImage} alt={imageAlt} />
         <Button
@@ -32,6 +32,7 @@ MenuItem.propTypes = {
     menuPath: PropTypes.string.isRequired,
     imageAlt: PropTypes.string.isRequired,
     menuText: PropTypes.string.isRequired,
+    iconSize: PropTypes.number.isRequired,
 };
 
 export default MenuItem;

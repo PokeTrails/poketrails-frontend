@@ -5,6 +5,7 @@ import partyImg from '../assets/main_pages/party.webp';
 import trailImg from '../assets/main_pages/trails.jpeg';
 import storeImg from '../assets/main_pages/store.jpg';
 import pokedexImg from '../assets/main_pages/pokedex.png';
+import backgroundImg from '../assets/main_background.jpg';
 
 const pageOptions = {
   party: {
@@ -33,13 +34,22 @@ const pageOptions = {
   },
 };
 
-const pageText = "Select from one of the options below"
+const pageDetails = {
+  pageHeading: "Main Menu",
+  pageText: "Select from one of the options below",
+  headingColour: "#FF7070",
+  textColour: "#000",
+  backgroundColour: "#C9EECF",
+  backgroundImg: backgroundImg,
+};
+
 
 const Home = () => {
   return (
     <MenuGridLayout
-    pageText={pageText}
+    pageDetails={pageDetails}
     pageOptions={pageOptions}
+    iconSize={3}
     />
   );
 };
