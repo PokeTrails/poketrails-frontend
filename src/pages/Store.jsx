@@ -7,14 +7,14 @@ import backgroundImg from '../assets/store_images/main-background.jpg';
 const pageOptions = {
   wild: {
     menuText: "Visit Store",
-    menuImage: pokemonPageImg,
-    menuPath: "/trails/wild",
+    menuImage: storePageImg,
+    menuPath: "/store/items",
     imageAlt: "Wild Trail Icon",
   },
   rocky: {
     menuText: "Submit Pokémon",
-    menuImage: storePageImg,
-    menuPath: "/trails/rocky",
+    menuImage: pokemonPageImg,
+    menuPath: "/store/send",
     imageAlt: "Rocky Trail icon",
   },
 };
