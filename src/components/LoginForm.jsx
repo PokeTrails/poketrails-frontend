@@ -8,6 +8,9 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Button, Box, TextField, FormControl, InputAdornment, InputLabel, OutlinedInput, IconButton, Typography } from '@mui/material';
 
+import useError from '../hooks/useError';
+import useLoading from '../hooks/useLoading';
+
 export default function LoginForm() {
   const apiURL = import.meta.env.VITE_API_SERVER_URL;
   const navigate = useNavigate();
@@ -15,8 +18,9 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+
+  const { isLoading, setIsLoading } = useLoading();
+  const { error, setError, clearError } = useError();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -26,7 +30,7 @@ export default function LoginForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError('');
+    clearError();
     if (!password) {
       setError('Please enter a password');
       return;
@@ -46,7 +50,7 @@ export default function LoginForm() {
       console.error(error);
       setError('Invalid username or password.');
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
   };
 
