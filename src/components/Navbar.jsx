@@ -141,25 +141,21 @@ export default function Navbar() {
             </Menu>
           </Box>
 
-          {/* Mobile App Icon Rendering */}
-          <Typography
+          {/* Mobile App Icon Rendering only when logged in */}
+          {jwt && (<Typography
             variant="h5"
             noWrap
             component={Link}
             to="/"
             sx={{
+              ml: 2,
               mr: 2,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
-              fontFamily: 'Roboto',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
             }}
           >
             <img src={appLogo} alt="Application Logo" height={50} />
-          </Typography>
+          </Typography>)}
 
           {/* Renders page links for tablet and desktop displays */}
           <Box sx={{ flexDirection: 'row-reverse', mr: 3, flexGrow: 1, display: { xs: 'none', md: 'flex' }}}>
@@ -186,7 +182,7 @@ export default function Navbar() {
           sx={{
             display: 'block',
             '&:hover': { color: 'action.hover', backgroundColor: 'action.shadow' },
-            width: { xs: 'auto', md: '12%' },
+            width: { xs: '30%', md: '12%' },
           }}
           >
             {navButton}
