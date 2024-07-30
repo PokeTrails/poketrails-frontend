@@ -6,6 +6,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import appLogo from '../assets/app_logo.png';
 
 const pages = ['Home', 'Party', 'Trails', 'Pokédex', 'Store'];
+const reversedPages = [...pages].reverse(); // Reverse the array for tablet/desktop row-reverse display
+
+
 const settings = ['User Settings', 'Logout'];
 
 export default function Navbar() {
@@ -148,8 +151,8 @@ export default function Navbar() {
           </Typography>
 
           {/* Renders page links for tablet and desktop displays */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+          <Box sx={{ flexDirection: 'row-reverse', mr: 3, flexGrow: 1, display: { xs: 'none', md: 'flex' }}}>
+            {reversedPages.map((page) => (
               <Button
                 key={page}
                 onClick={() => handleNavClick(page)}
