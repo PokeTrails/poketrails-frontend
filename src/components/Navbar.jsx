@@ -37,11 +37,20 @@ export default function Navbar() {
   const handleNavClick = (page) => {
     if (page === 'Home') {
       navigate('/?redirect=home'); // Pass 'home' as a query parameter
-    } else {
+    } 
+    else {
       navigate('/?redirect=' + page.toLowerCase().replace('é', 'e')); // Pass the page name as a query parameter
     }
     handleCloseNavMenu();
   };
+
+  const handleNavButtonClick = (navButton) => {
+    if (navButton === 'Sign Up') {
+      navigate('/signup');
+    } else if (navButton === 'Log In') {
+      navigate('/login');
+    }
+  }
 
   const handleSettingsClick = (setting) => {
     if (setting === 'Logout') {
@@ -58,6 +67,8 @@ export default function Navbar() {
     if (path === '') return 'home';
     return path.toLowerCase().replace('é', 'e').replace('-', ' '); // Replace dashes with spaces and handle special characters
   };
+
+  const navButton = location.pathname === '/login' ? 'Sign Up' : 'Log In';
 
   const currentPage = getCurrentPage();
 
@@ -130,25 +141,21 @@ export default function Navbar() {
             </Menu>
           </Box>
 
-          {/* Mobile App Icon Rendering */}
-          <Typography
+          {/* Mobile App Icon Rendering only when logged in */}
+          {jwt && (<Typography
             variant="h5"
             noWrap
             component={Link}
             to="/"
             sx={{
+              ml: 2,
               mr: 2,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
-              fontFamily: 'Roboto',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
             }}
           >
             <img src={appLogo} alt="Application Logo" height={50} />
-          </Typography>
+          </Typography>)}
 
           {/* Renders page links for tablet and desktop displays */}
           <Box sx={{ flexDirection: 'row-reverse', mr: 3, flexGrow: 1, display: { xs: 'none', md: 'flex' }}}>
@@ -167,6 +174,19 @@ export default function Navbar() {
               </Button>
             ))}
           </Box>
+          
+          {/* Renders Sign Up/Log In button if user is not logged in */}
+          {!jwt && (<Button variant="outlined"
+          key={navButton}
+          onClick={() => handleNavButtonClick(navButton)}
+          sx={{
+            display: 'block',
+            '&:hover': { color: 'action.hover', backgroundColor: 'action.shadow' },
+            width: { xs: '30%', md: '12%' },
+          }}
+          >
+            {navButton}
+          </Button>)}
 
 
           {/* Renders User Settings Menu if user is logged in */}
