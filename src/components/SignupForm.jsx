@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Box, Typography, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Button, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import { Box, Typography, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Button, RadioGroup, FormControlLabel, Radio, CircularProgress } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
@@ -12,18 +12,23 @@ import maleSprite from '../assets/trainer_sprites/male_static.png';
 import femaleSpriteAnimated from '../assets/trainer_sprites/female_animated.png';
 import maleSpriteAnimated from '../assets/trainer_sprites/male_animated.png';
 
+import useError from '../hooks/useError'; // Import useError hook
+import useLoading from '../hooks/useLoading'; // Import useLoading hook
+
 export default function Signup() {
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-  const [selectedSprite, setSelectedSprite] = React.useState('default_female'); // Default selected sprite
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [selectedSprite, setSelectedSprite] = useState('default_female'); // Default selected sprite
   const [username, setUsername] = useState('');
   const [trainerName, setTrainerName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const apiURL = import.meta.env.VITE_API_SERVER_URL;
-
   const navigate = useNavigate();
+
+  const { error, setError, clearError } = useError(); // Use useError hook
+  const { isLoading, setIsLoading } = useLoading(); // Use useLoading hook
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
@@ -37,34 +42,37 @@ export default function Signup() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    clearError();
+
     if (password !== confirmPassword) {
-      alert('Passwords do not match');
+      setError('Passwords do not match');
       return;
     }
+
+    setIsLoading(true);
+
     try {
       const response = await axios.post(`${apiURL}/user/create`, {
         username,
         password,
         trainerName,
-        trainerSprite: selectedSprite
+        trainerSprite: selectedSprite,
       });
 
       const { jwt } = response.data;
       localStorage.setItem('jwt', jwt);
 
-      alert('Signup successful');
       navigate('/home');
-
     } catch (error) {
       console.error(error);
-      alert(error);
+      setError(`An error occured, please try again. ${error}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <Box component="form"
-      onSubmit={handleSubmit}
-      sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <Box
         sx={{
           display: 'flex',
@@ -224,7 +232,22 @@ export default function Signup() {
           </RadioGroup>
         </Box>
       </Box>
-      <Button type="submit" variant="contained" size="large" sx={{ width: { sm: '50%', md: '30%' }, marginTop: '10px' }}>Sign Up</Button>
+
+      {error && (
+        <Typography variant="body2" color="error" sx={{ mt: 2, mb: 2 }}>
+          {error}
+        </Typography>
+      )}
+
+      <Button
+        type="submit"
+        variant="contained"
+        size="large"
+        sx={{ width: { sm: '50%', md: '30%' }, marginTop: '10px' }}
+        disabled={isLoading}
+      >
+        {isLoading ? <CircularProgress size={24} /> : 'Sign Up'}
+      </Button>
     </Box>
   );
 }
