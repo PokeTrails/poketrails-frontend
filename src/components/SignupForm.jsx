@@ -11,6 +11,7 @@ import femaleSprite from '../assets/trainer_sprites/female_static.png';
 import maleSprite from '../assets/trainer_sprites/male_static.png';
 import femaleSpriteAnimated from '../assets/trainer_sprites/female_animated.png';
 import maleSpriteAnimated from '../assets/trainer_sprites/male_animated.png';
+import pikachuLoading from '../assets/pikachu.gif';
 
 import useError from '../hooks/useError';
 import useLoading from '../hooks/useLoading';
@@ -245,6 +246,17 @@ export default function Signup() {
       >
         {isLoading ? <CircularProgress size={24} /> : 'Sign Up'}
       </Button>
+
+      {isLoading && (
+        <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+          Loading please wait...
+        </Typography>
+      )}
+
+      {isLoading && (
+        <img src={pikachuLoading} alt="Pikachu loading" style={{ marginTop: '20px', width: '100px', height: 'auto' }} />
+      )}
+      
     </Box>
   );
 }
