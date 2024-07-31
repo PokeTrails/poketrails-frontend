@@ -6,10 +6,14 @@ import SignupForm from "../components/SignupForm";
 
 export default function Signup(){
     return(    
-    <>
+    <>  
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: "5%"}}>
+
+            {/* Add the AppLogo and SignupForm components to the Signup page */}
             <AppLogo />
             <SignupForm />
+
+            {/* Link to the login page */}
             <Typography variant="body1" paragraph sx={{marginTop: "20px"}}>
                 Already have an account? {' '}
                 <MuiLink component={ReactLink} to="/login" underline="hover">

@@ -132,7 +132,7 @@ export default function Navbar() {
                   key={page}
                   onClick={() => handleNavClick(page)}
                   sx={{
-                    color: currentPage === page.toLowerCase().replace('é', 'e') ? 'primary.main' : 'inherit',
+                    color: currentPage === page.toLowerCase().replace('é', 'e') ? 'primary.main' : 'black', // Highlight the current page
                   }}
                 >
                   <Typography textAlign="center">{page}</Typography>
@@ -165,7 +165,7 @@ export default function Navbar() {
                 onClick={() => handleNavClick(page)}
                 sx={{
                   my: 2,
-                  color: currentPage === page.toLowerCase().replace('é', 'e') ? 'primary.main' : 'black',
+                  color: currentPage === page.toLowerCase().replace('é', 'e') ? 'primary.main' : 'black', // Highlight the current page
                   display: 'block',
                   '&:hover': { color: 'action.hover', backgroundColor: 'action.shadow' },
                 }}

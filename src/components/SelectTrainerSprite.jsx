@@ -4,17 +4,20 @@ import PropTypes from 'prop-types';
 
 const SelectTrainerSprite = ({ selectedSprite, spriteId, staticSprite, animatedSprite }) => {
   const [currentSprite, setCurrentSprite] = useState(staticSprite);
-
+  
+  // Change the sprite to the animated sprite when selected
   useEffect(() => {
     if (selectedSprite === spriteId) {
       setCurrentSprite(animatedSprite);
 
+      // Revert to the static sprite after 2.5 seconds
       const revertToStatic = setTimeout(() => {
         setCurrentSprite(staticSprite);
       }, 2500);
 
       return () => clearTimeout(revertToStatic);
     } else {
+      // Revert to the static sprite when deselected
       setCurrentSprite(staticSprite);
     }
   }, [selectedSprite, spriteId, staticSprite, animatedSprite]);
@@ -26,9 +29,8 @@ const SelectTrainerSprite = ({ selectedSprite, spriteId, staticSprite, animatedS
         flexDirection: 'column',
         alignItems: 'center',
         position: 'relative',
-        // border: selectedSprite === spriteId ? '2px solid #FF7070' : 'none',
-        // borderRadius: '6px',
-        // padding: '10px',
+
+        // Increase size of sprite and remove grayscale filter when selected
         '& img': {
           transition: 'transform 0.3s ease, filter 0.3s ease',
           transform: selectedSprite === spriteId ? 'scale(1.1)' : 'scale(0.9)',
@@ -36,6 +38,7 @@ const SelectTrainerSprite = ({ selectedSprite, spriteId, staticSprite, animatedS
         },
       }}
     >
+      {/* Render selected Trainer Sprite */}
       <img
         src={currentSprite}
         alt={`${spriteId} Trainer Sprite`}

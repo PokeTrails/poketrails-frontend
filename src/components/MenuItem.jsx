@@ -11,9 +11,13 @@ const Image = styled('img')({
 
 const MenuItem = ({ menuImage, menuPath, menuText, imageAlt, iconSize }) => {
   return (
+    // Add a Grid item for the menu item
     <Grid item xs={6} sm={6} md={iconSize}>
       <Box display="flex" flexDirection="column" alignItems="center">
+        {/* Image associated to the menu item */}
         <Image src={menuImage} alt={imageAlt} />
+        
+        {/* Button to navigate to menu page */}
         <Button
           component={Link}
           to={menuPath}

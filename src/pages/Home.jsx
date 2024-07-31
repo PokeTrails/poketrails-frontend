@@ -7,6 +7,7 @@ import storeImg from '../assets/main_pages/store.jpg';
 import pokedexImg from '../assets/main_pages/pokedex.png';
 import backgroundImg from '../assets/main_background.jpg';
 
+// Page options to pass onto MenuGrid component to render as buttons
 const pageOptions = {
   party: {
     menuText: "Party",
@@ -34,6 +35,7 @@ const pageOptions = {
   },
 };
 
+// Specific details to pass onto MenuGrid component to render
 const pageDetails = {
   pageHeading: "Main Menu",
   pageText: "Select from one of the options below",
@@ -49,6 +51,7 @@ const Home = () => {
     <MenuGridLayout
     pageDetails={pageDetails}
     pageOptions={pageOptions}
+    // Specifies size of icons to render for desktop screens
     iconSize={3}
     />
   );

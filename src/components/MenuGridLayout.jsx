@@ -6,6 +6,7 @@ import Background from './Background';
 
 const MenuGridLayout = ({ pageOptions, pageDetails, iconSize }) => {
   return (
+    // Render background component using passed through details
     <Background
       backgroundImg={pageDetails.backgroundImg}
       backgroundColour={pageDetails.backgroundColour}
@@ -20,6 +21,7 @@ const MenuGridLayout = ({ pageOptions, pageDetails, iconSize }) => {
           mt: 4,
         }}
       >
+        {/* Render Page heading and sub-heading */}
         <Box>
           <Typography variant="h3" align="center" sx={{ fontSize: { xs: '35px', md: '40px' }, mt: 4, color: pageDetails.headingColour }}>
             {pageDetails.pageHeading}
@@ -32,6 +34,7 @@ const MenuGridLayout = ({ pageOptions, pageDetails, iconSize }) => {
           </Typography>
         </Box>
 
+        {/* Render menu items using passed through options */}
         <Grid container spacing={5} justifyContent="center">
           {Object.keys(pageOptions).map((key) => {
             const { menuText, menuImage, menuPath, imageAlt } = pageOptions[key];
