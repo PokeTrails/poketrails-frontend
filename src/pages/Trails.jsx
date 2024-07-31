@@ -7,6 +7,7 @@ import frostyTrailImg from '../assets/trail_images/frosty_trail.png';
 import wetTrailImg from '../assets/trail_images/wet_trail.png';
 import backgroundImg from '../assets/main_background.jpg';
 
+// Page options to pass onto MenuGrid component to render as buttons
 const pageOptions = {
   wild: {
     menuText: "Wild Trail",
@@ -34,6 +35,7 @@ const pageOptions = {
   },
 };
 
+// Specific details to pass onto MenuGrid component to render
 const pageDetails = {
   pageHeading: "Trails",
   pageText: "Select from one of the trails below",
@@ -49,6 +51,7 @@ const Trails = () => {
     <MenuGridLayout
     pageDetails={pageDetails}
     pageOptions={pageOptions}
+    // Specifies size of icons to render for desktop screens
     iconSize={3}
     />
   );

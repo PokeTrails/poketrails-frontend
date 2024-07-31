@@ -10,6 +10,7 @@ import useError from '../hooks/useError';
 import useLoading from '../hooks/useLoading';
 
 export default function LoginForm() {
+  // Add the API server URL
   const apiURL = import.meta.env.VITE_API_SERVER_URL;
   const navigate = useNavigate();
   
@@ -17,36 +18,47 @@ export default function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  // Add the useLoading and useError hooks
   const { isLoading, setIsLoading } = useLoading();
   const { error, setError, clearError } = useError();
 
+  // Add the password visibility functions
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
+  // Add the handleSubmit function
   const handleSubmit = async (event) => {
     event.preventDefault();
     clearError();
+
+    // Confirm password exists or return and error
     if (!password) {
       setError('Please enter a password');
       return;
     }
+
+    // Set loading to true while the request is being made
     setIsLoading(true);
     try {
       const response = await axios.post(`${apiURL}/login`, {
         username,
         password,
       });
-      
+
+      // Redirect to the home page and save JWT to localstorage if successful
       const { jwt } = response.data;
       localStorage.setItem('jwt', jwt);
-      
       navigate('/home');
+
     } catch (error) {
+      // Log the error to the console and set an error message
       console.error(error);
       setError('Invalid username or password.');
+
     } finally {
+      // Set loading to false after the request is complete
       setIsLoading(false);
     }
   };
@@ -57,6 +69,7 @@ export default function LoginForm() {
       onSubmit={handleSubmit}
       sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: "20px" }}
     >
+      {/* Username Field */}
       <TextField
         label="Username"
         id="username"
@@ -64,6 +77,8 @@ export default function LoginForm() {
         onChange={(e) => setUsername(e.target.value)}
         sx={{ m: 1, width: '25ch' }}
       />
+
+      {/* Password Field */}
       <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
         <InputLabel htmlFor="password">Password</InputLabel>
         <OutlinedInput
@@ -87,12 +102,16 @@ export default function LoginForm() {
         />
       </FormControl>
       
+
+      {/* Display error message if there is one */}
       {error && (
         <Typography variant="body2" color="error" sx={{ mt: 1 }}>
           {error}
         </Typography>
       )}
 
+
+      {/* Submit Button */}
       <Button 
         type="submit" 
         variant="contained" 
@@ -103,12 +122,14 @@ export default function LoginForm() {
         {isLoading ? <CircularProgress size={24} /> : 'Log In'}
       </Button>
 
+      {/* Loading message if isLoading is True */}
       {isLoading && (
         <Typography variant="body2" color="error" sx={{ mt: 1 }}>
           Loading please wait...
         </Typography>
       )}
 
+      {/* Loading Pikachu image if isLoading is True */}
       {isLoading && (
         <img src={pikachuLoading} alt="Pikachu loading" style={{ marginTop: '20px', width: '100px', height: 'auto' }} />
       )}

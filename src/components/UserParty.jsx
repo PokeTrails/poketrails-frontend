@@ -9,6 +9,7 @@ const UserParty = ({ apiURL, jwt }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Fetch Pokémon data from the API
   useEffect(() => {
     const fetchPokemonData = async () => {
       try {
@@ -17,15 +18,20 @@ const UserParty = ({ apiURL, jwt }) => {
             Authorization: `Bearer ${jwt}`,
           },
         });
+
+        // Set the Pokémon data, stop loading, and clear any errors
         setPokemonData(response.data);
         setIsLoading(false);
+
       } catch (err) {
+        // Log the error to the console and set an error message
         console.error("Error fetching Pokémon data:", err);
         setError("Failed to fetch Pokémon data.");
         setIsLoading(false);
       }
     };
 
+    // Call the fetchPokemonData function
     fetchPokemonData();
   }, [apiURL, jwt]);
 
@@ -50,6 +56,7 @@ const UserParty = ({ apiURL, jwt }) => {
     </Box>
   );
 };
+
 
 UserParty.propTypes = {
     apiURL: PropTypes.string.isRequired,

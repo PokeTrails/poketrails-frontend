@@ -2,6 +2,7 @@ import { CssBaseline, GlobalStyles } from '@mui/material/';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 
+// All pages/components are imported here
 import lightTheme from '../styles/themes/theme';
 import Navbar from '../components/Navbar';
 import Login from './Login';
@@ -25,10 +26,15 @@ export default function App() {
   return (
     
     <BrowserRouter>
+      {/* ThemeProvider is used to apply the lightTheme to the entire app */}
       <ThemeProvider theme={lightTheme}>
+      {/* CssBaseline is used to remove any default CSS styling */}
       <CssBaseline />
+      {/* Overrides the background colour and replaces it with theme colour so all pages have theming */}
       <GlobalStyles styles={{ html: { backgroundColor: lightTheme.palette.background.default } }} />
+        {/* Loads Navbar component on all routes */}
         <Navbar />
+        {/* Defines routes for the application */}
         <Routes>
           <Route path="/" element={<Redirect />} />
           <Route path="/login" element={<Login />} />

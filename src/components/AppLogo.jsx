@@ -3,6 +3,7 @@ import appLogo from '../assets/app_logo.png';
 
 export default function AppLogo() {
   return (
+    // Display the application logo
     <Box
       sx={{
         justifyContent: 'center',

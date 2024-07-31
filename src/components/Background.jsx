@@ -16,7 +16,7 @@ const Background = ({ backgroundImg, backgroundColour, children }) => {
         overflow: 'hidden',
       }}
     >
-      {/* Overlay color */}
+      {/* Overlay colour */}
       <Box
         sx={{
           position: 'absolute',

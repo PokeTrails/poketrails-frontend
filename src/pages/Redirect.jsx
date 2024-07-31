@@ -5,10 +5,11 @@ const Redirect = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Redirect to the specified page if the user is logged in, otherwise redirect to the login page
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
     const queryParams = new URLSearchParams(location.search);
-    const redirectPage = queryParams.get('redirect') || 'home'; // Default to 'home' if not specified
+    const redirectPage = queryParams.get('redirect') || 'home'; // Default to 'home' if no page specified
 
     if (jwt) {
       navigate(`/${redirectPage}`);
