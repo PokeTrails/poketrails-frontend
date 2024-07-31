@@ -50,6 +50,7 @@ const UserParty = ({ apiURL, jwt }) => {
         {pokemonData.map((pokemon) => (
           <li key={pokemon.id}>
             <Typography variant="body1">{pokemon.species}</Typography>
+            <img src={pokemon.sprite} alt={pokemon.species} />
           </li>
         ))}
       </ul>
