@@ -1,8 +1,12 @@
+import PokemonParty from '../components/UserParty';
 
 export default function Party() {
-    return (
-      <div>
-        <h1>Welcome to the Party page!</h1>
-      </div>
-    );
+  const jwt = localStorage.getItem('jwt');
+  const apiURL = `${import.meta.env.VITE_API_SERVER_URL}/api/pokemon`;
+
+  return (
+    <div>
+      <PokemonParty apiURL={apiURL} jwt={jwt} />
+    </div>
+  );
 }
