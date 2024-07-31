@@ -104,7 +104,13 @@ export default function LoginForm() {
       </Button>
 
       {isLoading && (
-        <img src={pikachuLoading} alt="Pikachu loading" style={{ marginTop: '20px', width: '100px', height: '100px' }} />
+        <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+          Loading please wait...
+        </Typography>
+      )}
+
+      {isLoading && (
+        <img src={pikachuLoading} alt="Pikachu loading" style={{ marginTop: '20px', width: '100px', height: 'auto' }} />
       )}
     </Box>
   );
