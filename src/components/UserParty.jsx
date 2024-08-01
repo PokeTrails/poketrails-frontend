@@ -11,6 +11,7 @@ const UserParty = ({ apiURL, jwt }) => {
 
   useEffect(() => {
     const fetchPokemonData = async () => {
+      // Fetch Pokémon data from the API
       try {
         const response = await axios.get(apiURL, {
           headers: {
@@ -18,8 +19,10 @@ const UserParty = ({ apiURL, jwt }) => {
           },
         });
 
+        // Map the Pokémon data to an array of objects and set loading to false
         setPokemonData(response.data);
         setIsLoading(false);
+        
       } catch (err) {
         console.error("Error fetching Pokémon data:", err);
         setError("Failed to fetch Pokémon data.");
@@ -34,29 +37,50 @@ const UserParty = ({ apiURL, jwt }) => {
     setSelectedPokemon(event.target.value);
   };
 
+  // Display loading message while fetching data
   if (isLoading) {
     return <Typography>Loading...</Typography>;
   }
 
+  // Display error message if data fetching fails
   if (error) {
     return <Typography color="error">{error}</Typography>;
   }
 
   return (
-    <Box sx={{ padding: 2 }}>
-      <Typography variant="h4" gutterBottom textAlign="center">
-        Party
-      </Typography>
+    
+    // Overarching party component box
+    <Box sx={{ 
+      mt: 2,
+      pb: 3,
+      backgroundColor: '#AFE4CE'
+      }}>
+
+      {/* Party Title Heading Box */}
+      <Box sx={{ 
+        backgroundColor: '#7ADCB9',
+        pt: 1,
+        pb: 1,
+        mb: 1,
+      }}>
+        <Typography variant="h4" gutterBottom textAlign="center">
+          Party
+        </Typography>
+      </Box>
+
+      {/* Radio Group for Pokémon Selection */}
       <RadioGroup
         value={selectedPokemon}
         onChange={handlePokemonSelect}
         sx={{
+          pt: 2,
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
+        {/* Grid container for Pokémon sprites into seperate boxes */}
         <Grid container spacing={2} justifyContent="center">
           {pokemonData.map((pokemon) => (
             <Grid
