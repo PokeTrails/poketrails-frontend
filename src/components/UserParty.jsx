@@ -1,15 +1,14 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Grid, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 
 const UserParty = ({ apiURL, jwt }) => {
-  
   const [pokemonData, setPokemonData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
 
-  // Fetch Pokémon data from the API
   useEffect(() => {
     const fetchPokemonData = async () => {
       try {
@@ -19,21 +18,21 @@ const UserParty = ({ apiURL, jwt }) => {
           },
         });
 
-        // Set the Pokémon data, stop loading, and clear any errors
         setPokemonData(response.data);
         setIsLoading(false);
-
       } catch (err) {
-        // Log the error to the console and set an error message
         console.error("Error fetching Pokémon data:", err);
         setError("Failed to fetch Pokémon data.");
         setIsLoading(false);
       }
     };
 
-    // Call the fetchPokemonData function
     fetchPokemonData();
   }, [apiURL, jwt]);
+
+  const handlePokemonSelect = (event) => {
+    setSelectedPokemon(event.target.value);
+  };
 
   if (isLoading) {
     return <Typography>Loading...</Typography>;
@@ -44,24 +43,69 @@ const UserParty = ({ apiURL, jwt }) => {
   }
 
   return (
-    <Box>
-      <Typography variant="h4">Your Pokémon Party</Typography>
-      <ul>
-        {pokemonData.map((pokemon) => (
-          <li key={pokemon.id}>
-            <Typography variant="body1">{pokemon.species}</Typography>
-            <img src={pokemon.sprite} alt={pokemon.species} />
-          </li>
-        ))}
-      </ul>
+    <Box sx={{ padding: 2 }}>
+      <Typography variant="h4" gutterBottom textAlign="center">
+        Party
+      </Typography>
+      <RadioGroup
+        value={selectedPokemon}
+        onChange={handlePokemonSelect}
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Grid container spacing={2} justifyContent="center">
+          {pokemonData.map((pokemon) => (
+            <Grid
+              item
+              key={pokemon.species}
+              xs={4}
+              md={2}
+              sx={{ display: 'flex', justifyContent: 'center' }}
+            >
+              <FormControlLabel
+                value={pokemon.species}
+                control={<Radio sx={{ display: 'none' }} />}
+                label={
+                  <Box
+                    sx={{
+                      border: 1,
+                      borderColor: selectedPokemon === pokemon.species ? 'black' : 'transparent',
+                      borderRadius: 2,
+                      backgroundColor: selectedPokemon === pokemon.species ? '#85F2C4' : '#A4DAC3',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      height: { xs: '100px', md: '150px' },
+                      width: { xs: '100px', md: '150px' },
+                    }}
+                  >
+                    <img
+                      src={pokemon.sprite}
+                      alt={pokemon.species}
+                      style={{
+                        maxWidth: '100%',
+                        maxHeight: '100%',
+                        transform: 'scale(1.5)',
+                      }}
+                    />
+                  </Box>
+                }
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </RadioGroup>
     </Box>
   );
 };
 
-
 UserParty.propTypes = {
-    apiURL: PropTypes.string.isRequired,
-    jwt: PropTypes.string.isRequired,
+  apiURL: PropTypes.string.isRequired,
+  jwt: PropTypes.string.isRequired,
 };
 
 export default UserParty;
