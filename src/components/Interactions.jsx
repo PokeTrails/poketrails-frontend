@@ -1,8 +1,13 @@
-import axios from 'axios';
-import { Button, Box, TextField, FormControl, InputAdornment, InputLabel, OutlinedInput, IconButton, Typography } from '@mui/material';
+// import axios from 'axios';
+import { Button, Box, Typography } from '@mui/material';
 
 export default function Interactions() {
 
+    // Create function to check if valid Pokemon to interact with (egg pokemon or on trail)
+
+    // Create function to check if pokemon can evolve
+
+    // Convert buttons into seperate components and pass through props/check conditions
   return (
     <Box sx={{ 
         mt: 2,
@@ -55,12 +60,14 @@ export default function Interactions() {
             >
             Feed
             </Button>
+
+            {/* Disabled button on default */}
             <Button 
             type="submit" 
             variant="contained" 
             size="large" 
             sx={{ width: "50%", height: '60px', marginTop: "10px", fontSize: '20px' }}
-            disabled={true}
+            disabled={true} // Add function here to check if Pokémon can evolve
             >
             Evolve?
             </Button>
