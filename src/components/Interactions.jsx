@@ -1,7 +1,13 @@
 // import axios from 'axios';
-import { Button, Box, Typography } from '@mui/material';
+import { Button, Box } from '@mui/material';
+
+import ComponentBox from './ComponentBox';
 
 export default function Interactions() {
+
+    const componentDetails = {
+        heading: 'Interact',
+    }
 
     // Create function to check if valid Pokemon to interact with (egg pokemon or on trail)
 
@@ -9,25 +15,10 @@ export default function Interactions() {
 
     // Convert buttons into seperate components and pass through props/check conditions
   return (
-    <Box sx={{ 
-        mt: 2,
-        pb: 3,
-        backgroundColor: '#AFE4CE',
-        width: '50vw',
-        }}>
-  
-        {/* Interact Title Heading Box */}
-        <Box sx={{ 
-          backgroundColor: '#7ADCB9',
-          pt: 1,
-          pb: 0.5,
-          mb: 1,
-            }}>
-          <Typography variant="h4" fontSize={{xs: "25px", md: '30px'}} gutterBottom textAlign="center">
-            Interact
-          </Typography>
-        </Box>
-  
+
+    // General box for the component
+    <ComponentBox componentDetails={componentDetails}>
+
         {/* Buttons for Pokémon Interaction */}
         <Box sx={{
             display: 'flex',
@@ -71,7 +62,7 @@ export default function Interactions() {
             >
             Evolve?
             </Button>
-    </Box>
-      </Box>
+        </Box>
+    </ComponentBox>
   );
 }
