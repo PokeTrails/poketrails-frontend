@@ -22,7 +22,7 @@ export default function Signup() {
   // Declare states for form fields
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [selectedSprite, setSelectedSprite] = useState('');
+  const [selectedSprite, setSelectedSprite] = useState('default_female');
   const [username, setUsername] = useState('');
   const [trainerName, setTrainerName] = useState('');
   const [password, setPassword] = useState('');
