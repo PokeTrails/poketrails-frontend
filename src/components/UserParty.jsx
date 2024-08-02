@@ -113,7 +113,7 @@ const UserParty = ({ apiURL, jwt }) => {
                       style={{
                         maxWidth: '100%',
                         maxHeight: '100%',
-                        transform: 'scale(1.5)',
+                        transform: 'scale(1.3)',
                       }}
                     />
                   </Box>
