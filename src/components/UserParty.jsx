@@ -64,6 +64,7 @@ const UserParty = ({ apiURL, jwt }) => {
         onChange={handlePokemonSelect}
         sx={{
           pt: 2,
+          pl: 2,
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
@@ -93,8 +94,8 @@ const UserParty = ({ apiURL, jwt }) => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      height: { xs: '100px', md: '150px' },
-                      width: { xs: '100px', md: '150px' },
+                      minHeight: { xs: '100px', md: '100px' },
+                      minWidth: { xs: '100px', md: '100px' },
                     }}
                   >
                     <img
