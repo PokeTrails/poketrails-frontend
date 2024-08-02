@@ -3,15 +3,26 @@ import { Box } from '@mui/material';
 import SelectedPokemon from '../components/SelectedPokemon';
 import PokemonParty from '../components/UserParty';
 import Interactions from '../components/Interactions';
+import TrailLog from '../components/TrailLog';
 
 export default function Party() {
   const jwt = localStorage.getItem('jwt');
   const apiURL = `${import.meta.env.VITE_API_SERVER_URL}/pokemon`; // URL to fetch data from
 
   return (
-    <Box sx={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-      <SelectedPokemon />
-      <Interactions />
+    <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: '100%' }}>
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'space-between', 
+        flexDirection: 'row', 
+        width: '100%', 
+        flexGrow: 1,
+      }}>
+        <SelectedPokemon />
+        <Interactions />
+        <TrailLog />
+      </Box>
       <PokemonParty apiURL={apiURL} jwt={jwt} />
     </Box>
   );

@@ -8,7 +8,7 @@ export default function ComponentBox({ componentDetails, children }) {
         mt: 2,
         pb: 3,
         backgroundColor: '#AFE4CE',
-        width: {xs: '100%', md: '50%'}, // Add prop values here to change depending on page and component posiitoning
+        width: { xs: '100%', md: '40%' },
         maxWidth: '1200px',
         mx: 'auto',
         borderRadius: 2,

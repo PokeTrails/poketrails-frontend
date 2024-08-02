@@ -3,21 +3,14 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Typography, Grid, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 
-import ComponentBox from './ComponentBox';
-
 const UserParty = ({ apiURL, jwt }) => {
   const [pokemonData, setPokemonData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
 
-  const componentDetails = {
-    heading: 'Party',
-  };
-
   useEffect(() => {
     const fetchPokemonData = async () => {
-      // Fetch Pokémon data from the API
       try {
         const response = await axios.get(apiURL, {
           headers: {
@@ -25,10 +18,8 @@ const UserParty = ({ apiURL, jwt }) => {
           },
         });
 
-        // Map the Pokémon data to an array of objects and set loading to false
         setPokemonData(response.data);
         setIsLoading(false);
-        
       } catch (err) {
         console.error("Error fetching Pokémon data:", err);
         setError("Failed to fetch Pokémon data.");
@@ -43,22 +34,38 @@ const UserParty = ({ apiURL, jwt }) => {
     setSelectedPokemon(event.target.value);
   };
 
-  // Display loading message while fetching data
   if (isLoading) {
     return <Typography>Loading...</Typography>;
   }
 
-  // Display error message if data fetching fails
   if (error) {
     return <Typography color="error">{error}</Typography>;
   }
 
   return (
-    
-    // Overarching party component box
-    <ComponentBox componentDetails={componentDetails}>
-
-      {/* Radio Group for Pokémon Selection */}
+    <Box
+    sx={{
+      mt: 2,
+      pb: 3,
+      backgroundColor: '#AFE4CE',
+      width: { xs: '100%', md: '90%' },
+      maxWidth: '1200px',
+      mx: 'auto',
+      borderRadius: 2,
+    }}
+  >
+    <Box
+      sx={{
+        backgroundColor: '#7ADCB9',
+        pt: 1,
+        pb: 0.5,
+        mb: 1,
+      }}
+    >
+      <Typography variant="h4" fontSize={{ xs: '20px', md: '25px' }} gutterBottom textAlign="center">
+        Party
+      </Typography>
+    </Box>
       <RadioGroup
         value={selectedPokemon}
         onChange={handlePokemonSelect}
@@ -71,7 +78,6 @@ const UserParty = ({ apiURL, jwt }) => {
           justifyContent: 'center',
         }}
       >
-        {/* Grid container for Pokémon sprites into seperate boxes */}
         <Grid container spacing={2} justifyContent="center">
           {pokemonData.map((pokemon) => (
             <Grid
@@ -94,8 +100,9 @@ const UserParty = ({ apiURL, jwt }) => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      minHeight: { xs: '100px', md: '100px' },
-                      minWidth: { xs: '100px', md: '100px' },
+                      width: { xs: '80px', sm: '100px', md: '120px' },
+                      height: { xs: '80px', sm: '100px', md: '120px' },
+                      margin: '8px', // Adds space between boxes
                     }}
                   >
                     <img
@@ -104,7 +111,6 @@ const UserParty = ({ apiURL, jwt }) => {
                       style={{
                         maxWidth: '100%',
                         maxHeight: '100%',
-                        transform: 'scale(1.3)',
                       }}
                     />
                   </Box>
@@ -114,7 +120,7 @@ const UserParty = ({ apiURL, jwt }) => {
           ))}
         </Grid>
       </RadioGroup>
-      </ComponentBox>
+    </Box>
   );
 };
 
