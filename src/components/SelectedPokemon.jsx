@@ -4,17 +4,15 @@ export default function SelectedPokemon() {
   return (
     <Box
       sx={{
-        mt: 2,
         pb: 3,
         backgroundColor: '#AFE4CE',
-        width: { xs: '100%', md: '30%' },
+        width: { xs: '100%', md: '30%'},
         maxWidth: '1200px',
-        mx: 'auto',
-        borderRadius: 2,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         padding: 2,
+        mr: { xs: 0, md: 2 },
       }}
     >
       {/* Box for Pokemon Sprite */}
@@ -28,6 +26,8 @@ export default function SelectedPokemon() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+        //   border: 2,     // Shiny pokemon border check here
+        //   borderColor: 'red',
           flex: 2,
         }}
       >
@@ -91,6 +91,14 @@ export default function SelectedPokemon() {
             >
             Happiness
             </Typography>
+            <Typography
+            variant="h6"
+            fontSize={{ xs: '16px', md: '18px' }}
+            textAlign="center"
+            >
+            Happiness
+            </Typography>
+            
         </Box>
       </Box>
     </Box>
