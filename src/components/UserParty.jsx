@@ -3,11 +3,17 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Typography, Grid, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 
+import ComponentBox from './ComponentBox';
+
 const UserParty = ({ apiURL, jwt }) => {
   const [pokemonData, setPokemonData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
+
+  const componentDetails = {
+    heading: 'Party',
+  };
 
   useEffect(() => {
     const fetchPokemonData = async () => {
@@ -50,23 +56,7 @@ const UserParty = ({ apiURL, jwt }) => {
   return (
     
     // Overarching party component box
-    <Box sx={{ 
-      mt: 2,
-      pb: 3,
-      backgroundColor: '#AFE4CE'
-      }}>
-
-      {/* Party Title Heading Box */}
-      <Box sx={{ 
-        backgroundColor: '#7ADCB9',
-        pt: 1,
-        pb: 0.5,
-        mb: 1,
-      }}>
-        <Typography variant="h4" fontSize={{xs: "25px", md: '30px'}} gutterBottom textAlign="center">
-          Party
-        </Typography>
-      </Box>
+    <ComponentBox componentDetails={componentDetails}>
 
       {/* Radio Group for Pokémon Selection */}
       <RadioGroup
@@ -74,6 +64,7 @@ const UserParty = ({ apiURL, jwt }) => {
         onChange={handlePokemonSelect}
         sx={{
           pt: 2,
+          pl: 2,
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
@@ -103,8 +94,8 @@ const UserParty = ({ apiURL, jwt }) => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      height: { xs: '100px', md: '150px' },
-                      width: { xs: '100px', md: '150px' },
+                      minHeight: { xs: '100px', md: '100px' },
+                      minWidth: { xs: '100px', md: '100px' },
                     }}
                   >
                     <img
@@ -123,7 +114,7 @@ const UserParty = ({ apiURL, jwt }) => {
           ))}
         </Grid>
       </RadioGroup>
-    </Box>
+      </ComponentBox>
   );
 };
 
