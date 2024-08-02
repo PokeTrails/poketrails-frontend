@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 
+import SelectedPokemon from '../components/SelectedPokemon';
 import PokemonParty from '../components/UserParty';
 import Interactions from '../components/Interactions';
 
@@ -9,6 +10,7 @@ export default function Party() {
 
   return (
     <Box sx={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
+      <SelectedPokemon />
       <Interactions />
       <PokemonParty apiURL={apiURL} jwt={jwt} />
     </Box>
