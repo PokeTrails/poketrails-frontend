@@ -60,10 +60,10 @@ const UserParty = ({ apiURL, jwt }) => {
       <Box sx={{ 
         backgroundColor: '#7ADCB9',
         pt: 1,
-        pb: 1,
+        pb: 0.5,
         mb: 1,
       }}>
-        <Typography variant="h4" gutterBottom textAlign="center">
+        <Typography variant="h4" fontSize={{xs: "25px", md: '30px'}} gutterBottom textAlign="center">
           Party
         </Typography>
       </Box>
