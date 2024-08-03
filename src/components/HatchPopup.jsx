@@ -1,11 +1,13 @@
 import { Box, Typography, Button } from '@mui/material';
 import PropTypes from 'prop-types';
+import Confetti from 'react-confetti';
+
 import { capitaliseName } from '../utils';
 
 const HatchPopup = ({ data, onClose, onReload }) => {
   const handleClose = () => {
     onClose();
-    if (onReload) onReload(); // Reload the page to refresh the party
+    if (onReload) onReload(); // Reload the page or refresh the party
   };
 
   return (
@@ -17,14 +19,26 @@ const HatchPopup = ({ data, onClose, onReload }) => {
         transform: 'translate(-50%, -50%)',
         width: { xs: '80vw', sm: '50vw', md: '30vw' },
         maxWidth: '500px',
-        backgroundColor: data.is_legendary || data.is_mythical ? 'pink' : '#fff',
+        backgroundColor: '#FFF',
         borderRadius: 2,
         boxShadow: 3,
         p: 3,
         zIndex: 1200,
         textAlign: 'center',
+        overflow: 'hidden', // Ensure confetti doesn't overflow
       }}
     >
+      {/* Confetti effect */}
+      <Confetti
+        width={window.innerWidth}
+        height={window.innerHeight}
+        numberOfPieces={200}
+        recycle={false}
+        tweenDuration={5000}
+        gravity={0.2}
+        colors={['#ff0000', '#00ff00', '#0000ff']}
+      />
+
       <Typography variant="h6" gutterBottom>
         Pokémon Hatched!
       </Typography>
