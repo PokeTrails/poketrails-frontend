@@ -86,7 +86,7 @@ const UserParty = ({ apiURL, jwt, onPokemonSelect }) => {
       sx={{
         mt: 2,
         pb: 3,
-        backgroundColor: '#AFE4CE',
+        backgroundColor: 'rgba(164, 218, 195, 0.5)',
         width: { xs: '100%', md: '90%' },
         maxWidth: '1200px',
         mx: 'auto',
@@ -96,7 +96,7 @@ const UserParty = ({ apiURL, jwt, onPokemonSelect }) => {
       <Box
         sx={{
           borderRadius: 2,
-          backgroundColor: '#7ADCB9',
+          backgroundColor: 'rgba(122, 220, 185, 0.6)',
           pt: 1,
           pb: 0.5,
           mb: 1,
@@ -137,7 +137,7 @@ const UserParty = ({ apiURL, jwt, onPokemonSelect }) => {
                       border: 1,
                       borderColor: selectedPokemon === pokemon.id ? 'black' : 'transparent',
                       borderRadius: 2,
-                      backgroundColor: pokemon.id.startsWith('empty') ? 'lightgrey' : selectedPokemon === pokemon.id ? '#85F2C4' : '#A4DAC3',
+                      backgroundColor: pokemon.id.startsWith('empty') ? 'lightgrey' : selectedPokemon === pokemon.id ? '#85F2C4' : 'rgba(164, 218, 195, 0.7)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',

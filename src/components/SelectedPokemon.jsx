@@ -153,7 +153,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
               borderRadius: 2,
               width: '100%',
               position: 'relative',
-              backgroundColor: pokemonData.isShiny ? 'rgba(255,254,0,0.2)' : 'rgba(164, 218, 195, 0.5)', 
+              backgroundColor: pokemonData.isShiny ? 'rgba(255,254,0,0.12)' : 'rgba(164, 218, 195, 0.5)', 
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
