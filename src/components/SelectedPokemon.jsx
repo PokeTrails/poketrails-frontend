@@ -3,16 +3,19 @@ import { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
+import eggSprite from '../assets/pokemon_egg_animated.gif'; // Import egg sprite
+
 export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
   const [pokemonData, setPokemonData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false); // Start with false
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(null);
 
   useEffect(() => {
     const fetchPokemonData = async () => {
-      if (!pokemonID) return; // Skip fetching if no pokemonID is provided
+      if (!pokemonID) return;
 
-      setIsLoading(true); // Start loading when a new ID is set
+      setIsLoading(true);
 
       try {
         const response = await axios.get(`${apiURL}/pokemon/${pokemonID}`, {
@@ -21,20 +24,44 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
           },
         });
         setPokemonData(response.data);
-        setError(null); // Clear previous errors
+        setError(null);
+
+        if (response.data.eggHatched === false) {
+          setTimeLeft(response.data.timeLeft); // Initialize timeLeft
+        }
       } catch (err) {
         console.error(`Error fetching details for Pokémon ID ${pokemonID}:`, err);
         setError('Failed to fetch Pokémon data.');
-        setPokemonData(null); // Clear previous data
+        setPokemonData(null);
+        setTimeLeft(null);
       } finally {
-        setIsLoading(false); // Stop loading when done
+        setIsLoading(false);
       }
     };
 
     fetchPokemonData();
   }, [pokemonID, apiURL, jwt]);
 
-  // Capitalize the Pokémon name
+  useEffect(() => {
+    let timer;
+    if (timeLeft !== null) {
+      timer = setInterval(() => {
+        setTimeLeft((prevTime) => (prevTime > 1000 ? prevTime - 1000 : 0));
+      }, 1000);
+    }
+
+    return () => clearInterval(timer); // Cleanup interval on component unmount
+  }, [timeLeft]);
+
+  const formatTime = (milliseconds) => {
+    const totalSeconds = Math.floor(milliseconds / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  };
+
   const capitalizeName = (name) => {
     if (!name) return '';
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
@@ -84,7 +111,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
             >
               <Box
                 component="img"
-                src={pokemonData.sprite}
+                src={pokemonData.eggHatched ? pokemonData.sprite : eggSprite}
                 alt={pokemonData.species}
                 sx={{
                   maxWidth: '100%',
@@ -124,14 +151,16 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
                 fontSize={{ xs: '16px', md: '18px' }}
                 textAlign="center"
               >
-                Happiness
+                {pokemonData.eggHatched ? 'Happiness' : 'Time Left to Hatch'}
               </Typography>
               <Typography
                 variant="h6"
                 fontSize={{ xs: '16px', md: '18px' }}
                 textAlign="center"
               >
-                {pokemonData.current_happiness} / {pokemonData.target_happiness}
+                {pokemonData.eggHatched
+                  ? `${pokemonData.current_happiness} / ${pokemonData.target_happiness}`
+                  : formatTime(timeLeft)} {/* Display time left in HH:MM:SS */}
               </Typography>
             </Box>
           </Box>
