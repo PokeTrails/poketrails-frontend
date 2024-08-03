@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, LinearProgress } from '@mui/material';
 import PropTypes from 'prop-types';
 
-import eggSprite from '../assets/pokemon_egg_animated.gif'; // Import egg sprite
+import eggSprite from '../assets/pokemon_egg_animated.gif';
+import shinyIcon from '../assets/shiny_icon.png';
 
 export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
   const [pokemonData, setPokemonData] = useState(null);
@@ -131,35 +132,71 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
               justifyContent: 'center',
               flex: 1,
               width: '100%',
+              pb: 2,
               paddingTop: 2,
             }}
           >
-            <Typography
-              variant="h4"
-              fontSize={{ xs: '20px', md: '25px' }}
-              fontWeight="bold"
-              textAlign="center"
-            >
-              {capitalizeName(pokemonData.species)}
-            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography
+                variant="h4"
+                fontSize={{ xs: '20px', md: '25px' }}
+                fontWeight="bold"
+                textAlign="center"
+                sx={{ mr: 1 }}
+              >
+                {capitalizeName(pokemonData.species)}
+              </Typography>
+              {pokemonData.isShiny && (
+                <Box
+                  component="img"
+                  src={shinyIcon}
+                  alt="Shiny"
+                  sx={{
+                    width: { xs: 20, md: 30 },
+                    height: { xs: 20, md: 30 },
+                    marginTop: { xs: 'auto', md: 'auto' },
+                    marginBottom: { xs: 'auto', md: 'auto' },
+                  }}
+                />
+              )}
+            </Box>
 
             <Box>
               <Typography
                 variant="h6"
                 fontSize={{ xs: '16px', md: '18px' }}
                 textAlign="center"
+                sx={{ pt: 2 }}
               >
                 {pokemonData.eggHatched ? 'Happiness' : 'Time Left to Hatch'}
               </Typography>
-              <Typography
-                variant="h6"
-                fontSize={{ xs: '16px', md: '18px' }}
-                textAlign="center"
-              >
-                {pokemonData.eggHatched
-                  ? `${pokemonData.current_happiness} / ${pokemonData.target_happiness}`
-                  : formatTime(timeLeft)} {/* Display time left in HH:MM:SS */}
-              </Typography>
+
+              {pokemonData.eggHatched ? (
+                <>
+                  <Box sx={{ width: '100%', mb: 1, pt: 1 }}>
+                    <LinearProgress
+                      variant="determinate"
+                      value={(pokemonData.current_happiness / pokemonData.target_happiness) * 100}
+                      sx={{ height: 10, borderRadius: 5, width: { xs: '150px', sm: '300px' } }}
+                    />
+                  </Box>
+                  <Typography
+                    variant="h6"
+                    fontSize={{ xs: '16px', md: '18px' }}
+                    textAlign="center"
+                  >
+                    {pokemonData.current_happiness} / {pokemonData.target_happiness}
+                  </Typography>
+                </>
+              ) : (
+                <Typography
+                  variant="h6"
+                  fontSize={{ xs: '16px', md: '18px' }}
+                  textAlign="center"
+                >
+                  {formatTime(timeLeft)} {/* Display time left in HH:MM:SS */}
+                </Typography>
+              )}
             </Box>
           </Box>
         </>
