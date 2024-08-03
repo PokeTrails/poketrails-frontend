@@ -5,14 +5,11 @@ import PropTypes from 'prop-types';
 
 export default function Interactions({ apiURL, jwt, pokemonID }) {
   const [isEgg, setIsEgg] = useState(true); // Start with true to disable buttons by default
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPokemonData = async () => {
       if (!pokemonID) return;
-
-      setIsLoading(true);
 
       try {
         const response = await axios.get(`${apiURL}/pokemon/${pokemonID}`, {
@@ -27,8 +24,6 @@ export default function Interactions({ apiURL, jwt, pokemonID }) {
         console.error(`Error fetching details for Pokémon ID ${pokemonID}:`, err);
         setError('Failed to fetch Pokémon data.');
         setIsEgg(true); // Assume it's an egg if there's an error
-      } finally {
-        setIsLoading(false);
       }
     };
 
