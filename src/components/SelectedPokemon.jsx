@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 
+import { capitaliseName } from '../utils';
+
 import eggSprite from '../assets/pokemon_egg_animated.gif';
 import shinyIcon from '../assets/shiny_icon.png';
 import HatchPopup from './HatchPopup'; // Import the new component
@@ -71,11 +73,6 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
     const seconds = totalSeconds % 60;
 
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-  };
-
-  const capitalizeName = (name) => {
-    if (!name) return '';
-    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   };
 
   const handleEditClick = () => {
@@ -234,7 +231,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
                       sx={{ mr: 1, cursor: 'pointer' }}
                       onClick={handleEditClick}
                     >
-                      {capitalizeName(pokemonData.nickname)}
+                      {capitaliseName(pokemonData.nickname)}
                     </Typography>
                     {pokemonData.isShiny && (
                       <Box
@@ -258,7 +255,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
                       textAlign="center"
                       sx={{ pt: 1 }}
                     >
-                      {`(${capitalizeName(pokemonData.species)})`}
+                      {`(${capitaliseName(pokemonData.species)})`}
                     </Typography>
                   )}
                 </>
@@ -309,7 +306,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
                       color="primary"
                       onClick={handleHatchClick}
                       disabled={isHatching}
-                      sx={{ mt: 2, width: '100%' }}
+                      sx={{ mt: 2, mr: {xs: 2, md: 2}, width: '100%' }}
                     >
                       Hatch now!
                     </Button>

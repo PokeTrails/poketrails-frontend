@@ -1,14 +1,12 @@
 import { Box, Typography, Button } from '@mui/material';
 import PropTypes from 'prop-types';
+import { capitaliseName } from '../utils';
 
 const HatchPopup = ({ data, onClose, onReload }) => {
   const handleClose = () => {
     onClose();
-    if (onReload) onReload(); // Reload the page or refresh the party
+    if (onReload) onReload(); // Reload the page to refresh the party
   };
-
-  // Determine the background color based on legendary or mythical status
-  const backgroundColor = data?.is_legendary || data?.is_mythical ? '#36013f' : '#FFF';
 
   return (
     <Box
@@ -19,7 +17,7 @@ const HatchPopup = ({ data, onClose, onReload }) => {
         transform: 'translate(-50%, -50%)',
         width: { xs: '80vw', sm: '50vw', md: '30vw' },
         maxWidth: '500px',
-        backgroundColor,
+        backgroundColor: data.is_legendary || data.is_mythical ? 'pink' : '#fff',
         borderRadius: 2,
         boxShadow: 3,
         p: 3,
@@ -34,7 +32,13 @@ const HatchPopup = ({ data, onClose, onReload }) => {
         <Box>
           <img src={data.sprite} alt={data.species} style={{ maxWidth: '100%' }} />
           <Typography variant="h6" gutterBottom>
-            {data.species}
+            {capitaliseName(data.species)}
+          </Typography>
+          <Typography variant="body1">
+            Mythical: {data.is_mythical ? 'Yes' : 'No'}
+          </Typography>
+          <Typography variant="body1">
+            Legendary: {data.is_legendary ? 'Yes' : 'No'}
           </Typography>
         </Box>
       )}
