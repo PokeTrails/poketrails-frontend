@@ -56,6 +56,7 @@ const UserParty = ({ apiURL, jwt }) => {
   >
     <Box
       sx={{
+        borderRadius: 2,
         backgroundColor: '#7ADCB9',
         pt: 1,
         pb: 0.5,

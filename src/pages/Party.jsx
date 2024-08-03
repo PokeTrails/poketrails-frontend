@@ -11,16 +11,25 @@ export default function Party() {
 
   return (
     <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: '100%' }}>
-      <Box sx={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'space-between', 
-        flexDirection: 'row', 
-        width: '100%', 
-        flexGrow: 1,
-      }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: { xs: 'row', md: 'row' },
+          justifyContent: { md: 'center' },
+          alignItems: { xs: 'center', md: 'flex-start' },
+          width: '100%',
+          maxHeight: { md: '50vh' },
+          flexGrow: 1,
+        }}
+      >
         <SelectedPokemon />
         <Interactions />
+        {/* Render TrailLog component based on screen size */}
+        <Box sx={{ display: { xs: 'none', md: 'block' }, }}>
+          <TrailLog />
+        </Box>
+      </Box>
+      <Box sx={{ display: { xs: 'block', md: 'none' }, mt: { xs: 2, md: 0 }, width: '100%' }}>
         <TrailLog />
       </Box>
       <PokemonParty apiURL={apiURL} jwt={jwt} />

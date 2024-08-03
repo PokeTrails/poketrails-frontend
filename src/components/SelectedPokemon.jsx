@@ -4,22 +4,24 @@ export default function SelectedPokemon() {
   return (
     <Box
       sx={{
+        borderRadius: 2,
+        height: {xs: '40vh', md: '40vh'},
         pb: 3,
         backgroundColor: '#AFE4CE',
-        width: { xs: '100%', md: '30%'},
+        width: { xs: '50vw', md: '30vh'},
         maxWidth: '1200px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         padding: 2,
-        mr: { xs: 0, md: 2 },
+        mr: 2,
       }}
     >
       {/* Box for Pokemon Sprite */}
       <Box
         sx={{
+            borderRadius: 2,
           width: '100%',
-          paddingTop: '100%', // Square aspect ratio
           position: 'relative',
           borderRadius: 2,
           backgroundColor: '#A4DAC3',
@@ -34,11 +36,6 @@ export default function SelectedPokemon() {
         {/* Pokemon Sprite Image */}
         <Box
           sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
