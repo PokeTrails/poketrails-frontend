@@ -84,8 +84,6 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
         ml: 2,
       }}
     >
-      {isLoading && <Typography>Loading...</Typography>}
-
       {error && <Typography color="error">{error}</Typography>}
 
       {pokemonData && (
