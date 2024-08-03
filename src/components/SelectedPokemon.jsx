@@ -114,10 +114,9 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
     <Box
       sx={{
         borderRadius: 2,
-        height: { xs: '40vh', md: '40vh' },
         pb: 3,
         backgroundColor: '#AFE4CE',
-        width: { xs: '50vw', md: '30vh' },
+        width: { xs: '80vw', md: '30vh' }, // Adjust width for smaller screens
         maxWidth: '1200px',
         display: 'flex',
         flexDirection: 'column',
@@ -142,11 +141,17 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              flex: 2,
+              paddingBottom: '75%', // 4:3 aspect ratio
+              overflow: 'hidden',
             }}
           >
             <Box
               sx={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -159,9 +164,12 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
                 sx={{
                   maxWidth: '100%',
                   maxHeight: '100%',
+                  objectFit: 'contain',
                   transform: {
-                    xs: 'scale(2)',
-                    md: 'scale(3)',
+                    xs: 'scale(1)',
+                    sm: 'scale(1.2)',
+                    md: 'scale(1.5)',
+                    lg: 'scale(2)',
                   },
                 }}
               />
