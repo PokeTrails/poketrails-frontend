@@ -16,10 +16,10 @@ export default function TrailLog() {
       <Box
         sx={{
             borderRadius: 2,
-          backgroundColor: '#7ADCB9',
-          pt: 1,
-          pb: 0.5,
-          mb: 1,
+            backgroundColor: '#7ADCB9',
+            pt: 1,
+            pb: 0.5,
+            mb: 1,
         }}
       >
         <Typography variant="h4" fontSize={{ xs: '20px', md: '25px' }} gutterBottom textAlign="center">

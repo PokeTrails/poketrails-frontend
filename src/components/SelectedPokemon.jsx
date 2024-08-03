@@ -133,7 +133,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
       sx={{
         borderRadius: 2,
         pb: 3,
-        backgroundColor: '#AFE4CE',
+        backgroundColor: 'rgba(175, 228, 206, 0.6)',
         width: { xs: '80vw', md: '30vh' },
         maxWidth: '1200px',
         display: 'flex',
@@ -153,7 +153,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
               borderRadius: 2,
               width: '100%',
               position: 'relative',
-              backgroundColor: '#A4DAC3',
+              backgroundColor: pokemonData.isShiny ? 'rgba(255,254,0,0.2)' : 'rgba(164, 218, 195, 0.5)', 
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
