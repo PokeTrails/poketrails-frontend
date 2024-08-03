@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Box, Typography, LinearProgress } from '@mui/material';
+import { Box, Typography, LinearProgress, TextField, IconButton } from '@mui/material';
 import PropTypes from 'prop-types';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 import eggSprite from '../assets/pokemon_egg_animated.gif';
 import shinyIcon from '../assets/shiny_icon.png';
@@ -11,7 +13,10 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [timeLeft, setTimeLeft] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [newNickname, setNewNickname] = useState('');
 
+  // Fetch Pokémon data when component mounts or when pokemonID changes
   useEffect(() => {
     const fetchPokemonData = async () => {
       if (!pokemonID) return;
@@ -27,8 +32,9 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
         setPokemonData(response.data);
         setError(null);
 
-        if (response.data.eggHatched === false) {
-          setTimeLeft(response.data.timeLeft); // Initialize timeLeft
+        // If Pokémon is an egg, set timeLeft to the time left to hatch
+        if (response.data.eggHatched === false && response.data.timeLeft) {
+          setTimeLeft(response.data.timeLeft);
         }
       } catch (err) {
         console.error(`Error fetching details for Pokémon ID ${pokemonID}:`, err);
@@ -43,6 +49,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
     fetchPokemonData();
   }, [pokemonID, apiURL, jwt]);
 
+  // Update timeLeft every second if it's not null
   useEffect(() => {
     let timer;
     if (timeLeft !== null) {
@@ -54,7 +61,10 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
     return () => clearInterval(timer); // Cleanup interval on component unmount
   }, [timeLeft]);
 
+  // Format milliseconds to HH:MM:SS
   const formatTime = (milliseconds) => {
+    if (milliseconds <= 0) return '00:00:00';
+
     const totalSeconds = Math.floor(milliseconds / 1000);
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
@@ -63,9 +73,41 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   };
 
+  // Capitalize the first letter of a Pokémon name
   const capitalizeName = (name) => {
     if (!name) return '';
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  };
+
+  // Edit the nickname of the Pokémon
+  const handleEditClick = () => {
+    if (pokemonData) {
+      setNewNickname(pokemonData.nickname || ''); // Set input field with current nickname or empty string
+      setIsEditing(true);
+    }
+  };
+
+  // Save the new nickname to the server
+  const handleSaveClick = async () => {
+    if (!pokemonData) return;
+
+    try {
+      await axios.patch(`${apiURL}/pokemon/nickname/${pokemonID}`, { nickname: newNickname }, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+      setPokemonData(prevData => ({ ...prevData, nickname: newNickname }));
+      setIsEditing(false);
+    } catch (err) {
+      console.error('Failed to update nickname:', err);
+      setError('Failed to update nickname.');
+    }
+  };
+
+  // Cancel editing and revert to non-edit mode
+  const handleCancelClick = () => {
+    setIsEditing(false);
   };
 
   return (
@@ -85,10 +127,12 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
         ml: 2,
       }}
     >
+      {/* Display error message if there is an error */}
       {error && <Typography color="error">{error}</Typography>}
 
-      {pokemonData && (
+      {pokemonData ? (
         <>
+          {/* Box for displaying Pokémon sprite */}
           <Box
             sx={{
               borderRadius: 2,
@@ -111,7 +155,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
               <Box
                 component="img"
                 src={pokemonData.eggHatched ? pokemonData.sprite : eggSprite}
-                alt={pokemonData.species}
+                alt={pokemonData.nickname || 'Pokémon'}
                 sx={{
                   maxWidth: '100%',
                   maxHeight: '100%',
@@ -124,6 +168,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
             </Box>
           </Box>
 
+          {/* Box for displaying Pokémon details */}
           <Box
             sx={{
               display: 'flex',
@@ -136,31 +181,67 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
               paddingTop: 2,
             }}
           >
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography
-                variant="h4"
-                fontSize={{ xs: '20px', md: '25px' }}
-                fontWeight="bold"
-                textAlign="center"
-                sx={{ mr: 1 }}
-              >
-                {capitalizeName(pokemonData.species)}
-              </Typography>
-              {pokemonData.isShiny && (
-                <Box
-                  component="img"
-                  src={shinyIcon}
-                  alt="Shiny"
-                  sx={{
-                    width: { xs: 20, md: 30 },
-                    height: { xs: 20, md: 30 },
-                    marginTop: { xs: 'auto', md: 'auto' },
-                    marginBottom: { xs: 'auto', md: 'auto' },
-                  }}
-                />
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
+              {/* Edit mode or display mode for nickname */}
+              {isEditing ? (
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <TextField
+                    value={newNickname}
+                    onChange={(e) => setNewNickname(e.target.value)}
+                    sx={{ mr: 1 }}
+                  />
+                  <IconButton onClick={handleSaveClick}>
+                    <SaveIcon />
+                  </IconButton>
+                  <IconButton onClick={handleCancelClick}>
+                    <CancelIcon />
+                  </IconButton>
+                </Box>
+              ) : (
+                <>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Typography
+                      variant="h4"
+                      fontSize={{ xs: '20px', md: '25px' }}
+                      fontWeight="bold"
+                      textAlign="center"
+                      sx={{ mr: 1, cursor: 'pointer' }}
+                      onClick={handleEditClick}
+                    >
+                      {capitalizeName(pokemonData.nickname)}
+                    </Typography>
+                    {pokemonData.isShiny && (
+                      <Box
+                        component="img"
+                        src={shinyIcon}
+                        alt="Shiny"
+                        sx={{
+                          width: { xs: 20, md: 30 },
+                          height: { xs: 20, md: 30 },
+                          marginTop: { xs: 'auto', md: 'auto' },
+                          marginBottom: { xs: 'auto', md: 'auto' },
+                        }}
+                      />
+                    )}
+                  </Box>
+
+                  {/* Display species name if it is different from the nickname */}
+                  {(pokemonData.nickname?.toLowerCase() !== pokemonData.species?.toLowerCase()) && (
+                    <Typography
+                      variant="h6"
+                      fontSize={{ xs: '16px', md: '18px' }}
+                      textAlign="center"
+                      sx={{ pt: 1 }}
+                    >
+                      {`(${capitalizeName(pokemonData.species)})`}
+                    </Typography>
+                  )}
+                </>
               )}
             </Box>
 
+            {/* Display happiness or time left to hatch */}
             <Box>
               <Typography
                 variant="h6"
@@ -171,12 +252,13 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
                 {pokemonData.eggHatched ? 'Happiness' : 'Time Left to Hatch'}
               </Typography>
 
+              {/* Show Happiness if Pokémon has hatched */}
               {pokemonData.eggHatched ? (
                 <>
                   <Box sx={{ width: '100%', mb: 1, pt: 1 }}>
                     <LinearProgress
                       variant="determinate"
-                      value={(pokemonData.current_happiness / pokemonData.target_happiness) * 100}
+                      value={(pokemonData.current_happiness / pokemonData.target_happiness) * 100 || 0}
                       sx={{ height: 10, borderRadius: 5, width: { xs: '150px', sm: '300px' } }}
                     />
                   </Box>
@@ -185,24 +267,25 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
                     fontSize={{ xs: '16px', md: '18px' }}
                     textAlign="center"
                   >
-                    {pokemonData.current_happiness} / {pokemonData.target_happiness}
+                    {pokemonData.current_happiness || 0} / {pokemonData.target_happiness || 0}
                   </Typography>
                 </>
               ) : (
+                // Show time left to hatch if Pokémon is an egg
                 <Typography
                   variant="h6"
                   fontSize={{ xs: '16px', md: '18px' }}
                   textAlign="center"
                 >
-                  {formatTime(timeLeft)} {/* Display time left in HH:MM:SS */}
+                  {formatTime(timeLeft)}
                 </Typography>
               )}
             </Box>
           </Box>
         </>
-      )}
-
-      {!pokemonData && !isLoading && !error && <Typography>Select a Pokémon to view details</Typography>}
+      ) : !isLoading ? (
+        <Typography>Select a Pokémon to view details</Typography>
+      ) : null}
     </Box>
   );
 }
