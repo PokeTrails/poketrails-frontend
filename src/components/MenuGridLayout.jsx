@@ -18,7 +18,7 @@ const MenuGridLayout = ({ pageOptions, pageDetails, iconSize }) => {
           flexDirection: 'column',
           height: '100vh',
           textAlign: 'center',
-          mt: 4,
+          mt: { xs: 0, md: 4 },
         }}
       >
         {/* Render Page heading and sub-heading */}
