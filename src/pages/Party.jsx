@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import { useState } from 'react';
 
 import SelectedPokemon from '../components/SelectedPokemon';
 import PokemonParty from '../components/UserParty';
@@ -7,7 +8,13 @@ import TrailLog from '../components/TrailLog';
 
 export default function Party() {
   const jwt = localStorage.getItem('jwt');
-  const apiURL = `${import.meta.env.VITE_API_SERVER_URL}/pokemon`; // URL to fetch data from
+  const apiURL = `${import.meta.env.VITE_API_SERVER_URL}`; // URL to fetch data from
+
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
+
+  const handlePokemonSelect = (pokemon) => {
+    setSelectedPokemon(pokemon);
+  };
 
   return (
     <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: '100%' }}>
@@ -22,17 +29,16 @@ export default function Party() {
           flexGrow: 1,
         }}
       >
-        <SelectedPokemon />
+        <SelectedPokemon jwt={jwt} apiURL={apiURL} pokemonID={selectedPokemon} />
         <Interactions />
-        {/* Render TrailLog component based on screen size */}
-        <Box sx={{ display: { xs: 'none', md: 'block' }, }}>
+        <Box sx={{ display: { xs: 'none', md: 'block' } }}>
           <TrailLog />
         </Box>
       </Box>
       <Box sx={{ display: { xs: 'block', md: 'none' }, mt: { xs: 2, md: 0 }, width: '100%' }}>
         <TrailLog />
       </Box>
-      <PokemonParty apiURL={apiURL} jwt={jwt} />
+      <PokemonParty apiURL={apiURL} jwt={jwt} onPokemonSelect={handlePokemonSelect} />
     </Box>
   );
 }
