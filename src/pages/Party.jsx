@@ -30,7 +30,7 @@ export default function Party() {
         }}
       >
         <SelectedPokemon jwt={jwt} apiURL={apiURL} pokemonID={selectedPokemon} />
-        <Interactions />
+        <Interactions jwt={jwt} apiURL={apiURL} pokemonID={selectedPokemon} />
         <Box sx={{ display: { xs: 'none', md: 'block' } }}>
           <TrailLog />
         </Box>
