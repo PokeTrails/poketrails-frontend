@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Box, Typography, LinearProgress, TextField, IconButton } from '@mui/material';
+import { Box, Typography, LinearProgress, TextField, IconButton, Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -15,6 +15,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
   const [timeLeft, setTimeLeft] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [newNickname, setNewNickname] = useState('');
+  const [isHatching, setIsHatching] = useState(false);
 
   // Fetch Pokémon data when component mounts or when pokemonID changes
   useEffect(() => {
@@ -108,6 +109,25 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
   // Cancel editing and revert to non-edit mode
   const handleCancelClick = () => {
     setIsEditing(false);
+  };
+
+  // Patch request to hatch the egg
+  const handleHatchClick = async () => {
+    setIsHatching(true);
+    try {
+      await axios.patch(`${apiURL}/pokemon/hatch/${pokemonID}`, {}, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+      setPokemonData((prevData) => ({ ...prevData, eggHatched: true }));
+      setError(null);
+    } catch (err) {
+      console.error('Failed to hatch Pokémon:', err);
+      setError('Failed to hatch Pokémon.');
+    } finally {
+      setIsHatching(false);
+    }
   };
 
   return (
@@ -280,13 +300,26 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
                 </>
               ) : (
                 // Show time left to hatch if Pokémon is an egg
-                <Typography
-                  variant="h6"
-                  fontSize={{ xs: '16px', md: '18px' }}
-                  textAlign="center"
-                >
-                  {formatTime(timeLeft)}
-                </Typography>
+                <>
+                  <Typography
+                    variant="h6"
+                    fontSize={{ xs: '16px', md: '18px' }}
+                    textAlign="center"
+                  >
+                    {formatTime(timeLeft)}
+                  </Typography>
+                  {timeLeft <= 0 && (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleHatchClick}
+                      disabled={isHatching}
+                      sx={{ mt: 2 }}
+                    >
+                      Hatch
+                    </Button>
+                  )}
+                </>
               )}
             </Box>
           </Box>
