@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Typography, Grid, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 
+import eggSprite from '../assets/pokemon_egg_animated.gif';
+
 const UserParty = ({ apiURL, jwt, onPokemonSelect }) => {
   const [pokemonData, setPokemonData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -29,10 +31,18 @@ const UserParty = ({ apiURL, jwt, onPokemonSelect }) => {
                     Authorization: `Bearer ${jwt}`,
                   },
                 });
-                return {
-                  id: pokemonResponse.data._id,
-                  sprite: pokemonResponse.data.sprite,
-                };
+
+                if (pokemonResponse.data.eggHatched === false) {
+                  return {
+                    id: pokemonID,
+                    sprite: eggSprite,
+                  };
+                } else {
+                  return {
+                    id: pokemonResponse.data._id,
+                    sprite: pokemonResponse.data.sprite,
+                  };
+                }
               } catch (pokemonError) {
                 console.error(`Error fetching details for Pokémon ID ${pokemonID}:`, pokemonError);
                 return null; // Keep slot as null if error occurs
@@ -59,6 +69,9 @@ const UserParty = ({ apiURL, jwt, onPokemonSelect }) => {
     setSelectedPokemon(selected);
     onPokemonSelect(selected);
   };
+
+  const totalSlots = 6;
+  const slots = Array.from({ length: totalSlots }, (_, index) => pokemonData[index] || { id: `empty-${index}` });
 
   if (isLoading) {
     return <Typography>Loading...</Typography>;
@@ -106,7 +119,7 @@ const UserParty = ({ apiURL, jwt, onPokemonSelect }) => {
         }}
       >
         <Grid container spacing={2} justifyContent="center">
-          {pokemonData.map((pokemon, index) => (
+          {slots.map((pokemon, index) => (
             <Grid
               item
               key={index}
@@ -115,54 +128,35 @@ const UserParty = ({ apiURL, jwt, onPokemonSelect }) => {
               sx={{ display: 'flex', justifyContent: 'center' }}
             >
               <FormControlLabel
-                value={pokemon?.id || `empty-${index}`}
+                value={pokemon.id}
                 control={<Radio sx={{ display: 'none' }} />}
-                disabled={!pokemon}
+                disabled={pokemon.id.startsWith('empty')}
                 label={
-                  pokemon ? (
-                    <Box
-                      sx={{
-                        border: 1,
-                        borderColor: selectedPokemon === pokemon.id ? 'black' : 'transparent',
-                        borderRadius: 2,
-                        backgroundColor: selectedPokemon === pokemon.id ? '#85F2C4' : '#A4DAC3',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: { xs: '80px', sm: '100px', md: '120px' },
-                        height: { xs: '80px', sm: '100px', md: '120px' },
-                        margin: '8px',
-                      }}
-                    >
+                  <Box
+                    sx={{
+                      border: 1,
+                      borderColor: selectedPokemon === pokemon.id ? 'black' : 'transparent',
+                      borderRadius: 2,
+                      backgroundColor: pokemon.id.startsWith('empty') ? 'lightgrey' : selectedPokemon === pokemon.id ? '#85F2C4' : '#A4DAC3',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: { xs: '80px', sm: '100px', md: '120px' },
+                      height: { xs: '80px', sm: '100px', md: '120px' },
+                      margin: '8px',
+                    }}
+                  >
+                    {!pokemon.id.startsWith('empty') && (
                       <img
                         src={pokemon.sprite}
-                        alt="pokemon"
+                        alt={pokemon.id.startsWith('empty') ? 'empty slot' : 'pokemon'}
                         style={{
                           maxWidth: '100%',
                           maxHeight: '100%',
                         }}
                       />
-                    </Box>
-                  ) : (
-                    <Box
-                      sx={{
-                        border: 1,
-                        borderColor: 'transparent',
-                        borderRadius: 2,
-                        backgroundColor: '#E0E0E0',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: { xs: '80px', sm: '100px', md: '120px' },
-                        height: { xs: '80px', sm: '100px', md: '120px' },
-                        margin: '8px',
-                      }}
-                    >
-                      <Typography variant="caption" color="textSecondary">
-                        Empty
-                      </Typography>
-                    </Box>
-                  )
+                    )}
+                  </Box>
                 }
               />
             </Grid>
