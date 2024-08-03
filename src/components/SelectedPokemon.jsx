@@ -7,6 +7,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 import eggSprite from '../assets/pokemon_egg_animated.gif';
 import shinyIcon from '../assets/shiny_icon.png';
+import HatchPopup from './HatchPopup'; // Import the new component
 
 export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
   const [pokemonData, setPokemonData] = useState(null);
@@ -16,8 +17,9 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newNickname, setNewNickname] = useState('');
   const [isHatching, setIsHatching] = useState(false);
+  const [popupData, setPopupData] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
 
-  // Fetch Pokémon data when component mounts or when pokemonID changes
   useEffect(() => {
     const fetchPokemonData = async () => {
       if (!pokemonID) return;
@@ -33,7 +35,6 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
         setPokemonData(response.data);
         setError(null);
 
-        // If Pokémon is an egg, set timeLeft to the time left to hatch
         if (response.data.eggHatched === false && response.data.timeLeft) {
           setTimeLeft(response.data.timeLeft);
         }
@@ -50,7 +51,6 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
     fetchPokemonData();
   }, [pokemonID, apiURL, jwt]);
 
-  // Update timeLeft every second if it's not null
   useEffect(() => {
     let timer;
     if (timeLeft !== null) {
@@ -59,10 +59,9 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
       }, 1000);
     }
 
-    return () => clearInterval(timer); // Cleanup interval on component unmount
+    return () => clearInterval(timer);
   }, [timeLeft]);
 
-  // Format milliseconds to HH:MM:SS
   const formatTime = (milliseconds) => {
     if (milliseconds <= 0) return '00:00:00';
 
@@ -74,21 +73,18 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   };
 
-  // Capitalize the first letter of a Pokémon name
   const capitalizeName = (name) => {
     if (!name) return '';
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   };
 
-  // Edit the nickname of the Pokémon
   const handleEditClick = () => {
     if (pokemonData) {
-      setNewNickname(pokemonData.nickname || ''); // Set input field with current nickname or empty string
+      setNewNickname(pokemonData.nickname || '');
       setIsEditing(true);
     }
   };
 
-  // Save the new nickname to the server
   const handleSaveClick = async () => {
     if (!pokemonData) return;
 
@@ -106,22 +102,22 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
     }
   };
 
-  // Cancel editing and revert to non-edit mode
   const handleCancelClick = () => {
     setIsEditing(false);
   };
 
-  // Patch request to hatch the egg
   const handleHatchClick = async () => {
     setIsHatching(true);
     try {
-      await axios.patch(`${apiURL}/pokemon/hatch/${pokemonID}`, {}, {
+      const response = await axios.patch(`${apiURL}/pokemon/hatch/${pokemonID}`, {}, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       });
-      setPokemonData((prevData) => ({ ...prevData, eggHatched: true }));
-      setError(null);
+
+      setPopupData(response.data);
+      setShowPopup(true);
+      
     } catch (err) {
       console.error('Failed to hatch Pokémon:', err);
       setError('Failed to hatch Pokémon.');
@@ -130,13 +126,18 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
     }
   };
 
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    window.location.reload(); // Reload the page
+  };
+
   return (
     <Box
       sx={{
         borderRadius: 2,
         pb: 3,
         backgroundColor: '#AFE4CE',
-        width: { xs: '80vw', md: '30vh' }, // Adjust width for smaller screens
+        width: { xs: '80vw', md: '30vh' },
         maxWidth: '1200px',
         display: 'flex',
         flexDirection: 'column',
@@ -146,12 +147,10 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
         ml: 2,
       }}
     >
-      {/* Display error message if there is an error */}
       {error && <Typography color="error">{error}</Typography>}
 
       {pokemonData ? (
         <>
-          {/* Box for displaying Pokémon sprite */}
           <Box
             sx={{
               borderRadius: 2,
@@ -161,7 +160,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              paddingBottom: '75%', // 4:3 aspect ratio
+              paddingBottom: '75%',
               overflow: 'hidden',
             }}
           >
@@ -196,7 +195,6 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
             </Box>
           </Box>
 
-          {/* Box for displaying Pokémon details */}
           <Box
             sx={{
               display: 'flex',
@@ -211,7 +209,6 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
           >
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
-              {/* Edit mode or display mode for nickname */}
               {isEditing ? (
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <TextField
@@ -254,7 +251,6 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
                     )}
                   </Box>
 
-                  {/* Display species name if it is different from the nickname */}
                   {(pokemonData.nickname?.toLowerCase() !== pokemonData.species?.toLowerCase()) && (
                     <Typography
                       variant="h6"
@@ -269,7 +265,6 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
               )}
             </Box>
 
-            {/* Display happiness or time left to hatch */}
             <Box>
               <Typography
                 variant="h6"
@@ -277,10 +272,9 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
                 textAlign="center"
                 sx={{ pt: 2 }}
               >
-                {pokemonData.eggHatched ? 'Happiness' : 'Time Left to Hatch'}
+                {pokemonData.eggHatched ? 'Happiness' : 'Time Left to Hatch:'}
               </Typography>
 
-              {/* Show Happiness if Pokémon has hatched */}
               {pokemonData.eggHatched ? (
                 <>
                   <Box sx={{ width: '100%', mb: 1, pt: 1 }}>
@@ -291,32 +285,33 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
                     />
                   </Box>
                   <Typography
-                    variant="h6"
-                    fontSize={{ xs: '16px', md: '18px' }}
+                    variant="body2"
+                    sx={{ pt: 1 }}
                     textAlign="center"
                   >
-                    {pokemonData.current_happiness || 0} / {pokemonData.target_happiness || 0}
+                    {`${pokemonData.current_happiness} / ${pokemonData.target_happiness}`}
                   </Typography>
                 </>
               ) : (
-                // Show time left to hatch if Pokémon is an egg
                 <>
-                  <Typography
-                    variant="h6"
-                    fontSize={{ xs: '16px', md: '18px' }}
-                    textAlign="center"
-                  >
-                    {formatTime(timeLeft)}
-                  </Typography>
+                  {timeLeft > 0 && (
+                    <Typography
+                      variant="h6"
+                      fontSize={{ xs: '18px', md: '20px' }}
+                      textAlign="center"
+                    >
+                      {formatTime(timeLeft)}
+                    </Typography>
+                  )}
                   {timeLeft <= 0 && (
                     <Button
                       variant="contained"
                       color="primary"
                       onClick={handleHatchClick}
                       disabled={isHatching}
-                      sx={{ mt: 2 }}
+                      sx={{ mt: 2, width: '100%' }}
                     >
-                      Hatch
+                      Hatch now!
                     </Button>
                   )}
                 </>
@@ -324,15 +319,24 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
             </Box>
           </Box>
         </>
-      ) : !isLoading ? (
-        <Typography>Select a Pokémon to view details</Typography>
-      ) : null}
+      ) : isLoading ? (
+        <LinearProgress sx={{ width: '100%' }} />
+      ) : (
+        <Typography>Select a Pokémon to view</Typography>
+      )}
+
+      {showPopup && (
+        <HatchPopup
+          data={popupData}
+          onClose={handleClosePopup}
+        />
+      )}
     </Box>
   );
 }
 
 SelectedPokemon.propTypes = {
-  apiURL: PropTypes.string.isRequired,
   jwt: PropTypes.string.isRequired,
-  pokemonID: PropTypes.string,
+  apiURL: PropTypes.string.isRequired,
+  pokemonID: PropTypes.string.isRequired,
 };
