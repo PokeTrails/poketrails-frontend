@@ -15,10 +15,10 @@ export default function Interactions() {
       <Box
         sx={{
             borderRadius: 2,
-          backgroundColor: '#7ADCB9',
-          pt: 1,
-          pb: 0.5,
-          mb: 1,
+            backgroundColor: '#7ADCB9',
+            pt: 1,
+            pb: 0.5,
+            mb: 1,
         }}
       >
         <Typography variant="h4" fontSize={{ xs: '20px', md: '25px' }} gutterBottom textAlign="center">
@@ -38,7 +38,7 @@ export default function Interactions() {
           type="submit"
           variant="contained"
           size="large"
-          sx={{ width: "70%", height: '60px', fontSize: { xs: '18px', md: '20px' } }}
+          sx={{ width: "70%", height: {xs: '40px', md: '60px'}, fontSize: { xs: '16px', md: '20px' } }}
         >
           Talk
         </Button>
@@ -46,7 +46,7 @@ export default function Interactions() {
           type="submit"
           variant="contained"
           size="large"
-          sx={{ width: "70%", height: '60px', fontSize: { xs: '18px', md: '20px' } }}
+          sx={{ width: "70%", height: {xs: '40px', md: '60px'}, fontSize: { xs: '16px', md: '20px' } }}
         >
           Play
         </Button>
@@ -54,7 +54,7 @@ export default function Interactions() {
           type="submit"
           variant="contained"
           size="large"
-          sx={{ width: "70%", height: '60px', fontSize: { xs: '18px', md: '20px' } }}
+          sx={{ width: "70%", height: {xs: '40px', md: '60px'}, fontSize: { xs: '16px', md: '20px' } }}
         >
           Feed
         </Button>
@@ -62,7 +62,7 @@ export default function Interactions() {
           type="submit"
           variant="contained"
           size="large"
-          sx={{ width: "70%", height: '60px', fontSize: { xs: '18px', md: '20px' } }}
+          sx={{ width: "70%", height: {xs: '40px', md: '60px'}, fontSize: { xs: '16px', md: '20px' } }}
           disabled={true}
         >
           Evolve?

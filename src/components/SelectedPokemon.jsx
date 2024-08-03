@@ -21,16 +21,15 @@ export default function SelectedPokemon() {
       <Box
         sx={{
             borderRadius: 2,
-          width: '100%',
-          position: 'relative',
-          borderRadius: 2,
-          backgroundColor: '#A4DAC3',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        //   border: 2,     // Shiny pokemon border check here
-        //   borderColor: 'red',
-          flex: 2,
+            width: '100%',
+            position: 'relative',
+            backgroundColor: '#A4DAC3',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            //   border: 2,     // Shiny pokemon border check here
+            //   borderColor: 'red',
+            flex: 2,
         }}
       >
         {/* Pokemon Sprite Image */}
@@ -49,7 +48,7 @@ export default function SelectedPokemon() {
               maxWidth: '100%',
               maxHeight: '100%',
               transform: {
-                xs: 'scale(3)',
+                xs: 'scale(2)',
                 md: 'scale(3)',
               },
             }}
