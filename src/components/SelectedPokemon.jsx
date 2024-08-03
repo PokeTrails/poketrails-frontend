@@ -9,7 +9,7 @@ import { capitaliseName } from '../utils';
 
 import eggSprite from '../assets/pokemon_egg_animated.gif';
 import shinyIcon from '../assets/shiny_icon.png';
-import HatchPopup from './HatchPopup'; // Import the new component
+import HatchPopup from './HatchPopup';
 
 export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
   const [pokemonData, setPokemonData] = useState(null);

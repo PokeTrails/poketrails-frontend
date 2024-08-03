@@ -7,7 +7,7 @@ import { capitaliseName } from '../utils';
 const HatchPopup = ({ data, onClose, onReload }) => {
   const handleClose = () => {
     onClose();
-    if (onReload) onReload(); // Reload the page or refresh the party
+    if (onReload) onReload();
   };
 
   return (
@@ -25,7 +25,7 @@ const HatchPopup = ({ data, onClose, onReload }) => {
         p: 3,
         zIndex: 1200,
         textAlign: 'center',
-        overflow: 'hidden', // Ensure confetti doesn't overflow
+        overflow: 'hidden',
       }}
     >
       {/* Confetti effect */}
