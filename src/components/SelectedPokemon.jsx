@@ -15,6 +15,7 @@ export default function SelectedPokemon() {
         alignItems: 'center',
         padding: 2,
         mr: 2,
+        ml: 2,
       }}
     >
       {/* Box for Pokemon Sprite */}
