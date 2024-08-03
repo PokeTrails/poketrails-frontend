@@ -28,7 +28,7 @@ const MenuGridLayout = ({ pageOptions, pageDetails, iconSize }) => {
           </Typography>
         </Box>
 
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ mb: 0 }}>
           <Typography variant="h6" align="center" sx={{ fontSize: { xs: '18px', md: '20px' }, mt: 4, mb: { xs: 5, md: 12 }, color: pageDetails.textColour }}>
             {pageDetails.pageText}
           </Typography>
