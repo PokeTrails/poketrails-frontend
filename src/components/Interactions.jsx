@@ -24,7 +24,7 @@ export default function Interactions({ apiURL, jwt, pokemonID }) {
         console.error(`Error fetching details for Pokémon ID ${pokemonID}:`, err);
         setError('Failed to fetch Pokémon data.');
         setIsEgg(true); // Assume it's an egg if there's an error
-      }
+      } 
     };
 
     fetchPokemonData();
@@ -35,8 +35,9 @@ export default function Interactions({ apiURL, jwt, pokemonID }) {
       sx={{
         borderRadius: 2,
         height: { xs: '40vh', md: '40vh' },
-        backgroundColor: '#AFE4CE',
-        width: { xs: '50vw', md: '30vh' },
+        backgroundColor: 'rgba(164, 218, 195, 0.5)',
+        minWidth: { xs: '150px', md: '250px' },
+        width: { xs: '70%', md: '30vh' },
         maxWidth: '1200px',
         mr: 2,
       }}
@@ -44,7 +45,7 @@ export default function Interactions({ apiURL, jwt, pokemonID }) {
       <Box
         sx={{
             borderRadius: 2,
-            backgroundColor: '#7ADCB9',
+            backgroundColor: 'rgba(122, 220, 185, 0.6)',
             pt: 1,
             pb: 0.5,
             mb: 1,
