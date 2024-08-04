@@ -14,6 +14,7 @@ export default function Party() {
 
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [alert, setAlert] = useState(null);
+  const [currentHappiness, setCurrentHappiness] = useState(0);
 
   const handlePokemonSelect = (pokemon) => {
     setSelectedPokemon(pokemon);
@@ -22,6 +23,10 @@ export default function Party() {
   const handleAlert = (message, severity) => {
     setAlert({ message, severity });
     setTimeout(() => setAlert(null), 5000); // Clear alert after 5 seconds
+  };
+
+  const handleHappinessChange = (newHappiness) => {
+    setCurrentHappiness(newHappiness);
   };
 
   return (
@@ -38,12 +43,13 @@ export default function Party() {
             flexGrow: 1,
           }}
         >
-          <SelectedPokemon jwt={jwt} apiURL={apiURL} pokemonID={selectedPokemon} />
+          <SelectedPokemon jwt={jwt} apiURL={apiURL} pokemonID={selectedPokemon} currentHappiness={currentHappiness} />
           <Interactions
             jwt={jwt}
             apiURL={apiURL}
             pokemonID={selectedPokemon}
-            onAlert={handleAlert} // Pass alert handler
+            onAlert={handleAlert}
+            onHappinessChange={handleHappinessChange}
           />
           <Box sx={{ display: { xs: 'none', md: 'block' } }}>
             <TrailLog />

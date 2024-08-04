@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { Box, Typography, Button, CircularProgress } from '@mui/material';
 import PropTypes from 'prop-types';
 
-export default function Interactions({ apiURL, jwt, pokemonID, onAlert }) {
-  const [isEgg, setIsEgg] = useState(true); // Start with true to disable buttons by default
+export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappinessChange }) {
+  const [isEgg, setIsEgg] = useState(true);
   const [currentHappiness, setCurrentHappiness] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,18 +21,19 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert }) {
 
         setIsEgg(response.data.eggHatched === false);
         setCurrentHappiness(response.data.current_happiness);
+        onHappinessChange(response.data.current_happiness);
       } catch (err) {
         console.error(`Error fetching details for Pokémon ID ${pokemonID}:`, err);
         setIsEgg(true); // Assume it's an egg if there's an error
-      } 
+      }
     };
 
     fetchPokemonData();
-  }, [apiURL, jwt, pokemonID]);
+  }, [apiURL, jwt, pokemonID, onHappinessChange]);
 
   const handleInteractionClick = async (action) => {
     setIsLoading(true);
-
+  
     try {
       console.log(`Making request to ${apiURL}/pokemon/${action}/${pokemonID}`);
       const response = await axios.patch(`${apiURL}/pokemon/${action}/${pokemonID}`, {}, {
@@ -40,32 +41,42 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert }) {
           Authorization: `Bearer ${jwt}`,
         },
       });
-
+  
       console.log('Response:', response.data);
-
+  
       setCurrentHappiness(response.data.current_happiness);
-
+  
       let message = '';
-      if (response.data.happiness_increased) {
-        message = `Happiness increased by ${response.data.happiness_increased}.`;
-      } else if (response.data.happiness_reduced) {
-        message = `Happiness reduced by ${response.data.happiness_reduced}.`;
-      } else if (response.data.message) {
-        message = response.data.message;
+      let severity = 'info';
+      
+      if (response.status === 200) {
+        if (response.data.happiness_increased) {
+          message = `Happiness increased by ${response.data.happiness_increased}.`;
+          severity = 'success';
+        } else if (response.data.happiness_reduced) {
+          severity = 'error';
+          message = `Happiness reduced by ${response.data.happiness_reduced}.`;
+        } else if (response.data.message) {
+          message = response.data.message;
+        }
       }
-
-      onAlert(message, 'info');
+  
+      onAlert(message, severity);
     } catch (err) {
       console.error(`Error handling ${action} interaction:`, err);
+      let message = 'Failed to perform interaction.';
+      let severity = 'error';
+      
       if (err.response?.status === 400) {
-        onAlert(err.response.data.message || 'Error: Unable to interact. Please wait a moment.', 'error');
-      } else {
-        onAlert('Failed to perform interaction.', 'error');
+        message = err.response.data.message || 'Error: Unable to interact. Please wait a moment.';
       }
+      
+      onAlert(message, severity);
     } finally {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <Box
@@ -153,5 +164,6 @@ Interactions.propTypes = {
   apiURL: PropTypes.string.isRequired,
   jwt: PropTypes.string.isRequired,
   pokemonID: PropTypes.string.isRequired,
-  onAlert: PropTypes.func.isRequired, // Add prop type for onAlert
+  onAlert: PropTypes.func.isRequired,
+  onHappinessChange: PropTypes.func.isRequired,
 };

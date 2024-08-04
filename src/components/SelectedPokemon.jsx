@@ -335,5 +335,5 @@ SelectedPokemon.propTypes = {
   jwt: PropTypes.string.isRequired,
   apiURL: PropTypes.string.isRequired,
   pokemonID: PropTypes.string.isRequired,
-  currentHappiness: PropTypes.number, // Add prop type for currentHappiness
+  currentHappiness: PropTypes.number,
 };
