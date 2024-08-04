@@ -9,6 +9,8 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
   const [isEgg, setIsEgg] = useState(true);
   const [currentHappiness, setCurrentHappiness] = useState(0);
   const [targetHappiness, setTargetHappiness] = useState(0);
+  const [currentLevel, setCurrentLevel] = useState(0);
+  const [maxLevel, setMaxLevel] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [cryUrl, setCryUrl] = useState('');
 
@@ -28,6 +30,8 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
         setIsEgg(response.data.eggHatched === false);
         setCurrentHappiness(response.data.current_happiness);
         setTargetHappiness(response.data.target_happiness || 0);
+        setCurrentLevel(response.data.current_level || 0);
+        setMaxLevel(response.data.max_level || 0);
         onHappinessChange(response.data.current_happiness);
 
         setCryUrl(response.data.cries || '');
@@ -86,6 +90,12 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
     }
   };
 
+  // Check if the evolve button should be rendered
+  const renderEvolveButton = currentLevel < maxLevel;
+  
+  // Check if the evolve button can be enabled
+  const pokemonCanEvolve = !isEgg && currentHappiness >= targetHappiness;
+
   return (
     <Box
       sx={{
@@ -140,11 +150,13 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
               disabled={isEgg}
               label="Feed"
             />
-            <InteractionButton
-              onClick={() => handleInteractionClick('evolve')}
-              disabled={isEgg || currentHappiness < targetHappiness}
-              label="Evolve?"
-            />
+            {renderEvolveButton && (
+              <InteractionButton
+                onClick={() => handleInteractionClick('evolve')}
+                disabled={!pokemonCanEvolve}
+                label="Evolve?"
+              />
+            )}
           </>
         )}
       </Box>
