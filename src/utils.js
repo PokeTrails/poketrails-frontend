@@ -1,5 +1,5 @@
 /**
- * Capitalizes the first letter of a string and converts the rest to lowercase.
+ * Capitalizes the first letter of a string and converts the rest to lowercase. (Sinlge wor)
  * @param {string} name - The string to capitalise.
  * @returns {string} - The capitalise string.
  */

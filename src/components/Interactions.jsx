@@ -3,8 +3,10 @@ import axios from 'axios';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import InteractionButton from './InteractionButton';
-import usePlayCryAudio from '../hooks/usePlayCryAudio'; // Adjust the path as necessary
-import EvolvePopup from './EvolvePopup'; // Import the EvolvePopup component
+import usePlayCryAudio from '../hooks/usePlayCryAudio';
+import EvolvePopup from './EvolvePopup';
+
+import { capitaliseName } from '../utils';
 
 export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappinessChange }) {
   const [isEgg, setIsEgg] = useState(true);
@@ -75,7 +77,7 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
         }
       }
 
-      onAlert(message, severity);
+      onAlert(capitaliseName(message), severity);
     } catch (err) {
       console.error(`Error handling ${action} interaction:`, err);
       let message = 'Failed to perform interaction.';
@@ -85,7 +87,7 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
         message = err.response.data.message || 'Error: Unable to interact. Please wait a moment.';
       }
 
-      onAlert(message, severity);
+      onAlert(capitaliseName(message), severity);
     } finally {
       setIsLoading(false);
     }
@@ -104,7 +106,7 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
       setShowPopup(true);
     } catch (err) {
       console.error('Failed to evolve Pokémon:', err);
-      onAlert('Failed to evolve Pokémon.', 'error');
+      onAlert(capitaliseName('Failed to evolve Pokémon.'), 'error');
     } finally {
       setIsLoading(false);
     }
@@ -175,11 +177,12 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
             />
 
             {renderEvolvePopup && (
-            <InteractionButton
-              onClick={handleEvolveClick}
-              disabled={!pokemonCanEvolve}
-              label="Evolve?"
-            />)}
+              <InteractionButton
+                onClick={handleEvolveClick}
+                disabled={!pokemonCanEvolve}
+                label="Evolve?"
+              />
+            )}
           </>
         )}
       </Box>
