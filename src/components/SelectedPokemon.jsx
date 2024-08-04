@@ -238,6 +238,6 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
 SelectedPokemon.propTypes = {
   jwt: PropTypes.string.isRequired,
   apiURL: PropTypes.string.isRequired,
-  pokemonID: PropTypes.string.isRequired,
+  pokemonID: PropTypes.string,
   currentHappiness: PropTypes.number,
 };

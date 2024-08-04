@@ -112,7 +112,7 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
 
   const handleClosePopup = () => {
     setShowPopup(false);
-    // Optionally trigger a refresh or update elsewhere
+    window.location.reload();
   };
 
   const renderEvolvePopup = currentLevel < maxLevel;
