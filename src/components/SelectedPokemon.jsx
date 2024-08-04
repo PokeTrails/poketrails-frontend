@@ -1,13 +1,12 @@
-import { useState } from 'react';
 import { Box, Typography, LinearProgress, CircularProgress, TextField, IconButton, Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 
-import axios from 'axios';
-
 import { capitaliseName, formatTime } from '../utils';
 import usePokemonData from '../hooks/usePokemonData';
+import useEditNickname from '../hooks/useEditNickname';
+import useHatchPokemon from '../hooks/useHatchPokemon';
 
 import eggSprite from '../assets/pokemon_egg_animated.gif';
 import shinyIcon from '../assets/shiny_icon.png';
@@ -15,62 +14,23 @@ import HatchPopup from './HatchPopup';
 
 export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappiness }) {
   const { pokemonData, isLoading, error, timeLeft, setPokemonData } = usePokemonData(apiURL, pokemonID, jwt);
-  const [isEditing, setIsEditing] = useState(false);
-  const [newNickname, setNewNickname] = useState('');
-  const [isHatching, setIsHatching] = useState(false);
-  const [popupData, setPopupData] = useState(null);
-  const [showPopup, setShowPopup] = useState(false);
 
-  const handleEditClick = () => {
-    if (pokemonData) {
-      setNewNickname(pokemonData.nickname || '');
-      setIsEditing(true);
-    }
-  };
+  const {
+    isEditing,
+    newNickname,
+    setNewNickname,
+    handleEditClick,
+    handleSaveClick,
+    handleCancelClick,
+  } = useEditNickname(apiURL, pokemonID, jwt, setPokemonData);
 
-  const handleSaveClick = async () => {
-    if (!pokemonData) return;
-
-    try {
-      await axios.patch(`${apiURL}/pokemon/nickname/${pokemonID}`, { nickname: newNickname }, {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      });
-      setPokemonData(prevData => ({ ...prevData, nickname: newNickname }));
-      setIsEditing(false);
-    } catch (err) {
-      console.error('Failed to update nickname:', err);
-    }
-  };
-
-  const handleCancelClick = () => {
-    setIsEditing(false);
-  };
-
-  const handleHatchClick = async () => {
-    setIsHatching(true);
-    try {
-      const response = await axios.patch(`${apiURL}/pokemon/hatch/${pokemonID}`, {}, {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      });
-
-      setPopupData(response.data);
-      setShowPopup(true);
-      
-    } catch (err) {
-      console.error('Failed to hatch Pokémon:', err);
-    } finally {
-      setIsHatching(false);
-    }
-  };
-
-  const handleClosePopup = () => {
-    setShowPopup(false);
-    window.location.reload(); // Reload the page
-  };
+  const {
+    isHatching,
+    popupData,
+    showPopup,
+    handleHatchClick,
+    handleClosePopup,
+  } = useHatchPokemon(apiURL, pokemonID, jwt);
 
   return (
     <Box
@@ -177,7 +137,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
                     fontWeight="bold"
                     textAlign="center"
                     sx={{ mr: 1, cursor: 'pointer' }}
-                    onClick={handleEditClick}
+                    onClick={() => handleEditClick(pokemonData.nickname)}
                   >
                     {capitaliseName(pokemonData.nickname)}
                   </Typography>
