@@ -25,6 +25,10 @@ export default function Party() {
     setFadeOut(false); // Reset fade-out
   };
 
+  const handleHappinessChange = (newHappiness) => {
+    setCurrentHappiness(newHappiness);
+  };
+
   useEffect(() => {
     let fadeTimer;
 
@@ -36,10 +40,6 @@ export default function Party() {
 
     return () => clearTimeout(fadeTimer); // Cleanup timer on component unmount or alert change
   }, [alerts]);
-
-  const handleHappinessChange = (newHappiness) => {
-    setCurrentHappiness(newHappiness);
-  };
 
   return (
     <Background backgroundImg={backgroundImg} backgroundColour="#C9EECF">

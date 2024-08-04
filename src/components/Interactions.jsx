@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Box, Typography, Button, CircularProgress } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import { Howl } from 'howler';
+import InteractionButton from './InteractionButton';
+import usePlayCryAudio from '../hooks/usePlayCryAudio'; // Adjust the path as necessary
 
 export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappinessChange }) {
   const [isEgg, setIsEgg] = useState(true);
@@ -10,6 +11,8 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
   const [targetHappiness, setTargetHappiness] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [cryUrl, setCryUrl] = useState('');
+
+  const playCryAudio = usePlayCryAudio(onAlert);
 
   useEffect(() => {
     const fetchPokemonData = async () => {
@@ -37,37 +40,15 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
     fetchPokemonData();
   }, [apiURL, jwt, pokemonID, onHappinessChange]);
 
-  const playCryAudio = (url, pitch) => {
-    if (!url) {
-      console.error('No cry URL provided.');
-      return;
-    }
-
-    const sound = new Howl({
-      src: [url],
-      volume: 0.1,
-      rate: pitch,
-      onplayerror: () => {
-        console.error('Error playing audio.');
-        onAlert('Error playing the Pokémon cry sound.', 'error');
-      },
-    });
-
-    sound.play();
-  };
-
   const handleInteractionClick = async (action) => {
     setIsLoading(true);
   
     try {
-      console.log(`Making request to ${apiURL}/pokemon/${action}/${pokemonID}`);
       const response = await axios.patch(`${apiURL}/pokemon/${action}/${pokemonID}`, {}, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       });
-  
-      console.log('Response:', response.data);
   
       setCurrentHappiness(response.data.current_happiness);
       onHappinessChange(response.data.current_happiness);
@@ -104,7 +85,7 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
       setIsLoading(false);
     }
   };
-  
+
   return (
     <Box
       sx={{
@@ -144,42 +125,26 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
           <CircularProgress />
         ) : (
           <>
-            <Button
-              variant="contained"
-              size="large"
-              sx={{ width: "70%", height: { xs: '40px', md: '60px' }, fontSize: { xs: '16px', md: '20px' } }}
-              disabled={isEgg}
+            <InteractionButton
               onClick={() => handleInteractionClick('talk')}
-            >
-              Talk
-            </Button>
-            <Button
-              variant="contained"
-              size="large"
-              sx={{ width: "70%", height: { xs: '40px', md: '60px' }, fontSize: { xs: '16px', md: '20px' } }}
               disabled={isEgg}
+              label="Talk"
+            />
+            <InteractionButton
               onClick={() => handleInteractionClick('play')}
-            >
-              Play
-            </Button>
-            <Button
-              variant="contained"
-              size="large"
-              sx={{ width: "70%", height: { xs: '40px', md: '60px' }, fontSize: { xs: '16px', md: '20px' } }}
               disabled={isEgg}
+              label="Play"
+            />
+            <InteractionButton
               onClick={() => handleInteractionClick('feed')}
-            >
-              Feed
-            </Button>
-            <Button
-              type="submit"
-              variant="contained"
-              size="large"
-              sx={{ width: "70%", height: { xs: '40px', md: '60px' }, fontSize: { xs: '16px', md: '20px' } }}
+              disabled={isEgg}
+              label="Feed"
+            />
+            <InteractionButton
+              onClick={() => handleInteractionClick('evolve')}
               disabled={isEgg || currentHappiness < targetHappiness}
-            >
-              Evolve?
-            </Button>
+              label="Evolve?"
+            />
           </>
         )}
       </Box>
