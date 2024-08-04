@@ -1,79 +1,25 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Box, Typography, LinearProgress, CircularProgress, TextField, IconButton, Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 
-import { capitaliseName } from '../utils';
+import axios from 'axios';
+
+import { capitaliseName, formatTime } from '../utils';
+import usePokemonData from '../hooks/usePokemonData';
 
 import eggSprite from '../assets/pokemon_egg_animated.gif';
 import shinyIcon from '../assets/shiny_icon.png';
 import HatchPopup from './HatchPopup';
 
 export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappiness }) {
-  const [pokemonData, setPokemonData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [timeLeft, setTimeLeft] = useState(null);
+  const { pokemonData, isLoading, error, timeLeft, setPokemonData } = usePokemonData(apiURL, pokemonID, jwt);
   const [isEditing, setIsEditing] = useState(false);
   const [newNickname, setNewNickname] = useState('');
   const [isHatching, setIsHatching] = useState(false);
   const [popupData, setPopupData] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
-
-  useEffect(() => {
-    const fetchPokemonData = async () => {
-      if (!pokemonID) return;
-
-      setIsLoading(true);
-
-      try {
-        const response = await axios.get(`${apiURL}/pokemon/${pokemonID}`, {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        });
-        setPokemonData(response.data);
-        setError(null);
-
-        if (response.data.eggHatched === false && response.data.timeLeft) {
-          setTimeLeft(response.data.timeLeft);
-        }
-      } catch (err) {
-        console.error(`Error fetching details for Pokémon ID ${pokemonID}:`, err);
-        setError('Failed to fetch Pokémon data.');
-        setPokemonData(null);
-        setTimeLeft(null);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPokemonData();
-  }, [pokemonID, apiURL, jwt]);
-
-  useEffect(() => {
-    let timer;
-    if (timeLeft !== null) {
-      timer = setInterval(() => {
-        setTimeLeft((prevTime) => (prevTime > 1000 ? prevTime - 1000 : 0));
-      }, 1000);
-    }
-
-    return () => clearInterval(timer);
-  }, [timeLeft]);
-
-  const formatTime = (milliseconds) => {
-    if (milliseconds <= 0) return '00:00:00';
-
-    const totalSeconds = Math.floor(milliseconds / 1000);
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-
-    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-  };
 
   const handleEditClick = () => {
     if (pokemonData) {
@@ -95,7 +41,6 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
       setIsEditing(false);
     } catch (err) {
       console.error('Failed to update nickname:', err);
-      setError('Failed to update nickname.');
     }
   };
 
@@ -117,7 +62,6 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
       
     } catch (err) {
       console.error('Failed to hatch Pokémon:', err);
-      setError('Failed to hatch Pokémon.');
     } finally {
       setIsHatching(false);
     }
