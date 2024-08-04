@@ -59,6 +59,7 @@ const EvolvePopup = ({ data, onClose, onReload }) => {
         overflow: 'hidden',
       }}
     >
+      {/* Display the evolution message and sprites */}
       <Typography variant="h6" gutterBottom>
         {evolutionMessage}
       </Typography>
@@ -67,10 +68,11 @@ const EvolvePopup = ({ data, onClose, onReload }) => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '200px', // Adjust as needed
+          height: '200px',
           position: 'relative',
         }}
       >
+        {/* Display the evolving Pokémon sprite animation */}
         {data && isEvolving && (
           <img
             ref={animationRef}
@@ -83,6 +85,7 @@ const EvolvePopup = ({ data, onClose, onReload }) => {
             }}
           />
         )}
+        {/* Display the final evolved Pokémon sprite */}
         {data && showFinalSprite && (
           <img
             src={data.sprite}

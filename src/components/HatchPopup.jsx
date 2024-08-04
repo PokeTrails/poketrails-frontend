@@ -38,10 +38,12 @@ const HatchPopup = ({ data, onClose, onReload }) => {
         gravity={0.2}
         colors={['#ff0000', '#00ff00', '#0000ff']}
       />
-
+      
       <Typography variant="h6" gutterBottom>
         Pokémon Hatched!
       </Typography>
+
+      {/* Display the Pokémon sprite and details from hatched egg */}
       {data && (
         <Box>
           <img src={data.sprite} alt={data.species} style={{ maxWidth: '100%' }} />
