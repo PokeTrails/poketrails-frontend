@@ -6,8 +6,9 @@ import PropTypes from 'prop-types';
 export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappinessChange }) {
   const [isEgg, setIsEgg] = useState(true);
   const [currentHappiness, setCurrentHappiness] = useState(0);
+  const [targetHappiness, setTargetHappiness] = useState(0); // New state for target happiness
   const [isLoading, setIsLoading] = useState(false);
-  const [cryUrl, setCryUrl] = useState(''); // State to store Pokémon cry URL
+  const [cryUrl, setCryUrl] = useState('');
 
   useEffect(() => {
     const fetchPokemonData = async () => {
@@ -22,6 +23,7 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
 
         setIsEgg(response.data.eggHatched === false);
         setCurrentHappiness(response.data.current_happiness);
+        setTargetHappiness(response.data.target_happiness || 0); // Fetch target happiness from API response
         onHappinessChange(response.data.current_happiness);
 
         // Store the cry URL
@@ -34,6 +36,16 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
 
     fetchPokemonData();
   }, [apiURL, jwt, pokemonID, onHappinessChange]);
+
+  const playCryAudio = (url, pitch) => {
+    const audio = new Audio(url);
+    audio.volume = 0.1;
+    audio.playbackRate = pitch;
+    audio.play().catch(error => {
+      console.error('Error playing audio:', error);
+      onAlert('Error playing the Pokémon cry sound.', 'error');
+    });
+  };
 
   const handleInteractionClick = async (action) => {
     setIsLoading(true);
@@ -57,26 +69,18 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
       if (response.status === 200) {
         if (response.data.happiness_increased) {
           message = `Happiness increased by ${response.data.happiness_increased}.`;
+          playCryAudio(cryUrl, 1);
           severity = 'success';
         } else if (response.data.happiness_reduced) {
           message = `Happiness reduced by ${response.data.happiness_reduced}.`;
           severity = 'error';
+          playCryAudio(cryUrl, 0.7);
         } else if (response.data.message) {
           message = response.data.message;
         }
       }
   
       onAlert(message, severity);
-  
-      if (action === 'talk' && cryUrl) {
-        console.log('Playing cry sound from URL:', cryUrl);
-        const audio = new Audio(cryUrl);
-        audio.volume = 0.1;
-        audio.play().catch(error => {
-          console.error('Error playing audio:', error);
-          onAlert('Error playing the Pokémon cry sound.', 'error');
-        });
-      }
     } catch (err) {
       console.error(`Error handling ${action} interaction:`, err);
       let message = 'Failed to perform interaction.';
@@ -92,8 +96,6 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
     }
   };
   
-  
-
   return (
     <Box
       sx={{
@@ -165,7 +167,7 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
               variant="contained"
               size="large"
               sx={{ width: "70%", height: { xs: '40px', md: '60px' }, fontSize: { xs: '16px', md: '20px' } }}
-              disabled
+              disabled={isEgg || currentHappiness < targetHappiness} // Enable button if current happiness >= target happiness
             >
               Evolve?
             </Button>
