@@ -19,7 +19,7 @@ const HatchPopup = ({ data, onClose, onReload }) => {
         transform: 'translate(-50%, -50%)',
         width: { xs: '80vw', sm: '50vw', md: '30vw' },
         maxWidth: '500px',
-        backgroundColor: '#FFF',
+        backgroundColor: data.is_shiny ? '#ffeb3b' : '#f5f5f5',
         borderRadius: 2,
         boxShadow: 3,
         p: 3,
@@ -53,6 +53,9 @@ const HatchPopup = ({ data, onClose, onReload }) => {
           </Typography>
           <Typography variant="body1">
             Legendary: {data.is_legendary ? 'Yes' : 'No'}
+          </Typography>
+          <Typography variant="body1">
+            Shiny: {data.is_shiny ? 'Yes' : 'No'}
           </Typography>
         </Box>
       )}

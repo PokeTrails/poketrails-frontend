@@ -172,7 +172,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
           }}
         >
           {isLoading ? (
-            <LinearProgress sx={{ width: '100%' }} />
+            <LinearProgress sx={{ width: '70%' }} />
           ) : pokemonData ? (
             <Box
               component="img"
