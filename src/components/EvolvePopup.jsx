@@ -1,16 +1,27 @@
 import { Box, Typography, Button } from '@mui/material';
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const EvolvePopup = ({ data, onClose, onReload }) => {
-  const [showNewSprite, setShowNewSprite] = useState(false);
+  const [isEvolving, setIsEvolving] = useState(true);
+  const [evolutionMessage, setEvolutionMessage] = useState('');
+  const animationRef = useRef(null);
 
   useEffect(() => {
     if (data) {
-      const timer = setTimeout(() => {
-        setShowNewSprite(true);
-      }, 1000); // Delay before showing the new sprite
+      // Set initial message
+      setEvolutionMessage(`${data.oldNickName} is evolving!`);
+      
+      // Handle evolution animation
+      const animationDuration = 5000; // 5 seconds
+      const pauseDuration = 1000; // 1 second
 
+      const timer = setTimeout(() => {
+        setIsEvolving(false);
+        setEvolutionMessage(`${data.oldNickName} has evolved into ${data.species}!`);
+      }, animationDuration + pauseDuration);
+
+      // Clean up timer on unmount
       return () => clearTimeout(timer);
     }
   }, [data]);
@@ -39,63 +50,62 @@ const EvolvePopup = ({ data, onClose, onReload }) => {
       }}
     >
       <Typography variant="h6" gutterBottom>
-        `{data.nickname}` is evolving!
+        {evolutionMessage}
       </Typography>
-      {data && (
-        <Box>
-          <Box
-            sx={{
-              position: 'relative',
-              height: '200px', // Adjust based on your sprite size
-              width: 'auto',
-              overflow: 'hidden',
-              margin: 'auto',
+      {data && isEvolving && (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '200px', // Adjust as needed
+          }}
+        >
+          <img
+            ref={animationRef}
+            src={data.oldSprite}
+            alt={data.species}
+            style={{
+              maxWidth: '100%',
+              animation: `evolveAnimation 5s linear`,
             }}
-          >
-            <img
-              src={data.oldSprite}
-              alt="Old Sprite"
-              style={{
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-                transition: 'opacity 1s',
-                opacity: showNewSprite ? 0 : 1,
-              }}
-            />
-            <img
-              src={data.sprite}
-              alt="New Sprite"
-              style={{
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-                transition: 'opacity 1s',
-                opacity: showNewSprite ? 1 : 0,
-              }}
-            />
-          </Box>
-          <Typography variant="h6" gutterBottom>
-            {data.species}
-          </Typography>
+          />
+        </Box>
+      )}
+      {data && !isEvolving && (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '200px',
+          }}
+        >
+          <img
+            src={data.sprite}
+            alt={data.species}
+            style={{ maxWidth: '100%' }}
+          />
         </Box>
       )}
       <Button variant="contained" color="primary" onClick={handleClose} sx={{ mt: 2 }}>
         Close
       </Button>
+      <style>
+        {`
+          @keyframes evolveAnimation {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+          }
+        `}
+      </style>
     </Box>
   );
 };
 
 EvolvePopup.propTypes = {
-  data: PropTypes.shape({
-    nickname: PropTypes.string.isRequired,
-    oldSprite: PropTypes.string.isRequired,
-    sprite: PropTypes.string.isRequired,
-    species: PropTypes.string.isRequired,
-  }).isRequired,
+  data: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   onReload: PropTypes.func,
 };
