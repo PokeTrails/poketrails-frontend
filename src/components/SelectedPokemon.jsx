@@ -11,7 +11,7 @@ import eggSprite from '../assets/pokemon_egg_animated.gif';
 import shinyIcon from '../assets/shiny_icon.png';
 import HatchPopup from './HatchPopup';
 
-export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
+export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappiness }) {
   const [pokemonData, setPokemonData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -281,7 +281,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
                 <Box sx={{ width: '100%', mb: 1, pt: 1 }}>
                   <LinearProgress
                     variant="determinate"
-                    value={(pokemonData.current_happiness / pokemonData.target_happiness) * 100 || 0}
+                    value={(currentHappiness || pokemonData.current_happiness) / pokemonData.target_happiness * 100 || 0}
                     sx={{ height: 10, borderRadius: 5, width: { xs: '150px', sm: '300px' } }}
                   />
                 </Box>
@@ -290,7 +290,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
                   sx={{ pt: 1 }}
                   textAlign="center"
                 >
-                  {`${pokemonData.current_happiness} / ${pokemonData.target_happiness}`}
+                  {`${currentHappiness || pokemonData.current_happiness} / ${pokemonData.target_happiness}`}
                 </Typography>
               </>
             ) : (
@@ -335,4 +335,5 @@ SelectedPokemon.propTypes = {
   jwt: PropTypes.string.isRequired,
   apiURL: PropTypes.string.isRequired,
   pokemonID: PropTypes.string.isRequired,
+  currentHappiness: PropTypes.number,
 };
