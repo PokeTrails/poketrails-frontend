@@ -7,24 +7,32 @@ import { capitaliseName } from '../utils';
 const EvolvePopup = ({ data, onClose, onReload }) => {
   const [isEvolving, setIsEvolving] = useState(true);
   const [evolutionMessage, setEvolutionMessage] = useState('');
+  const [showFinalSprite, setShowFinalSprite] = useState(false);
   const animationRef = useRef(null);
 
   useEffect(() => {
     if (data) {
       // Set initial message
       setEvolutionMessage(`${capitaliseName(data.oldNickName)} is evolving!`);
-      
-      // Handle evolution animation
-      const animationDuration = 5000; // 5 seconds
-      const pauseDuration = 1000; // 1 second
 
-      const timer = setTimeout(() => {
-        setIsEvolving(false);
-        setEvolutionMessage(`${capitaliseName(data.oldNickName)} has evolved into ${capitaliseName(data.species)}!`);
-      }, animationDuration + pauseDuration);
+      // Handle evolution animation: fade in and out for 5 seconds, getting faster
+      const speedIncreaseDuration = 5000;
+      const startTime = Date.now();
 
-      // Clean up timer on unmount
-      return () => clearTimeout(timer);
+      const speedInterval = setInterval(() => {
+        const elapsedTime = Date.now() - startTime;
+        const animationDuration = Math.max(1, 5 - (elapsedTime / 1000)); // Decrease duration to make it faster
+        animationRef.current.style.animationDuration = `${animationDuration}s`;
+
+        if (elapsedTime >= speedIncreaseDuration) {
+          clearInterval(speedInterval);
+          setIsEvolving(false);
+          setShowFinalSprite(true);
+          setEvolutionMessage(`${capitaliseName(data.oldNickName)} has evolved into ${capitaliseName(data.species)}!`);
+        }
+      }, 100);
+
+      return () => clearInterval(speedInterval); // Cleanup on component unmount
     }
   }, [data]);
 
@@ -51,54 +59,49 @@ const EvolvePopup = ({ data, onClose, onReload }) => {
         overflow: 'hidden',
       }}
     >
+      {/* Display the evolution message and sprites */}
       <Typography variant="h6" gutterBottom>
         {evolutionMessage}
       </Typography>
-      {data && isEvolving && (
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '200px', // Adjust as needed
-          }}
-        >
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '200px',
+          position: 'relative',
+        }}
+      >
+        {/* Display the evolving Pokémon sprite animation */}
+        {data && isEvolving && (
           <img
             ref={animationRef}
             src={data.oldSprite}
-            alt={data.species}
+            alt={data.oldNickName}
             style={{
               maxWidth: '100%',
-              animation: `evolveAnimation 5s linear`,
+              position: 'absolute',
+              animation: 'fadeInOut 2s infinite',
             }}
           />
-        </Box>
-      )}
-      {data && !isEvolving && (
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '200px',
-          }}
-        >
+        )}
+        {/* Display the final evolved Pokémon sprite */}
+        {data && showFinalSprite && (
           <img
             src={data.sprite}
             alt={data.species}
-            style={{ maxWidth: '100%' }}
+            style={{ maxWidth: '100%', position: 'absolute' }}
           />
-        </Box>
-      )}
+        )}
+      </Box>
       <Button variant="contained" color="primary" onClick={handleClose} sx={{ mt: 2 }}>
         Close
       </Button>
       <style>
         {`
-          @keyframes evolveAnimation {
-            0% { opacity: 1; }
+          @keyframes fadeInOut {
+            0%, 100% { opacity: 1; }
             50% { opacity: 0; }
-            100% { opacity: 1; }
           }
         `}
       </style>

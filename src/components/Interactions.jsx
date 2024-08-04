@@ -3,10 +3,13 @@ import axios from 'axios';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import InteractionButton from './InteractionButton';
-import usePlayCryAudio from '../hooks/usePlayCryAudio'; // Adjust the path as necessary
-import EvolvePopup from './EvolvePopup'; // Import the EvolvePopup component
+import usePlayCryAudio from '../hooks/usePlayCryAudio';
+import EvolvePopup from './EvolvePopup';
+
+import { capitaliseName } from '../utils';
 
 export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappinessChange }) {
+  // State for Pokémon details
   const [isEgg, setIsEgg] = useState(true);
   const [currentHappiness, setCurrentHappiness] = useState(0);
   const [targetHappiness, setTargetHappiness] = useState(0);
@@ -19,6 +22,7 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
 
   const playCryAudio = usePlayCryAudio(onAlert);
 
+  // Fetch Pokémon data
   const fetchPokemonData = useCallback(async () => {
     if (!pokemonID) return;
 
@@ -42,25 +46,31 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
     }
   }, [apiURL, jwt, pokemonID, onHappinessChange]);
 
+  // Fetch Pokémon data on component mount
   useEffect(() => {
     fetchPokemonData();
   }, [fetchPokemonData]);
 
+  // Handle interaction with Pokémon
   const handleInteractionClick = async (action) => {
+    // Prevent interactions while loading
     setIsLoading(true);
     try {
+      // Send interaction request to the server
       const response = await axios.patch(`${apiURL}/pokemon/${action}/${pokemonID}`, {}, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       });
 
+      // Update current happiness and display alert
       setCurrentHappiness(response.data.current_happiness);
       onHappinessChange(response.data.current_happiness);
 
       let message = '';
-      let severity = 'info';
+      let severity = 'info'; // Default severity
 
+      // Display alert based on interaction response
       if (response.status === 200) {
         if (response.data.happiness_increased) {
           message = `Happiness increased by ${response.data.happiness_increased}.`;
@@ -68,55 +78,62 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
           severity = 'success';
         } else if (response.data.happiness_reduced) {
           message = `Happiness reduced by ${response.data.happiness_reduced}.`;
-          playCryAudio(cryUrl, 0.7);
+          playCryAudio(cryUrl, 0.7); // Play cry at a lower pitch if happiness is reduced
           severity = 'error';
         } else if (response.data.message) {
           message = response.data.message;
         }
       }
 
-      onAlert(message, severity);
+      // Display alert
+      onAlert(capitaliseName(message), severity);
     } catch (err) {
       console.error(`Error handling ${action} interaction:`, err);
-      let message = 'Failed to perform interaction.';
+      let message = 'Failed to perform interaction';
       let severity = 'error';
 
       if (err.response?.status === 400) {
-        message = err.response.data.message || 'Error: Unable to interact. Please wait a moment.';
+        message = err.response.data.message || 'Error: Unable to interact. Please wait a moment';
       }
 
-      onAlert(message, severity);
+      onAlert(capitaliseName(message), severity);
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Handle Pokémon evolution
   const handleEvolveClick = async () => {
     setIsLoading(true);
     try {
+      // Send evolution request to the server
       const response = await axios.patch(`${apiURL}/pokemon/evolve/${pokemonID}`, {}, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       });
 
+      // Display evolution popup
       setPopupData(response.data);
       setShowPopup(true);
     } catch (err) {
       console.error('Failed to evolve Pokémon:', err);
-      onAlert('Failed to evolve Pokémon.', 'error');
+      onAlert(capitaliseName('Failed to evolve Pokémon'), 'error');
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Close the evolution popup
   const handleClosePopup = () => {
     setShowPopup(false);
-    // Optionally trigger a refresh or update elsewhere
+    window.location.reload(); // Reload the page to update the party
   };
 
+  // Render evolve button if Pokémon can evolve
   const renderEvolvePopup = currentLevel < maxLevel;
 
+  // Check if Pokémon can evolve to enable the evolve button
   const pokemonCanEvolve = currentLevel < maxLevel && !isEgg && currentHappiness >= targetHappiness;
 
   return (
@@ -154,6 +171,7 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
           alignItems: 'center',
         }}
       >
+        {/* Display loading spinner while fetching data, otherwise render buttons */}
         {isLoading ? (
           <CircularProgress />
         ) : (
@@ -174,16 +192,19 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
               label="Feed"
             />
 
+            {/* Render evolve button if Pokémon can evolve */}
             {renderEvolvePopup && (
-            <InteractionButton
-              onClick={handleEvolveClick}
-              disabled={!pokemonCanEvolve}
-              label="Evolve?"
-            />)}
+              <InteractionButton
+                onClick={handleEvolveClick}
+                disabled={!pokemonCanEvolve}
+                label="Evolve?"
+              />
+            )}
           </>
         )}
       </Box>
 
+      {/* Render evolution popup component if Pokémon can evolve */}
       {showPopup && (
         <EvolvePopup
           data={popupData}
@@ -197,7 +218,7 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
 Interactions.propTypes = {
   apiURL: PropTypes.string.isRequired,
   jwt: PropTypes.string.isRequired,
-  pokemonID: PropTypes.string.isRequired,
+  pokemonID: PropTypes.string,
   onAlert: PropTypes.func.isRequired,
   onHappinessChange: PropTypes.func.isRequired,
 };
