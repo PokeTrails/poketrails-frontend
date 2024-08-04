@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Box, Typography, LinearProgress, TextField, IconButton, Button } from '@mui/material';
+import { Box, Typography, LinearProgress, CircularProgress, TextField, IconButton, Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -172,7 +172,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID }) {
           }}
         >
           {isLoading ? (
-            <LinearProgress sx={{ width: '70%' }} />
+            <CircularProgress sx={{ width: '70%' }} />
           ) : pokemonData ? (
             <Box
               component="img"
