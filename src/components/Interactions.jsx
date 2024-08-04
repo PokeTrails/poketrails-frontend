@@ -197,7 +197,7 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
 Interactions.propTypes = {
   apiURL: PropTypes.string.isRequired,
   jwt: PropTypes.string.isRequired,
-  pokemonID: PropTypes.string.isRequired,
+  pokemonID: PropTypes.string,
   onAlert: PropTypes.func.isRequired,
   onHappinessChange: PropTypes.func.isRequired,
 };
