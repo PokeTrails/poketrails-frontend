@@ -7,6 +7,7 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
   const [isEgg, setIsEgg] = useState(true);
   const [currentHappiness, setCurrentHappiness] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [cryUrl, setCryUrl] = useState(''); // State to store Pokémon cry URL
 
   useEffect(() => {
     const fetchPokemonData = async () => {
@@ -22,6 +23,9 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
         setIsEgg(response.data.eggHatched === false);
         setCurrentHappiness(response.data.current_happiness);
         onHappinessChange(response.data.current_happiness);
+
+        // Store the cry URL
+        setCryUrl(response.data.cries || ''); // Adjust property name if needed
       } catch (err) {
         console.error(`Error fetching details for Pokémon ID ${pokemonID}:`, err);
         setIsEgg(true); // Assume it's an egg if there's an error
@@ -45,37 +49,49 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
       console.log('Response:', response.data);
   
       setCurrentHappiness(response.data.current_happiness);
+      onHappinessChange(response.data.current_happiness);
   
       let message = '';
       let severity = 'info';
-      
+  
       if (response.status === 200) {
         if (response.data.happiness_increased) {
           message = `Happiness increased by ${response.data.happiness_increased}.`;
           severity = 'success';
         } else if (response.data.happiness_reduced) {
-          severity = 'error';
           message = `Happiness reduced by ${response.data.happiness_reduced}.`;
+          severity = 'error';
         } else if (response.data.message) {
           message = response.data.message;
         }
       }
   
       onAlert(message, severity);
+  
+      if (action === 'talk' && cryUrl) {
+        console.log('Playing cry sound from URL:', cryUrl);
+        const audio = new Audio(cryUrl);
+        audio.volume = 0.1;
+        audio.play().catch(error => {
+          console.error('Error playing audio:', error);
+          onAlert('Error playing the Pokémon cry sound.', 'error');
+        });
+      }
     } catch (err) {
       console.error(`Error handling ${action} interaction:`, err);
       let message = 'Failed to perform interaction.';
       let severity = 'error';
-      
+  
       if (err.response?.status === 400) {
         message = err.response.data.message || 'Error: Unable to interact. Please wait a moment.';
       }
-      
+  
       onAlert(message, severity);
     } finally {
       setIsLoading(false);
     }
   };
+  
   
 
   return (
