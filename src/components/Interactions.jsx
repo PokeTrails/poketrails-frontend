@@ -2,11 +2,12 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Box, Typography, Button, CircularProgress } from '@mui/material';
 import PropTypes from 'prop-types';
+import { Howl } from 'howler';
 
 export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappinessChange }) {
   const [isEgg, setIsEgg] = useState(true);
   const [currentHappiness, setCurrentHappiness] = useState(0);
-  const [targetHappiness, setTargetHappiness] = useState(0); // New state for target happiness
+  const [targetHappiness, setTargetHappiness] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [cryUrl, setCryUrl] = useState('');
 
@@ -23,14 +24,13 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
 
         setIsEgg(response.data.eggHatched === false);
         setCurrentHappiness(response.data.current_happiness);
-        setTargetHappiness(response.data.target_happiness || 0); // Fetch target happiness from API response
+        setTargetHappiness(response.data.target_happiness || 0);
         onHappinessChange(response.data.current_happiness);
 
-        // Store the cry URL
-        setCryUrl(response.data.cries || ''); // Adjust property name if needed
+        setCryUrl(response.data.cries || '');
       } catch (err) {
         console.error(`Error fetching details for Pokémon ID ${pokemonID}:`, err);
-        setIsEgg(true); // Assume it's an egg if there's an error
+        setIsEgg(true);
       }
     };
 
@@ -38,13 +38,22 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
   }, [apiURL, jwt, pokemonID, onHappinessChange]);
 
   const playCryAudio = (url, pitch) => {
-    const audio = new Audio(url);
-    audio.volume = 0.1;
-    audio.playbackRate = pitch;
-    audio.play().catch(error => {
-      console.error('Error playing audio:', error);
-      onAlert('Error playing the Pokémon cry sound.', 'error');
+    if (!url) {
+      console.error('No cry URL provided.');
+      return;
+    }
+
+    const sound = new Howl({
+      src: [url],
+      volume: 0.1,
+      rate: pitch,
+      onplayerror: () => {
+        console.error('Error playing audio.');
+        onAlert('Error playing the Pokémon cry sound.', 'error');
+      },
     });
+
+    sound.play();
   };
 
   const handleInteractionClick = async (action) => {
@@ -73,8 +82,8 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
           severity = 'success';
         } else if (response.data.happiness_reduced) {
           message = `Happiness reduced by ${response.data.happiness_reduced}.`;
-          severity = 'error';
           playCryAudio(cryUrl, 0.7);
+          severity = 'error';
         } else if (response.data.message) {
           message = response.data.message;
         }
@@ -167,7 +176,7 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
               variant="contained"
               size="large"
               sx={{ width: "70%", height: { xs: '40px', md: '60px' }, fontSize: { xs: '16px', md: '20px' } }}
-              disabled={isEgg || currentHappiness < targetHappiness} // Enable button if current happiness >= target happiness
+              disabled={isEgg || currentHappiness < targetHappiness}
             >
               Evolve?
             </Button>
