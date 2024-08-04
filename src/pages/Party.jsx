@@ -1,6 +1,5 @@
-import { Box } from '@mui/material';
 import { useState } from 'react';
-
+import { Box, Alert } from '@mui/material';
 import SelectedPokemon from '../components/SelectedPokemon';
 import PokemonParty from '../components/UserParty';
 import Interactions from '../components/Interactions';
@@ -11,12 +10,18 @@ import backgroundImg from '../assets/main_background.jpg';
 
 export default function Party() {
   const jwt = localStorage.getItem('jwt');
-  const apiURL = `${import.meta.env.VITE_API_SERVER_URL}`; // URL to fetch data from
+  const apiURL = `${import.meta.env.VITE_API_SERVER_URL}`;
 
   const [selectedPokemon, setSelectedPokemon] = useState(null);
+  const [alert, setAlert] = useState(null);
 
   const handlePokemonSelect = (pokemon) => {
     setSelectedPokemon(pokemon);
+  };
+
+  const handleAlert = (message, severity) => {
+    setAlert({ message, severity });
+    setTimeout(() => setAlert(null), 5000); // Clear alert after 5 seconds
   };
 
   return (
@@ -34,7 +39,12 @@ export default function Party() {
           }}
         >
           <SelectedPokemon jwt={jwt} apiURL={apiURL} pokemonID={selectedPokemon} />
-          <Interactions jwt={jwt} apiURL={apiURL} pokemonID={selectedPokemon} />
+          <Interactions
+            jwt={jwt}
+            apiURL={apiURL}
+            pokemonID={selectedPokemon}
+            onAlert={handleAlert} // Pass alert handler
+          />
           <Box sx={{ display: { xs: 'none', md: 'block' } }}>
             <TrailLog />
           </Box>
@@ -44,6 +54,12 @@ export default function Party() {
         </Box>
         <PokemonParty apiURL={apiURL} jwt={jwt} onPokemonSelect={handlePokemonSelect} />
       </Box>
+
+      {alert && (
+        <Box sx={{ position: 'fixed', bottom: 16, left: 16, width: 'calc(100% - 32px)' }}>
+          <Alert severity={alert.severity}>{alert.message}</Alert>
+        </Box>
+      )}
     </Background>
   );
 }

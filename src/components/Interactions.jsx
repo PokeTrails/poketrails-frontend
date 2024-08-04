@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Box, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Box, Typography, Button, CircularProgress } from '@mui/material';
 import PropTypes from 'prop-types';
 
-export default function Interactions({ apiURL, jwt, pokemonID }) {
+export default function Interactions({ apiURL, jwt, pokemonID, onAlert }) {
   const [isEgg, setIsEgg] = useState(true); // Start with true to disable buttons by default
-  const [error, setError] = useState(null);
+  const [currentHappiness, setCurrentHappiness] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchPokemonData = async () => {
@@ -19,16 +20,52 @@ export default function Interactions({ apiURL, jwt, pokemonID }) {
         });
 
         setIsEgg(response.data.eggHatched === false);
-        setError(null);
+        setCurrentHappiness(response.data.current_happiness);
       } catch (err) {
         console.error(`Error fetching details for Pokémon ID ${pokemonID}:`, err);
-        setError('Failed to fetch Pokémon data.');
         setIsEgg(true); // Assume it's an egg if there's an error
       } 
     };
 
     fetchPokemonData();
   }, [apiURL, jwt, pokemonID]);
+
+  const handleInteractionClick = async (action) => {
+    setIsLoading(true);
+
+    try {
+      console.log(`Making request to ${apiURL}/pokemon/${action}/${pokemonID}`);
+      const response = await axios.patch(`${apiURL}/pokemon/${action}/${pokemonID}`, {}, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+
+      console.log('Response:', response.data);
+
+      setCurrentHappiness(response.data.current_happiness);
+
+      let message = '';
+      if (response.data.happiness_increased) {
+        message = `Happiness increased by ${response.data.happiness_increased}.`;
+      } else if (response.data.happiness_reduced) {
+        message = `Happiness reduced by ${response.data.happiness_reduced}.`;
+      } else if (response.data.message) {
+        message = response.data.message;
+      }
+
+      onAlert(message, 'info');
+    } catch (err) {
+      console.error(`Error handling ${action} interaction:`, err);
+      if (err.response?.status === 400) {
+        onAlert(err.response.data.message || 'Error: Unable to interact. Please wait a moment.', 'error');
+      } else {
+        onAlert('Failed to perform interaction.', 'error');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Box
@@ -44,17 +81,18 @@ export default function Interactions({ apiURL, jwt, pokemonID }) {
     >
       <Box
         sx={{
-            borderRadius: 2,
-            backgroundColor: 'rgba(122, 220, 185, 0.6)',
-            pt: 1,
-            pb: 0.5,
-            mb: 1,
+          borderRadius: 2,
+          backgroundColor: 'rgba(122, 220, 185, 0.6)',
+          pt: 1,
+          pb: 0.5,
+          mb: 1,
         }}
       >
         <Typography variant="h4" fontSize={{ xs: '20px', md: '25px' }} gutterBottom textAlign="center">
           Interact
         </Typography>
       </Box>
+
       <Box
         sx={{
           display: 'flex',
@@ -64,44 +102,48 @@ export default function Interactions({ apiURL, jwt, pokemonID }) {
           alignItems: 'center',
         }}
       >
-        {error && <Typography color="error">{error}</Typography>}
-
-        <Button
-          type="submit"
-          variant="contained"
-          size="large"
-          sx={{ width: "70%", height: {xs: '40px', md: '60px'}, fontSize: { xs: '16px', md: '20px' } }}
-          disabled={isEgg} // Disable if isEgg is true
-        >
-          Talk
-        </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          size="large"
-          sx={{ width: "70%", height: {xs: '40px', md: '60px'}, fontSize: { xs: '16px', md: '20px' } }}
-          disabled={isEgg} // Disable if isEgg is true
-        >
-          Play
-        </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          size="large"
-          sx={{ width: "70%", height: {xs: '40px', md: '60px'}, fontSize: { xs: '16px', md: '20px' } }}
-          disabled={isEgg} // Disable if isEgg is true
-        >
-          Feed
-        </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          size="large"
-          sx={{ width: "70%", height: {xs: '40px', md: '60px'}, fontSize: { xs: '16px', md: '20px' } }}
-          disabled={true}
-        >
-          Evolve?
-        </Button>
+        {isLoading ? (
+          <CircularProgress />
+        ) : (
+          <>
+            <Button
+              variant="contained"
+              size="large"
+              sx={{ width: "70%", height: { xs: '40px', md: '60px' }, fontSize: { xs: '16px', md: '20px' } }}
+              disabled={isEgg}
+              onClick={() => handleInteractionClick('talk')}
+            >
+              Talk
+            </Button>
+            <Button
+              variant="contained"
+              size="large"
+              sx={{ width: "70%", height: { xs: '40px', md: '60px' }, fontSize: { xs: '16px', md: '20px' } }}
+              disabled={isEgg}
+              onClick={() => handleInteractionClick('play')}
+            >
+              Play
+            </Button>
+            <Button
+              variant="contained"
+              size="large"
+              sx={{ width: "70%", height: { xs: '40px', md: '60px' }, fontSize: { xs: '16px', md: '20px' } }}
+              disabled={isEgg}
+              onClick={() => handleInteractionClick('feed')}
+            >
+              Feed
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              size="large"
+              sx={{ width: "70%", height: { xs: '40px', md: '60px' }, fontSize: { xs: '16px', md: '20px' } }}
+              disabled
+            >
+              Evolve?
+            </Button>
+          </>
+        )}
       </Box>
     </Box>
   );
@@ -111,4 +153,5 @@ Interactions.propTypes = {
   apiURL: PropTypes.string.isRequired,
   jwt: PropTypes.string.isRequired,
   pokemonID: PropTypes.string.isRequired,
+  onAlert: PropTypes.func.isRequired, // Add prop type for onAlert
 };
