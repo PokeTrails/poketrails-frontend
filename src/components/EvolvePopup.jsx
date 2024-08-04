@@ -2,6 +2,8 @@ import { Box, Typography, Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useState, useEffect, useRef } from 'react';
 
+import { capitaliseName } from '../utils';
+
 const EvolvePopup = ({ data, onClose, onReload }) => {
   const [isEvolving, setIsEvolving] = useState(true);
   const [evolutionMessage, setEvolutionMessage] = useState('');
@@ -10,7 +12,7 @@ const EvolvePopup = ({ data, onClose, onReload }) => {
   useEffect(() => {
     if (data) {
       // Set initial message
-      setEvolutionMessage(`${data.oldNickName} is evolving!`);
+      setEvolutionMessage(`${capitaliseName(data.oldNickName)} is evolving!`);
       
       // Handle evolution animation
       const animationDuration = 5000; // 5 seconds
@@ -18,7 +20,7 @@ const EvolvePopup = ({ data, onClose, onReload }) => {
 
       const timer = setTimeout(() => {
         setIsEvolving(false);
-        setEvolutionMessage(`${data.oldNickName} has evolved into ${data.species}!`);
+        setEvolutionMessage(`${capitaliseName(data.oldNickName)} has evolved into ${capitaliseName(data.species)}!`);
       }, animationDuration + pauseDuration);
 
       // Clean up timer on unmount
