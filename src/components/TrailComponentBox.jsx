@@ -1,15 +1,21 @@
+import { useState } from 'react';
+
 import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import PokemonParty from './UserParty';
+import SelectedPokemon from './SelectedPokemon';
 
 export default function TrailComponentBox({ componentDetails }) {
     const jwt = localStorage.getItem('jwt');
     const apiURL = `${import.meta.env.VITE_API_SERVER_URL}`;
     
+    const [selectedPokemon, setSelectedPokemon] = useState(null);
+
     const handlePokemonSelect = (pokemon) => {
       setSelectedPokemon(pokemon);
     };
+    
 
   return (
     <>
@@ -38,8 +44,17 @@ export default function TrailComponentBox({ componentDetails }) {
             {componentDetails.heading}
             </Typography>
         </Box>
+
         {/* Main Content goes here */}
-            Test
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                width: '30vw',
+                maxHeight: '50vh',
+                flexGrow: 1,
+            }}>
+                <SelectedPokemon jwt={jwt} apiURL={apiURL} pokemonID={selectedPokemon} />
+            </Box>
         </Box>
         <PokemonParty apiURL={apiURL} jwt={jwt} onPokemonSelect={handlePokemonSelect} />
     </>
