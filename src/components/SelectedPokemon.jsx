@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 
+import useLoading from '../hooks/useLoading';
 import { capitaliseName } from '../utils';
 import eggSprite from '../assets/pokemon_egg_animated.gif';
 import shinyIcon from '../assets/shiny_icon.png';
@@ -12,7 +13,7 @@ import HatchPopup from './HatchPopup';
 
 export default function SelectedPokemon({ componentBackgroundColour, tileColour, jwt, apiURL, pokemonID, currentHappiness, onPokemonNameChange }) {
   const [pokemonData, setPokemonData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, setIsLoading } = useLoading();
   const [error, setError] = useState(null);
   const [timeLeft, setTimeLeft] = useState(null);
   const [isEditing, setIsEditing] = useState(false);

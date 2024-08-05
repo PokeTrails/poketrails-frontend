@@ -1,23 +1,27 @@
-import { useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { Box, Typography, CircularProgress } from '@mui/material';
 import PropTypes from 'prop-types';
 import PokemonParty from './UserParty';
 import SelectedPokemon from './SelectedPokemon';
 import TrailLog from './TrailLog';
 import TrailData from '../components/TrailData';
+import useLoading from '../hooks/useLoading';
 
 export default function TrailComponentBox({ componentDetails, headingColour }) {
   const jwt = localStorage.getItem('jwt');
   const apiURL = `${import.meta.env.VITE_API_SERVER_URL}`;
+  const { isLoading, setIsLoading } = useLoading();
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [pokemonName, setPokemonName] = useState(''); // New state for Pokémon name
 
   const handlePokemonSelect = (pokemon) => {
+    setIsLoading(true);
     setSelectedPokemon(pokemon);
   };
 
   const handlePokemonNameChange = (name) => {
     setPokemonName(name);
+    setIsLoading(false);
   };
 
   return (
@@ -93,11 +97,15 @@ export default function TrailComponentBox({ componentDetails, headingColour }) {
               mr: {xs: 2, md: 4, lg: 0},
               ml: {xs: 0, lg: 4},
               mb: {xs: 2, md: 0},
-              maxWidth: '40vw'
+              maxWidth: '40vw',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
-            {/* If Pokemon name is undefined, set default message here */}
-            {pokemonName ? (
+            {/* Show spinner while loading */}
+            {isLoading ? (
+              <CircularProgress />
+            ) : pokemonName ? (
               <TrailData trail={componentDetails.trail} pokemonName={pokemonName} />
             ) : (
               'Please select a valid Pokémon'
