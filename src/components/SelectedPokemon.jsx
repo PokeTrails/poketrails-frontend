@@ -10,7 +10,7 @@ import eggSprite from '../assets/pokemon_egg_animated.gif';
 import shinyIcon from '../assets/shiny_icon.png';
 import HatchPopup from './HatchPopup';
 
-export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappiness, onPokemonNameChange }) {
+export default function SelectedPokemon({ componentBackgroundColour, tileColour, jwt, apiURL, pokemonID, currentHappiness, onPokemonNameChange }) {
   const [pokemonData, setPokemonData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -137,7 +137,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
       sx={{
         borderRadius: 2,
         pb: 3,
-        backgroundColor: 'rgba(175, 228, 206, 0.6)',
+        backgroundColor: componentBackgroundColour || 'rgba(164, 218, 195, 0.5)',
         width: { xs: '80vw', md: '20vw' },
         maxWidth: '550px',
         display: 'flex',
@@ -155,7 +155,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
           borderRadius: 2,
           width: '100%',
           position: 'relative',
-          backgroundColor: pokemonData?.isShiny ? 'rgba(255,254,0,0.12)' : 'rgba(164, 218, 195, 0.5)', 
+          backgroundColor: pokemonData?.isShiny ? 'rgba(255,254,0,0.12)' : tileColour, 
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -336,6 +336,8 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
 }
 
 SelectedPokemon.propTypes = {
+  componentBackgroundColour: PropTypes.string,
+  tileColour: PropTypes.string,
   jwt: PropTypes.string.isRequired,
   apiURL: PropTypes.string.isRequired,
   pokemonID: PropTypes.string,

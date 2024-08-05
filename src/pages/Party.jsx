@@ -11,6 +11,14 @@ export default function Party() {
   const jwt = localStorage.getItem('jwt');
   const apiURL = `${import.meta.env.VITE_API_SERVER_URL}`;
 
+  const componentDetails = {
+    componentHeadingColour: "rgba(122, 220, 185, 0.6)",
+    componentBackgroundColour: "rgba(164, 218, 195, 0.5)",
+    tileColour: "rgba(164, 218, 195, 0.7)",
+  };
+
+  const backgroundColour = "#C9EECF";
+
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [alerts, setAlerts] = useState([]);
   const [currentHappiness, setCurrentHappiness] = useState(0);
@@ -42,7 +50,7 @@ export default function Party() {
   }, [alerts]);
 
   return (
-    <Background backgroundImg={backgroundImg} backgroundColour="#C9EECF">
+    <Background backgroundImg={backgroundImg} backgroundColour={backgroundColour}>
       <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: '100%' }}>
         <Box
           sx={{
@@ -55,8 +63,17 @@ export default function Party() {
             flexGrow: 1,
           }}
         >
-          <SelectedPokemon jwt={jwt} apiURL={apiURL} pokemonID={selectedPokemon} currentHappiness={currentHappiness} />
+          <SelectedPokemon 
+            componentBackgroundColour={componentDetails.componentBackgroundColour}
+            tileColour={componentDetails.tileColour}
+            jwt={jwt}
+            apiURL={apiURL}
+            pokemonID={selectedPokemon}
+            currentHappiness={currentHappiness}
+            />
           <Interactions
+            componentBackgroundColour={componentDetails.componentBackgroundColour}
+            componentHeadingColour={componentDetails.componentHeadingColour}
             jwt={jwt}
             apiURL={apiURL}
             pokemonID={selectedPokemon}
@@ -64,13 +81,22 @@ export default function Party() {
             onHappinessChange={handleHappinessChange}
           />
           <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-            <TrailLog />
+            <TrailLog 
+            componentBackgroundColour={componentDetails.componentBackgroundColour}
+            componentHeadingColour={componentDetails.componentHeadingColour}
+            />
           </Box>
         </Box>
         <Box sx={{ display: { xs: 'block', md: 'none' }, mt: { xs: 2, md: 0 }, width: '100%' }}>
           <TrailLog />
         </Box>
-        <PokemonParty apiURL={apiURL} jwt={jwt} onPokemonSelect={handlePokemonSelect} />
+        <PokemonParty 
+            componentBackgroundColour={componentDetails.componentBackgroundColour}
+            componentHeadingColour={componentDetails.componentHeadingColour}
+            tileColour={componentDetails.tileColour}
+            apiURL={apiURL} 
+            jwt={jwt} 
+            onPokemonSelect={handlePokemonSelect} />
       </Box>
 
       {alerts.length > 0 && (

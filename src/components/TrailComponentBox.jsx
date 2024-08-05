@@ -6,11 +6,13 @@ import SelectedPokemon from './SelectedPokemon';
 import TrailLog from './TrailLog';
 import TrailData from '../components/TrailData';
 
-export default function TrailComponentBox({ componentDetails }) {
+export default function TrailComponentBox({ componentDetails, headingColour }) {
   const jwt = localStorage.getItem('jwt');
   const apiURL = `${import.meta.env.VITE_API_SERVER_URL}`;
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [pokemonName, setPokemonName] = useState(''); // New state for Pokémon name
+
+  console.log(headingColour)
 
   const handlePokemonSelect = (pokemon) => {
     setSelectedPokemon(pokemon);
@@ -26,7 +28,7 @@ export default function TrailComponentBox({ componentDetails }) {
       <Box
         sx={{
           mt: 2,
-          backgroundColor: 'rgba(164, 218, 195, 0.5)',
+          backgroundColor: componentDetails.componentBackgroundColour,
           width: { xs: '100vw', md: '1200px', lg: '2000px' },
           maxWidth: '90vw',
           borderRadius: 2,
@@ -35,7 +37,7 @@ export default function TrailComponentBox({ componentDetails }) {
         {/* Heading Box for Component name */}
         <Box
           sx={{
-            backgroundColor: 'rgba(122, 220, 185, 0.6)',
+            backgroundColor: componentDetails.componentHeadingColour,
             pt: 1,
             pb: 0.5,
             mb: 1,
@@ -43,7 +45,14 @@ export default function TrailComponentBox({ componentDetails }) {
             borderTopRightRadius: 2,
           }}
         >
-          <Typography variant="h4" fontSize={{ xs: '20px', md: '25px' }} gutterBottom textAlign="center">
+          <Typography
+            sx={{ color: headingColour }}
+            variant="h4"
+            fontSize={{ xs: '20px', md: '25px' }}
+            fontWeight={500}
+            gutterBottom
+            textAlign="center"
+          >
             {componentDetails.trail} Trail
           </Typography>
         </Box>
@@ -68,11 +77,13 @@ export default function TrailComponentBox({ componentDetails }) {
           >
             {/* Render selected pokemon component */}
             <SelectedPokemon
-                jwt={jwt}
-                apiURL={apiURL}
-                pokemonID={selectedPokemon}
-                onPokemonNameChange={handlePokemonNameChange}
-              />
+              componentBackgroundColour={componentDetails.componentBackgroundColour}
+              tileColour={componentDetails.tileColour}
+              jwt={jwt}
+              apiURL={apiURL}
+              pokemonID={selectedPokemon}
+              onPokemonNameChange={handlePokemonNameChange}
+            />
           </Box>
 
           {/* Shows Trail Data for Pokémon */}
@@ -84,10 +95,11 @@ export default function TrailComponentBox({ componentDetails }) {
             }}
           >
             {/* If Pokemon name is undefined, set default message here */}
-            {pokemonName && (
-                <TrailData trail={componentDetails.trail} pokemonName={pokemonName} />
-            ) || 'Please select a valid Pokémon'}
-
+            {pokemonName ? (
+              <TrailData trail={componentDetails.trail} pokemonName={pokemonName} />
+            ) : (
+              'Please select a valid Pokémon'
+            )}
           </Box>
 
           {/* Holds Trail Log */}
@@ -98,7 +110,10 @@ export default function TrailComponentBox({ componentDetails }) {
               pr: 2,
             }}
           >
-            <TrailLog />
+            <TrailLog 
+              componentBackgroundColour={componentDetails.componentBackgroundColour}
+              componentHeadingColour={componentDetails.componentHeadingColour}
+            />
           </Box>
         </Box>
       </Box>
@@ -113,11 +128,18 @@ export default function TrailComponentBox({ componentDetails }) {
         <TrailLog />
       </Box>
 
-      <PokemonParty apiURL={apiURL} jwt={jwt} onPokemonSelect={handlePokemonSelect} />
+      <PokemonParty
+      componentBackgroundColour={componentDetails.componentBackgroundColour}
+      componentHeadingColour={componentDetails.componentHeadingColour}
+      tileColour={componentDetails.tileColour}
+      apiURL={apiURL}
+      jwt={jwt}
+      onPokemonSelect={handlePokemonSelect} />
     </>
   );
 }
 
 TrailComponentBox.propTypes = {
-  componentDetails: PropTypes.object,
+  componentDetails: PropTypes.object.isRequired,
+  headingColour: PropTypes.string,
 };
