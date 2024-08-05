@@ -1,8 +1,10 @@
 import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
-export default function TrailLog( { componentBackgroundColour, componentHeadingColour } ) {
-  
+import { generateOakMessage } from '../utils';
+
+export default function TrailLog( { componentBackgroundColour, componentHeadingColour, pokemonName } ) {
+
   return (
     <Box
       sx={{
@@ -40,9 +42,7 @@ export default function TrailLog( { componentBackgroundColour, componentHeadingC
         }}
       >
         <Typography variant="body1">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Similique pariatur aliquid sit dolor delectus nobis officiis enim itaque excepturi, fugiat provident doloremque, saepe rem perspiciatis? Quasi optio quisquam iure vel!
-          Voluptates quod quaerat animi alias porro necessitatibus quis possimus nam. Natus in, modi sequi qui deserunt quis illum sint temporibus cum ullam eum reprehenderit cumque at. Totam nesciunt placeat vitae?
-          Impedit animi voluptatibus dolorem recusandae ex at quod fugiat fugit vitae.
+          {generateOakMessage(pokemonName)}
         </Typography>
       </Box>
     </Box>
@@ -52,4 +52,5 @@ export default function TrailLog( { componentBackgroundColour, componentHeadingC
 TrailLog.propTypes = {
   componentBackgroundColour: PropTypes.string,
   componentHeadingColour: PropTypes.string,
+  pokemonName: PropTypes.string,
 };

@@ -112,6 +112,7 @@ export default function DonateComponentBox({ componentDetails, headingColour }) 
             <ProfessorChat
               componentBackgroundColour={componentDetails.componentBackgroundColour}
               componentHeadingColour={componentDetails.componentHeadingColour}
+              pokemonName={pokemonName}
             />
           </Box>
         </Box>
@@ -135,6 +136,7 @@ export default function DonateComponentBox({ componentDetails, headingColour }) 
             <ProfessorChat
               componentBackgroundColour={componentDetails.componentBackgroundColour}
               componentHeadingColour={componentDetails.componentHeadingColour}
+              pokemonName={pokemonName}
             />
           </Box>
     </>
