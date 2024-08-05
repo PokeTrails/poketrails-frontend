@@ -33,7 +33,7 @@ export default function TrailData({ pokemonName, trail }) {
         <Typography
             variant="body1"
             gutterBottom
-            sx={{ fontSize: { xs: '14px', md: '16px' }, mt: {xs: 2}, mb: 2 }}
+            sx={{ fontSize: { xs: '13px', sm: '14px', md: '16px' }, mt: {xs: 2}, mb: 2 }}
             >
             {pokemonName ? `${capitaliseName(pokemonName)} is ready to explore the ${trail} trail` : ''}
             </Typography>
@@ -43,7 +43,7 @@ export default function TrailData({ pokemonName, trail }) {
           <Button
             variant="contained"
             size="medium"
-            sx={{ width: {xs: '100%', md: '80%', lg: '70%'}, height: {xs: '40px', md: '50px'}, fontSize: { xs: '14px', md: '16px', lg: '18px' } }}
+            sx={{ width: {xs: '100%', md: '80%', lg: '70%'}, height: {xs: '40px', md: '50px'}, fontSize: { xs: '13px', sm: '14px', md: '16px', lg: '18px' } }}
           >
             Send {pokemonName}?
           </Button>

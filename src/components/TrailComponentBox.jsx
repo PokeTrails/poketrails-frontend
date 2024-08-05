@@ -28,7 +28,7 @@ export default function TrailComponentBox({ componentDetails, headingColour }) {
           mt: 2,
           backgroundColor: componentDetails.componentBackgroundColour,
           width: { xs: '100vw', md: '1200px', lg: '2000px' },
-          maxWidth: '90vw',
+          maxWidth: { xs: '100%', md: '90vw' },
           borderRadius: 2,
         }}
       >
@@ -70,7 +70,7 @@ export default function TrailComponentBox({ componentDetails, headingColour }) {
               flex: 1,
               display: 'flex',
               maxHeight: '50vh',
-              overflow: 'hidden'
+              overflow: 'hidden',
             }}
           >
             {/* Render selected pokemon component */}
@@ -88,8 +88,12 @@ export default function TrailComponentBox({ componentDetails, headingColour }) {
           <Box
             sx={{
               flex: 1,
-              pr: { xs: 2, md: 7 },
-              mt: { xs: 2, md: 0 }
+              display: 'flex',
+              mt: { xs: 2, md: 0 },
+              mr: {xs: 2, md: 4, lg: 0},
+              ml: {xs: 0, lg: 4},
+              mb: {xs: 2, md: 0},
+              maxWidth: '40vw'
             }}
           >
             {/* If Pokemon name is undefined, set default message here */}
