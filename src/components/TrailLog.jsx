@@ -10,7 +10,7 @@ export default function TrailLog() {
         backgroundColor: 'rgba(164, 218, 195, 0.5)',
         width: { xs: '100vw', md: '30vh' },
         maxWidth: '1200px',
-        mr: 2,
+        // mr: 2,
         mt: 2
       }}
     >
