@@ -43,7 +43,7 @@ export default function Party() {
 
   return (
     <Background backgroundImg={backgroundImg} backgroundColour="#C9EECF">
-      <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: '100%', overflow: 'auto', pb: 2 }}>
+      <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: '100%' }}>
         <Box
           sx={{
             display: 'flex',
