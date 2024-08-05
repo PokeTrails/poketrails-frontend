@@ -90,7 +90,7 @@ const UserParty = ({ apiURL, jwt, onPokemonSelect }) => {
         width: { xs: '100%', md: '90%' },
         maxWidth: '1200px',
         mx: 'auto',
-        borderRadius: 2,
+        borderRadius: 2
       }}
     >
       <Box

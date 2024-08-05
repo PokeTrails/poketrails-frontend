@@ -7,13 +7,13 @@ const Background = ({ backgroundImg, backgroundColour, children }) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        height: '100vh',
+        // height: '100%',
+        height: { sm: '100%', md: '100vh' },
         textAlign: 'center',
         backgroundImage: `url(${backgroundImg})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         position: 'relative',
-        overflow: 'hidden',
       }}
     >
       {/* Overlay colour */}
