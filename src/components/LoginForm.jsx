@@ -122,16 +122,18 @@ export default function LoginForm() {
         {isLoading ? <CircularProgress size={24} /> : 'Log In'}
       </Button>
 
+
+
+      {/* Loading Pikachu image if isLoading is True */}
+      {isLoading && (
+        <img src={pikachuLoading} alt="Pikachu loading" style={{ marginTop: '20px', width: '100px', height: 'auto' }} />
+      )}
+
       {/* Loading message if isLoading is True */}
       {isLoading && (
         <Typography variant="body2" color="error" sx={{ mt: 1 }}>
           Loading please wait...
         </Typography>
-      )}
-
-      {/* Loading Pikachu image if isLoading is True */}
-      {isLoading && (
-        <img src={pikachuLoading} alt="Pikachu loading" style={{ marginTop: '20px', width: '100px', height: 'auto' }} />
       )}
     </Box>
   );
