@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import { generateOakMessage } from '../utils';
 
-export default function TrailLog( { componentBackgroundColour, componentHeadingColour, pokemonName } ) {
-
+export default function TrailLog({ componentBackgroundColour, componentHeadingColour, pokemonName, isLoading }) {
   return (
+    // Overall Component Box
     <Box
       sx={{
         borderRadius: 2,
@@ -20,13 +20,14 @@ export default function TrailLog( { componentBackgroundColour, componentHeadingC
     >
       <Box
         sx={{
-            borderRadius: 2,
-            backgroundColor: componentHeadingColour || 'rgba(122, 220, 185, 0.6)',
-            pt: 1,
-            pb: 0.5,
-            mb: 1,
+          borderRadius: 2,
+          backgroundColor: componentHeadingColour || 'rgba(122, 220, 185, 0.6)',
+          pt: 1,
+          pb: 0.5,
+          mb: 1,
         }}
       >
+        {/* Heading for Component */}
         <Typography variant="h4" fontSize={{ xs: '15px', md: '25px' }} gutterBottom textAlign="center">
           Professor Analysis
         </Typography>
@@ -41,8 +42,13 @@ export default function TrailLog( { componentBackgroundColour, componentHeadingC
           height: 'calc(100% - 54px)',
         }}
       >
+        {/* If isLoading is true, display loading text; otherwise, show the generated message */}
         <Typography variant="body1">
-          {pokemonName && generateOakMessage(pokemonName) || "Sorry I can't do much with that."}
+          {isLoading
+            ? ''
+            : pokemonName
+            ? generateOakMessage(pokemonName)
+            : "Sorry, I can't do much with that."}
         </Typography>
       </Box>
     </Box>
@@ -53,4 +59,5 @@ TrailLog.propTypes = {
   componentBackgroundColour: PropTypes.string,
   componentHeadingColour: PropTypes.string,
   pokemonName: PropTypes.string,
+  isLoading: PropTypes.bool.isRequired,
 };

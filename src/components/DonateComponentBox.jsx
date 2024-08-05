@@ -25,6 +25,7 @@ export default function DonateComponentBox({ componentDetails, headingColour }) 
   };
 
   return (
+    // Overall Box Component holding everything
     <>
       <Box
         sx={{
@@ -65,6 +66,7 @@ export default function DonateComponentBox({ componentDetails, headingColour }) 
             mb: 2,
           }}
         >
+        {/* Selected Pokemon Display */}
           <Box
             sx={{
               flex: 1,
@@ -92,6 +94,7 @@ export default function DonateComponentBox({ componentDetails, headingColour }) 
               pr: {sx: 0, md: 10}
             }}
           >
+            {/* Loading Animation when switching Pokemon before showing donate component */}
             {isLoading ? (
               <CircularProgress />
             ) : pokemonName ? (
@@ -109,15 +112,18 @@ export default function DonateComponentBox({ componentDetails, headingColour }) 
               display: { xs: 'none', md: 'flex' },
             }}
           >
+            {/* Professor Analysis component for Tablet/Desktop */}
             <ProfessorChat
               componentBackgroundColour={componentDetails.componentBackgroundColour}
               componentHeadingColour={componentDetails.componentHeadingColour}
               pokemonName={pokemonName}
+              isLoading={isLoading}
             />
           </Box>
         </Box>
       </Box>
 
+        {/* Pokemon Party Component */}
       <PokemonParty
         componentBackgroundColour={componentDetails.componentBackgroundColour}
         componentHeadingColour={componentDetails.componentHeadingColour}
@@ -126,6 +132,8 @@ export default function DonateComponentBox({ componentDetails, headingColour }) 
         jwt={jwt}
         onPokemonSelect={handlePokemonSelect}
       />
+
+      {/* Professor Chat Component for Mobile Displays */}
       <Box
             sx={{
               maxHeight: '50vh',

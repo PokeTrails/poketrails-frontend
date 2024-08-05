@@ -42,7 +42,9 @@ export default function DonatePokemon({ pokemonName }) {
       >
         You will receive (BALANCE HERE)
       </Typography>
-        
+
+
+      {/* Confirmation Checkbox before enabling button */}
       <FormControlLabel
         control={
           <Checkbox
@@ -60,7 +62,8 @@ export default function DonatePokemon({ pokemonName }) {
           },
         }}
       />
-        
+
+      {/* Button to send Pokemon to Professor */}
       {pokemonName && (
         <Button
           variant="contained"
