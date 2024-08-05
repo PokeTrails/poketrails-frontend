@@ -88,7 +88,11 @@ export default function TrailComponentBox({ componentDetails }) {
               mt: { xs: 2, md: 0 }
             }}
           >
-            <TrailData trail={componentDetails.trail} pokemonName={pokemonName} />
+            {/* If Pokemon name is undefined, set default message here */}
+            {pokemonName && (
+                <TrailData trail={componentDetails.trail} pokemonName={pokemonName} />
+            ) || 'Please select a valid Pokémon'}
+
           </Box>
 
           {/* Holds Trail Log */}
