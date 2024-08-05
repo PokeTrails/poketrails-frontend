@@ -90,7 +90,7 @@ export default function TrailComponentBox({ componentDetails, headingColour }) {
           <Box
             sx={{
               flex: 1,
-              p: 2,
+              pr: { xs: 2, md: 7 },
               mt: { xs: 2, md: 0 }
             }}
           >
