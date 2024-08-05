@@ -46,7 +46,7 @@ export default function TrailComponentBox({ componentDetails }) {
         <Box
           sx={{
             display: 'flex',
-            flexDirection: { xs: 'row', md: 'row' }, // Stack vertically on xs screens
+            flexDirection: 'row',
             width: '100%',
             mb: 2
           }}
@@ -63,7 +63,7 @@ export default function TrailComponentBox({ componentDetails }) {
             {selectedPokemon ? (
               <SelectedPokemon jwt={jwt} apiURL={apiURL} pokemonID={selectedPokemon} />
             ) : (
-              <Typography variant="body1" textAlign="center">
+              <Typography variant="body1" textAlign="center" sx={{pl: 3}}>
                 Select a Pokemon to get started
               </Typography>
             )}
@@ -98,6 +98,7 @@ export default function TrailComponentBox({ componentDetails }) {
       <Box
         sx={{
           display: { xs: 'block', md: 'none' },
+          mt: 2
         }}
       >
         <TrailLog />
