@@ -44,7 +44,7 @@ export default function TrailComponentBox({ componentDetails }) {
           }}
         >
           <Typography variant="h4" fontSize={{ xs: '20px', md: '25px' }} gutterBottom textAlign="center">
-            {componentDetails.heading}
+            {componentDetails.trail} Trail
           </Typography>
         </Box>
 
@@ -88,7 +88,7 @@ export default function TrailComponentBox({ componentDetails }) {
               mt: { xs: 2, md: 0 }
             }}
           >
-            <TrailData apiURL={apiURL} pokemonName={pokemonName} />
+            <TrailData trail={componentDetails.trail} pokemonName={pokemonName} />
           </Box>
 
           {/* Holds Trail Log */}

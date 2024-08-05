@@ -5,7 +5,7 @@ import backgroundImg from '../assets/trail_images/wild_trail.png';
 import TrailComponentBox from "../components/TrailComponentBox";
 
 const componentDetails = {
-  heading: "Wild Trail"
+  trail: "Wild"
 };
 
 export default function WildTrail() {
