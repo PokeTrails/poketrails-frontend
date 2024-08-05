@@ -8,7 +8,7 @@ import EvolvePopup from './EvolvePopup';
 
 import { capitaliseName } from '../utils';
 
-export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappinessChange }) {
+export default function Interactions({ componentBackgroundColour, componentHeadingColour, apiURL, jwt, pokemonID, onAlert, onHappinessChange }) {
   // State for Pokémon details
   const [isEgg, setIsEgg] = useState(true);
   const [currentHappiness, setCurrentHappiness] = useState(0);
@@ -141,9 +141,10 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
       sx={{
         borderRadius: 2,
         height: { xs: '40vh', md: '40vh' },
-        backgroundColor: 'rgba(164, 218, 195, 0.5)',
+        backgroundColor: componentBackgroundColour || 'rgba(164, 218, 195, 0.5)',
         minWidth: { xs: '150px', md: '250px' },
-        width: { xs: '70%', md: '30vh' },
+        width: { xs: '70%', md: '20vw' },
+        maxHeight: '500px',
         maxWidth: '1200px',
         mr: 2,
       }}
@@ -151,7 +152,7 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
       <Box
         sx={{
           borderRadius: 2,
-          backgroundColor: 'rgba(122, 220, 185, 0.6)',
+          backgroundColor: componentHeadingColour || 'rgba(122, 220, 185, 0.6)',
           pt: 1,
           pb: 0.5,
           mb: 1,
@@ -216,6 +217,8 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
 }
 
 Interactions.propTypes = {
+  componentBackgroundColour: PropTypes.string,
+  componentHeadingColour: PropTypes.string,
   apiURL: PropTypes.string.isRequired,
   jwt: PropTypes.string.isRequired,
   pokemonID: PropTypes.string,

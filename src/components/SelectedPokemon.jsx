@@ -5,16 +5,15 @@ import PropTypes from 'prop-types';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 
+import useLoading from '../hooks/useLoading';
 import { capitaliseName } from '../utils';
-
 import eggSprite from '../assets/pokemon_egg_animated.gif';
 import shinyIcon from '../assets/shiny_icon.png';
 import HatchPopup from './HatchPopup';
 
-export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappiness }) {
-  // State variables for Pokémon data, loading state, error, etc.
+export default function SelectedPokemon({ componentBackgroundColour, tileColour, jwt, apiURL, pokemonID, currentHappiness, onPokemonNameChange }) {
   const [pokemonData, setPokemonData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, setIsLoading } = useLoading();
   const [error, setError] = useState(null);
   const [timeLeft, setTimeLeft] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -23,7 +22,6 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
   const [popupData, setPopupData] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
 
-  // Fetch Pokémon data when pokemonID, apiURL, or jwt changes
   useEffect(() => {
     const fetchPokemonData = async () => {
       if (!pokemonID) return;
@@ -39,9 +37,13 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
         setPokemonData(response.data);
         setError(null);
 
-        // Set timeLeft if the Pokémon is still in the egg stage
         if (response.data.eggHatched === false && response.data.timeLeft) {
           setTimeLeft(response.data.timeLeft);
+        }
+
+        // Lift the Pokémon name to the parent component
+        if (onPokemonNameChange) {
+          onPokemonNameChange(response.data.nickname);
         }
       } catch (err) {
         console.error(`Error fetching details for Pokémon ID ${pokemonID}:`, err);
@@ -54,9 +56,8 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
     };
 
     fetchPokemonData();
-  }, [pokemonID, apiURL, jwt]);
+  }, [pokemonID, apiURL, jwt, onPokemonNameChange]);
 
-  // Countdown timer for time left to hatch
   useEffect(() => {
     let timer;
     if (timeLeft !== null) {
@@ -68,7 +69,6 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
     return () => clearInterval(timer);
   }, [timeLeft]);
 
-  // Format time in milliseconds to HH:MM:SS
   const formatTime = (milliseconds) => {
     if (milliseconds <= 0) return '00:00:00';
 
@@ -80,7 +80,6 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   };
 
-  // Start editing the Pokémon's nickname
   const handleEditClick = () => {
     if (pokemonData) {
       setNewNickname(pokemonData.nickname || '');
@@ -88,7 +87,6 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
     }
   };
 
-  // Save the new nickname
   const handleSaveClick = async () => {
     if (!pokemonData) return;
 
@@ -106,12 +104,10 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
     }
   };
 
-  // Cancel editing and revert to previous state
   const handleCancelClick = () => {
     setIsEditing(false);
   };
 
-  // Trigger the hatching process
   const handleHatchClick = async () => {
     setIsHatching(true);
     try {
@@ -132,10 +128,9 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
     }
   };
 
-  // Close the hatch popup and reload the page
   const handleClosePopup = () => {
     setShowPopup(false);
-    window.location.reload(); // Reload the page
+    window.location.reload();
   };
 
   return (
@@ -143,9 +138,9 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
       sx={{
         borderRadius: 2,
         pb: 3,
-        backgroundColor: 'rgba(175, 228, 206, 0.6)',
-        width: { xs: '80vw', md: '30vh' },
-        maxWidth: '1200px',
+        backgroundColor: componentBackgroundColour || 'rgba(164, 218, 195, 0.5)',
+        width: { xs: '80vw', md: '20vw' },
+        maxWidth: '550px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -161,7 +156,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
           borderRadius: 2,
           width: '100%',
           position: 'relative',
-          backgroundColor: pokemonData?.isShiny ? 'rgba(255,254,0,0.12)' : 'rgba(164, 218, 195, 0.5)', 
+          backgroundColor: pokemonData?.isShiny ? 'rgba(255,254,0,0.12)' : tileColour, 
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -292,7 +287,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
                   <LinearProgress
                     variant="determinate"
                     value={(currentHappiness || pokemonData.current_happiness) / pokemonData.target_happiness * 100 || 0}
-                    sx={{ height: 10, borderRadius: 5, width: { xs: '150px', sm: '300px' } }}
+                    sx={{ height: 10, borderRadius: 5, width: { xs: '150px', sm: '300px', md: '15vw' } }}
                   />
                 </Box>
                 <Typography
@@ -342,8 +337,11 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
 }
 
 SelectedPokemon.propTypes = {
+  componentBackgroundColour: PropTypes.string,
+  tileColour: PropTypes.string,
   jwt: PropTypes.string.isRequired,
   apiURL: PropTypes.string.isRequired,
   pokemonID: PropTypes.string,
   currentHappiness: PropTypes.number,
+  onPokemonNameChange: PropTypes.func,
 };

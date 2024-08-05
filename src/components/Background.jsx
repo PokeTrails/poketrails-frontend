@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 
 const Background = ({ backgroundImg, backgroundColour, children }) => {
+
   return (
     <Box
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        // height: '100%',
         height: { sm: '100%', md: '100vh' },
         textAlign: 'center',
         backgroundImage: `url(${backgroundImg})`,
