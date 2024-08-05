@@ -25,7 +25,7 @@ export default function TrailComponentBox({ componentDetails, headingColour }) {
       {/* Overall Box Component holding everything */}
       <Box
         sx={{
-          mt: 2,
+          mt: {xs: 0, md: 2},
           backgroundColor: componentDetails.componentBackgroundColour,
           width: { xs: '100vw', md: '1200px', lg: '2000px' },
           maxWidth: { xs: '100%', md: '90vw' },

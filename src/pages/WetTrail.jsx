@@ -19,12 +19,12 @@ export default function WetTrail() {
     // Import background component and pass through page-specific image/colours
     <Background backgroundImg={backgroundImg} backgroundColour={backgroundColour}>
       <Box sx={{
-        mt: 3,
+        mt: 2,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         width: '100%',
-        height: '100vh',
+        minHeight: '100vh',
       }}>
         {/* Main Component to render */}
         <TrailComponentBox componentDetails={componentDetails} headingColour={headingColour}/>
