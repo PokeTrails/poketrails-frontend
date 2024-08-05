@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import PokemonParty from './UserParty';
 import SelectedPokemon from './SelectedPokemon';
+import TrailLog from './TrailLog';
 
 export default function TrailComponentBox({ componentDetails }) {
     const jwt = localStorage.getItem('jwt');
@@ -53,9 +54,16 @@ export default function TrailComponentBox({ componentDetails }) {
                 maxHeight: '50vh',
                 flexGrow: 1,
             }}>
-                <SelectedPokemon jwt={jwt} apiURL={apiURL} pokemonID={selectedPokemon} />
+                {selectedPokemon && (
+                    <SelectedPokemon jwt={jwt} apiURL={apiURL} pokemonID={selectedPokemon} />
+                ) }
             </Box>
+                {!selectedPokemon && (
+                    <Typography variant="body1" textAlign="center">
+                        Select a Pokemon to get started</Typography>
+                    ) }
         </Box>
+        <TrailLog />
         <PokemonParty apiURL={apiURL} jwt={jwt} onPokemonSelect={handlePokemonSelect} />
     </>
   );

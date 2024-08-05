@@ -11,6 +11,7 @@ export default function TrailLog() {
         width: { xs: '100vw', md: '30vh' },
         maxWidth: '1200px',
         mr: 2,
+        mt: 2
       }}
     >
       <Box
