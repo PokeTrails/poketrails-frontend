@@ -16,7 +16,7 @@ export default function TrailData({ pokemonName, trail }) {
       }}
     >
       {/* Render details of completed trails */}
-      <Box sx={{ mt: {xs: 0, md: 10} }}>
+      <Box sx={{ mt: {xs: 0, md: 5} }}>
       {pokemonName && (
         <>
             <CompletedTrail trailType="Wild" textColour="#188831" />
@@ -43,7 +43,7 @@ export default function TrailData({ pokemonName, trail }) {
           <Button
             variant="contained"
             size="medium"
-            sx={{ width: {xs: '100%', md: '70%'}, height: {xs: '40px', md: '50px'}, fontSize: { xs: '14px', md: '18px' } }}
+            sx={{ width: {xs: '100%', md: '80%', lg: '70%'}, height: {xs: '40px', md: '50px'}, fontSize: { xs: '14px', md: '16px', lg: '18px' } }}
           >
             Send {pokemonName}?
           </Button>

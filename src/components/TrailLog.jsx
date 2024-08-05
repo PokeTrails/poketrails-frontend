@@ -5,7 +5,7 @@ export default function TrailLog() {
     <Box
       sx={{
         borderRadius: 2,
-        height: { xs: '30vh', md: '40vh' },
+        height: { xs: '30vh', md: '50vh' },
         pb: 3,
         backgroundColor: 'rgba(164, 218, 195, 0.5)',
         width: { xs: '100vw', md: '35vw' },

@@ -27,8 +27,8 @@ export default function TrailComponentBox({ componentDetails }) {
         sx={{
           mt: 2,
           backgroundColor: 'rgba(164, 218, 195, 0.5)',
-          width: { xs: '100vw', md: '100vw' },
-          maxWidth: '1200px',
+          width: { xs: '100vw', md: '1200px', lg: '2000px' },
+          maxWidth: '90vw',
           borderRadius: 2,
         }}
       >
