@@ -24,6 +24,7 @@ export default function FrostyTrail() {
         flexDirection: 'column',
         alignItems: 'center',
         width: '100%',
+        minHeight: '100vh',
       }}>
         {/* Main Component to render */}
         <TrailComponentBox componentDetails={componentDetails} headingColour={headingColour}/>
