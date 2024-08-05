@@ -12,8 +12,6 @@ export default function TrailComponentBox({ componentDetails, headingColour }) {
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [pokemonName, setPokemonName] = useState(''); // New state for Pokémon name
 
-  console.log(headingColour)
-
   const handlePokemonSelect = (pokemon) => {
     setSelectedPokemon(pokemon);
   };
@@ -125,7 +123,10 @@ export default function TrailComponentBox({ componentDetails, headingColour }) {
           mt: 2
         }}
       >
-        <TrailLog />
+        <TrailLog
+         componentBackgroundColour={componentDetails.componentBackgroundColour}
+         componentHeadingColour={componentDetails.componentHeadingColour}
+         />
       </Box>
 
       <PokemonParty

@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
 export default function TrailLog( { componentBackgroundColour, componentHeadingColour } ) {
+  console.log(`Trail Log: ${componentBackgroundColour}`);
   return (
     <Box
       sx={{

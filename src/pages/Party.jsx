@@ -88,7 +88,10 @@ export default function Party() {
           </Box>
         </Box>
         <Box sx={{ display: { xs: 'block', md: 'none' }, mt: { xs: 2, md: 0 }, width: '100%' }}>
-          <TrailLog />
+          <TrailLog 
+          componentBackgroundColour={componentDetails.componentBackgroundColour}
+          componentHeadingColour={componentDetails.componentHeadingColour}
+          />
         </Box>
         <PokemonParty 
             componentBackgroundColour={componentDetails.componentBackgroundColour}
