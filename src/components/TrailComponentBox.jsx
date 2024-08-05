@@ -10,10 +10,14 @@ export default function TrailComponentBox({ componentDetails }) {
   const jwt = localStorage.getItem('jwt');
   const apiURL = `${import.meta.env.VITE_API_SERVER_URL}`;
   const [selectedPokemon, setSelectedPokemon] = useState(null);
-  console.log(selectedPokemon)
+  const [pokemonName, setPokemonName] = useState(''); // New state for Pokémon name
 
   const handlePokemonSelect = (pokemon) => {
     setSelectedPokemon(pokemon);
+  };
+
+  const handlePokemonNameChange = (name) => {
+    setPokemonName(name);
   };
 
   return (
@@ -63,7 +67,12 @@ export default function TrailComponentBox({ componentDetails }) {
             }}
           >
             {selectedPokemon ? (
-              <SelectedPokemon jwt={jwt} apiURL={apiURL} pokemonID={selectedPokemon} />
+              <SelectedPokemon
+                jwt={jwt}
+                apiURL={apiURL}
+                pokemonID={selectedPokemon}
+                onPokemonNameChange={handlePokemonNameChange} // Pass the callback
+              />
             ) : (
               <Typography variant="body1" textAlign="center" sx={{pl: 3}}>
                 Select a Pokémon to get started
@@ -79,7 +88,7 @@ export default function TrailComponentBox({ componentDetails }) {
               mt: { xs: 2, md: 0 }
             }}
           >
-            <TrailData apiURL={apiURL} selectedPokemon={selectedPokemon} />
+            <TrailData apiURL={apiURL} pokemonName={pokemonName} />
           </Box>
 
           {/* Holds Trail Log */}
