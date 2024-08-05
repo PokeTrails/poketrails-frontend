@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
 export default function TrailLog( { componentBackgroundColour, componentHeadingColour } ) {
+  
   return (
     <Box
       sx={{
@@ -12,7 +13,7 @@ export default function TrailLog( { componentBackgroundColour, componentHeadingC
         width: { xs: '100vw', md: '35vw' },
         maxWidth: '550px',
         maxHeight: '500px',
-        mt: 0
+        mt: 0,
       }}
     >
       <Box
@@ -25,7 +26,7 @@ export default function TrailLog( { componentBackgroundColour, componentHeadingC
         }}
       >
         <Typography variant="h4" fontSize={{ xs: '20px', md: '25px' }} gutterBottom textAlign="center">
-          Trail Log
+          Professor Analysis
         </Typography>
       </Box>
       <Box
