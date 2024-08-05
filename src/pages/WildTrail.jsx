@@ -6,13 +6,13 @@ import TrailComponentBox from "../components/TrailComponentBox";
 
 const componentDetails = {
   trail: "Wild",
-  componentHeadingColour: "rgba(122, 220, 185, 0.6)",
-  componentBackgroundColour: "rgba(164, 218, 195, 0.5)",
+  componentHeadingColour: "rgba(22, 220, 185, 0.6)",
+  componentBackgroundColour: "rgba(140, 218, 195, 0.6)",
   tileColour: "rgba(164, 218, 195, 0.7)",
 };
 
 const headingColour = "#3F7541";
-const backgroundColour = "#C9EECF";
+const backgroundColour = "#AFEECF";
 
 export default function WildTrail() {
     return (

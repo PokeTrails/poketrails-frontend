@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Box, Typography, CircularProgress } from '@mui/material';
 import PropTypes from 'prop-types';
 import PokemonParty from './UserParty';
