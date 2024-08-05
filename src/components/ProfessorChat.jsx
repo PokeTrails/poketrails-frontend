@@ -27,7 +27,7 @@ export default function TrailLog( { componentBackgroundColour, componentHeadingC
             mb: 1,
         }}
       >
-        <Typography variant="h4" fontSize={{ xs: '20px', md: '25px' }} gutterBottom textAlign="center">
+        <Typography variant="h4" fontSize={{ xs: '15px', md: '25px' }} gutterBottom textAlign="center">
           Professor Analysis
         </Typography>
       </Box>
@@ -42,7 +42,7 @@ export default function TrailLog( { componentBackgroundColour, componentHeadingC
         }}
       >
         <Typography variant="body1">
-          {generateOakMessage(pokemonName)}
+          {pokemonName && generateOakMessage(pokemonName) || "Sorry I can't do much with that."}
         </Typography>
       </Box>
     </Box>
