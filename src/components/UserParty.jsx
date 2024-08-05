@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Typography, Grid, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import { Box, Typography, Grid, RadioGroup, FormControlLabel, Radio, CircularProgress } from '@mui/material';
 
 import eggSprite from '../assets/pokemon_egg_animated.gif';
 
@@ -74,7 +74,7 @@ const UserParty = ({ componentBackgroundColour, componentHeadingColour, tileColo
   const slots = Array.from({ length: totalSlots }, (_, index) => pokemonData[index] || { id: `empty-${index}` });
 
   if (isLoading) {
-    return <Typography>Loading...</Typography>;
+    return <CircularProgress />;
   }
 
   if (error) {

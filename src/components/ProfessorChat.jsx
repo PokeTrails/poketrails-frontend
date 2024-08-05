@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { generateOakMessage } from '../utils';
 
-export default function TrailLog({ componentBackgroundColour, componentHeadingColour, pokemonName, isLoading }) {
+export default function ProfessorChat({ componentBackgroundColour, componentHeadingColour, pokemonName, isLoading }) {
   return (
     // Overall Component Box
     <Box
@@ -55,9 +55,9 @@ export default function TrailLog({ componentBackgroundColour, componentHeadingCo
   );
 }
 
-TrailLog.propTypes = {
+ProfessorChat.propTypes = {
   componentBackgroundColour: PropTypes.string,
   componentHeadingColour: PropTypes.string,
   pokemonName: PropTypes.string,
-  isLoading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool,
 };

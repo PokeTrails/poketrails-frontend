@@ -128,6 +128,15 @@ export default function TrailComponentBox({ componentDetails, headingColour }) {
         </Box>
       </Box>
 
+      <PokemonParty
+      componentBackgroundColour={componentDetails.componentBackgroundColour}
+      componentHeadingColour={componentDetails.componentHeadingColour}
+      tileColour={componentDetails.tileColour}
+      apiURL={apiURL}
+      jwt={jwt}
+      onPokemonSelect={handlePokemonSelect}
+      />
+
       {/* Trail Log renders below box on XS screens */}
       <Box
         sx={{
@@ -140,14 +149,6 @@ export default function TrailComponentBox({ componentDetails, headingColour }) {
          componentHeadingColour={componentDetails.componentHeadingColour}
          />
       </Box>
-
-      <PokemonParty
-      componentBackgroundColour={componentDetails.componentBackgroundColour}
-      componentHeadingColour={componentDetails.componentHeadingColour}
-      tileColour={componentDetails.tileColour}
-      apiURL={apiURL}
-      jwt={jwt}
-      onPokemonSelect={handlePokemonSelect} />
     </>
   );
 }

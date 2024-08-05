@@ -11,10 +11,8 @@ export const capitaliseName = (name) => {
 
 
 export const generateOakMessage = (pokemonName) => {
-  console.log(pokemonName);
   const capitalisedName = capitaliseName(pokemonName);
-  console.log(capitalisedName)
-
+  
   const professorMessages = [
     `${capitalisedName} looks incredibly healthy! Its coat is shiny, and its eyes are bright, indicating that it's in excellent physical condition. You must have provided it with a balanced diet and plenty of exercises.`,
     `Wow, ${capitalisedName} seems to have developed an exceptionally strong bond with you. The way it reacts to your presence and follows your commands shows a deep level of trust and loyalty. It's clear you've spent a lot of quality time together.`,
