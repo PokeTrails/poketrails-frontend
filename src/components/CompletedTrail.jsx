@@ -9,7 +9,7 @@ export default function CompletedTrail({ trailType, textColour }) {
         textAlign="center"
         gutterBottom
         sx={{
-            fontSize: { xs: '16px', md: '16px' },
+            fontSize: { xs: '14px', md: '16px' },
             fontWeight: 'bold',
             color: textColour,
             }}

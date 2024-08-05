@@ -10,13 +10,13 @@ export default function TrailData({ pokemonName, trail }) {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center', // Center horizontally
-        justifyContent: 'center', // Center vertically
-        height: {xs: '100', md: '20vh'}, // Ensure the Box takes full height of its parent
+        justifyContent: 'space-between', // Center vertically
+        height: {xs: '100', md: '30vh'}, // Ensure the Box takes full height of its parent
         textAlign: 'center' // Center text content
       }}
     >
       {/* Render details of completed trails */}
-      <Box sx={{ mb: 2 }}>
+      <Box sx={{ mt: {xs: 0, md: 10} }}>
       {pokemonName && (
         <>
             <CompletedTrail trailType="Wild" textColour="#188831" />
@@ -27,30 +27,30 @@ export default function TrailData({ pokemonName, trail }) {
       )}
       </Box>
 
-      {/* Render whether Pokémon is ready to go on trail or not */}
-      <Box sx={{ mb: 2 }}>
-        <Typography
-          variant="body1"
-          gutterBottom
-          sx={{ fontSize: { xs: '15px', md: '16px' } }}
-        >
-          {pokemonName ? `${capitaliseName(pokemonName)} is ready to explore the ${trail} trail` : ''}
-        </Typography>
-      </Box>
-
-      {/* Render Button if Pokemon is ready to go on trail and if not an egg */}
+     
       <Box>
+         {/* Render whether Pokémon is ready to go on trail or not */}
+        <Typography
+            variant="body1"
+            gutterBottom
+            sx={{ fontSize: { xs: '14px', md: '16px' }, mt: {xs: 2}, mb: 2 }}
+            >
+            {pokemonName ? `${capitaliseName(pokemonName)} is ready to explore the ${trail} trail` : ''}
+            </Typography>
+
+         {/* Render Button if Pokemon is ready to go on trail and if not an egg */}
         {pokemonName && (
           <Button
             variant="contained"
             size="medium"
-            sx={{ width: '100%', height: '50px', fontSize: { xs: '16px', md: '18px' } }}
+            sx={{ width: {xs: '100%', md: '70%'}, height: {xs: '40px', md: '50px'}, fontSize: { xs: '14px', md: '18px' } }}
           >
             Send {pokemonName}?
           </Button>
         )}
       </Box>
     </Box>
+    
   );
 }
 

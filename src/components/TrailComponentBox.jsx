@@ -66,18 +66,13 @@ export default function TrailComponentBox({ componentDetails }) {
               overflow: 'hidden'
             }}
           >
-            {selectedPokemon ? (
-              <SelectedPokemon
+            {/* Render selected pokemon component */}
+            <SelectedPokemon
                 jwt={jwt}
                 apiURL={apiURL}
                 pokemonID={selectedPokemon}
-                onPokemonNameChange={handlePokemonNameChange} // Pass the callback
+                onPokemonNameChange={handlePokemonNameChange}
               />
-            ) : (
-              <Typography variant="body1" textAlign="center" sx={{pl: 3}}>
-                Select a Pokémon to get started
-              </Typography>
-            )}
           </Box>
 
           {/* Shows Trail Data for Pokémon */}
