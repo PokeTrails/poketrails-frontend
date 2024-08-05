@@ -8,8 +8,9 @@ export default function TrailLog() {
         height: { xs: '30vh', md: '40vh' },
         pb: 3,
         backgroundColor: 'rgba(164, 218, 195, 0.5)',
-        width: { xs: '100vw', md: '30vh' },
-        maxWidth: '1200px',
+        width: { xs: '100vw', md: '35vw' },
+        maxWidth: '550px',
+        maxHeight: '500px',
         mt: 0
       }}
     >

@@ -143,7 +143,8 @@ export default function Interactions({ apiURL, jwt, pokemonID, onAlert, onHappin
         height: { xs: '40vh', md: '40vh' },
         backgroundColor: 'rgba(164, 218, 195, 0.5)',
         minWidth: { xs: '150px', md: '250px' },
-        width: { xs: '70%', md: '30vh' },
+        width: { xs: '70%', md: '20vw' },
+        maxHeight: '500px',
         maxWidth: '1200px',
         mr: 2,
       }}

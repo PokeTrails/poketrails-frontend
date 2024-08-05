@@ -138,8 +138,8 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
         borderRadius: 2,
         pb: 3,
         backgroundColor: 'rgba(175, 228, 206, 0.6)',
-        width: { xs: '80vw', md: '30vh' },
-        maxWidth: '1200px',
+        width: { xs: '80vw', md: '20vw' },
+        maxWidth: '550px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -286,7 +286,7 @@ export default function SelectedPokemon({ jwt, apiURL, pokemonID, currentHappine
                   <LinearProgress
                     variant="determinate"
                     value={(currentHappiness || pokemonData.current_happiness) / pokemonData.target_happiness * 100 || 0}
-                    sx={{ height: 10, borderRadius: 5, width: { xs: '150px', sm: '300px' } }}
+                    sx={{ height: 10, borderRadius: 5, width: { xs: '150px', sm: '300px', md: '15vw' } }}
                   />
                 </Box>
                 <Typography
