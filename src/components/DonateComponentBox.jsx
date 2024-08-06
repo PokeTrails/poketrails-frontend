@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Typography, CircularProgress } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import PokemonParty from './UserParty';
 import SelectedPokemon from './SelectedPokemon';
@@ -96,7 +96,7 @@ export default function DonateComponentBox({ componentDetails, headingColour }) 
           >
             {/* Loading Animation when switching Pokemon before showing donate component */}
             {isLoading ? (
-              <CircularProgress />
+              'Loading...'
             ) : pokemonName ? (
               <DonatePokemon pokemonName={pokemonName} />
             ) : (
