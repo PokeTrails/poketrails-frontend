@@ -15,6 +15,7 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
   const { isLoading, setIsLoading } = useLoading(); // Initialize useLoading hook
   const { pokemonCount, loading: countLoading, error: countError } = usePokemonCount(jwt, apiURL);
 
+  // Set loading state based on the countLoading state
   useEffect(() => {
     if (countLoading) {
       setIsLoading(true);
@@ -34,11 +35,13 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
     setError(null);
 
     try {
+      // Send Pokémon donation request to the server
       const response = await axios.patch(`${apiURL}/pokemon/donate/${pokemonID}`, {}, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       })
+      // Sets donation popup to true and assigns response data
       openPopup(response.data);
     } catch (err) {
       console.error('Error sending Pokémon:', err);
@@ -48,8 +51,9 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
     }
   };
 
+  // If loading, show loading message
   if (countError) return <Typography color="error">Failed to fetch Pokémon count.</Typography>;
-
+  
   return (
     <Box
       sx={{
@@ -72,7 +76,8 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
       >
         Would you like to send this Pokémon to Professor Oak?
       </Typography>
-        
+      
+      {/* Show amount user will receive from donation */}
       <Typography
         variant="body1"
         gutterBottom
@@ -94,6 +99,8 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
         100
       </Typography>
 
+
+      {/* Confirmation Checkbox to enable donation button */}
       <FormControlLabel
         control={
           <Checkbox
@@ -117,6 +124,8 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
         }}
       />
 
+
+      {/* Button to send Pokemon, requires pokemon name to be passed through */}
       {pokemonName && (
         <Button
           variant="contained"
@@ -139,6 +148,8 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
         </Typography>
       )}
 
+
+      {/* If openPopup has set value to true, show donation popup component */}
       {showPopup && (
         <DonatePopup
           popupData={popupData}
