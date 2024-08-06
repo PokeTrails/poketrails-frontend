@@ -32,16 +32,28 @@ export default function DonatePokemon({ pokemonName }) {
         Would you like to send this Pokémon to Professor Oak?
       </Typography>
         
+
+      {/* Uses unicode symbol */}
       <Typography
-        variant="body1"
-        gutterBottom
-        sx={{ 
-          fontSize: { xs: '13px', sm: '14px', md: '16px' }, 
-          fontWeight: 500
+      variant="body1"
+      gutterBottom
+      sx={{ 
+        fontSize: { xs: '13px', sm: '14px', md: '20px' }, 
+        fontWeight: 600
+      }}
+    >
+      You will receive{' '}
+      <Typography
+        component="span"
+        sx={{
+          fontSize: { xs: '13px', sm: '16px', md: '22px' },
+          fontWeight: 600,
         }}
       >
-        You will receive (BALANCE HERE)
+        ₽
       </Typography>
+      100 for this Pokémon
+    </Typography>
 
 
       {/* Confirmation Checkbox before enabling button */}
