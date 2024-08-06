@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import InteractionButton from './InteractionButton';
 import usePlayCryAudio from '../hooks/usePlayCryAudio';
 import EvolvePopup from './EvolvePopup';
+import usePopup from '../hooks/usePopup';
 
 import { capitaliseName } from '../utils';
 
@@ -17,10 +18,9 @@ export default function Interactions({ componentBackgroundColour, componentHeadi
   const [maxLevel, setMaxLevel] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [cryUrl, setCryUrl] = useState('');
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupData, setPopupData] = useState(null);
 
   const playCryAudio = usePlayCryAudio(onAlert);
+  const { showPopup, popupData, openPopup, closePopup } = usePopup();
 
   // Fetch Pokémon data
   const fetchPokemonData = useCallback(async () => {
@@ -113,21 +113,14 @@ export default function Interactions({ componentBackgroundColour, componentHeadi
         },
       });
 
-      // Display evolution popup
-      setPopupData(response.data);
-      setShowPopup(true);
+      // Open the evolution popup with the received data
+      openPopup(response.data);
     } catch (err) {
       console.error('Failed to evolve Pokémon:', err);
       onAlert(capitaliseName('Failed to evolve Pokémon'), 'error');
     } finally {
       setIsLoading(false);
     }
-  };
-
-  // Close the evolution popup
-  const handleClosePopup = () => {
-    setShowPopup(false);
-    window.location.reload(); // Reload the page to update the party
   };
 
   // Render evolve button if Pokémon can evolve
@@ -209,7 +202,7 @@ export default function Interactions({ componentBackgroundColour, componentHeadi
       {showPopup && (
         <EvolvePopup
           data={popupData}
-          onClose={handleClosePopup}
+          onClose={closePopup}
         />
       )}
     </Box>

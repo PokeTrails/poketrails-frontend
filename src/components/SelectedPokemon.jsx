@@ -6,6 +6,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 import useLoading from '../hooks/useLoading';
+import usePopup from '../hooks/usePopup'; // Import the usePopup hook
 import { capitaliseName } from '../utils';
 import eggSprite from '../assets/pokemon_egg_animated.gif';
 import shinyIcon from '../assets/shiny_icon.png';
@@ -19,8 +20,9 @@ export default function SelectedPokemon({ componentBackgroundColour, tileColour,
   const [isEditing, setIsEditing] = useState(false);
   const [newNickname, setNewNickname] = useState('');
   const [isHatching, setIsHatching] = useState(false);
-  const [popupData, setPopupData] = useState(null);
-  const [showPopup, setShowPopup] = useState(false);
+  
+  // Use usePopup hook for managing popup state and actions
+  const { showPopup, popupData, openPopup, closePopup } = usePopup();
 
   useEffect(() => {
     const fetchPokemonData = async () => {
@@ -117,20 +119,13 @@ export default function SelectedPokemon({ componentBackgroundColour, tileColour,
         },
       });
 
-      setPopupData(response.data);
-      setShowPopup(true);
-      
+      openPopup(response.data);
     } catch (err) {
       console.error('Failed to hatch Pokémon:', err);
       setError('Failed to hatch Pokémon.');
     } finally {
       setIsHatching(false);
     }
-  };
-
-  const handleClosePopup = () => {
-    setShowPopup(false);
-    window.location.reload();
   };
 
   return (
@@ -326,12 +321,8 @@ export default function SelectedPokemon({ componentBackgroundColour, tileColour,
         </Box>
       )}
 
-      {showPopup && (
-        <HatchPopup
-          data={popupData}
-          onClose={handleClosePopup}
-        />
-      )}
+      {/* Render the HatchPopup component */}
+      {showPopup && <HatchPopup data={popupData} onClose={closePopup} />}
     </Box>
   );
 }
@@ -342,6 +333,6 @@ SelectedPokemon.propTypes = {
   jwt: PropTypes.string.isRequired,
   apiURL: PropTypes.string.isRequired,
   pokemonID: PropTypes.string,
-  currentHappiness: PropTypes.number,
+  currentHappiness: PropTypes.number.isRequired,
   onPokemonNameChange: PropTypes.func,
 };
