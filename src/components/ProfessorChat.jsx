@@ -30,7 +30,7 @@ export default function ProfessorChat({ componentBackgroundColour, componentHead
         }}
       >
         {/* Heading for Component */}
-        <Typography variant="h4" fontSize={{ xs: '15px', md: '25px' }} gutterBottom textAlign="center">
+        <Typography variant="h4" fontSize={{ xs: '20px', md: '25px' }} gutterBottom textAlign="center">
           Professor Analysis
         </Typography>
       </Box>
