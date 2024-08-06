@@ -1,9 +1,11 @@
 import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
-import { generateOakMessage } from '../utils';
+import { useOakMessage } from '../hooks/useOakMessage';
 
 export default function ProfessorChat({ componentBackgroundColour, componentHeadingColour, pokemonName, isLoading }) {
+  const oakMessage = useOakMessage(pokemonName);
+  
   return (
     // Overall Component Box
     <Box
@@ -47,7 +49,7 @@ export default function ProfessorChat({ componentBackgroundColour, componentHead
           {isLoading
             ? ''
             : pokemonName
-            ? generateOakMessage(pokemonName)
+            ? oakMessage
             : "Sorry, I can't do much with that."}
         </Typography>
       </Box>
