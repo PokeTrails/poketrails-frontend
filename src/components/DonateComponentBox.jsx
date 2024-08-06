@@ -85,7 +85,11 @@ export default function DonateComponentBox({ componentDetails, headingColour }) 
             {isLoading ? (
               'Loading...'
             ) : pokemonName ? (
-              <DonatePokemon pokemonName={pokemonName} />
+              <DonatePokemon 
+              pokemonName={pokemonName}
+              pokemonID={selectedPokemon}
+              apiURL={apiURL}
+              jwt={jwt} />
             ) : (
               'Please select a valid Pokémon'
             )}
