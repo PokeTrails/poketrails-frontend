@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import useLoading from '../hooks/useLoading'; // Import your custom useLoading hook
 
 function useDonationReward(pokemonID, jwt, apiURL) {
   const [reward, setReward] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { isLoading, setIsLoading } = useLoading();
   const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!pokemonID || !jwt) return;
 
     const fetchReward = async () => {
+      setIsLoading(true); // Set loading state to true
       try {
-        setLoading(true);
         const response = await axios.get(`${apiURL}/pokemon/donate/reward/${pokemonID}`, {
           headers: {
             Authorization: `Bearer ${jwt}`,
@@ -22,14 +23,14 @@ function useDonationReward(pokemonID, jwt, apiURL) {
         console.error('Error fetching donation reward:', err);
         setError('Failed to fetch donation reward.');
       } finally {
-        setLoading(false);
+        setIsLoading(false); // Set loading state to false after request
       }
     };
 
     fetchReward();
-  }, [pokemonID, jwt, apiURL]);
+  }, [pokemonID, jwt, apiURL, setIsLoading]); // Include setIsLoading in the dependency array
 
-  return { reward, loading, error };
+  return { reward, isLoading, error };
 }
 
 export default useDonationReward;

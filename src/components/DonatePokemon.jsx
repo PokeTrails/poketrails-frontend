@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, Button, Typography, Checkbox, FormControlLabel, CircularProgress } from '@mui/material';
+import { Box, Button, Typography, Checkbox, FormControlLabel } from '@mui/material';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import usePopup from '../hooks/usePopup'; // Custom hook for managing popup state
@@ -15,7 +15,7 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
   const [isChecked, setIsChecked] = useState(false);
   // State to manage sending status
   const [isSending, setIsSending] = useState(false);
-  
+
   // Error state management from custom hook
   const { error, setError, clearError } = useError();
   // Popup state management from custom hook
@@ -25,7 +25,7 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
   // Fetch Pokémon count using custom hook
   const { pokemonCount, loading: countLoading, error: countError } = usePokemonCount(jwt, apiURL);
   // Fetch donation reward using custom hook
-  const { reward, loading: rewardLoading, error: rewardError } = useDonationReward(pokemonID, jwt, apiURL);
+  const { reward, isLoading: rewardLoading, error: rewardError } = useDonationReward(pokemonID, jwt, apiURL);
 
   // Effect to set loading state based on Pokémon count and reward fetching
   useEffect(() => {
@@ -105,17 +105,22 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
           fontWeight: 600
         }}
       >
-        You will receive{' '}
-        <Typography
-          component="span"
-          sx={{
-            fontSize: { xs: '13px', sm: '16px', md: '22px' },
-            fontWeight: 600,
-          }}
-        >
-          ₽
-        </Typography>
-        {rewardLoading ? <CircularProgress size={24} /> : reward || 100} {/* Show loading spinner or fetched reward */}
+        {rewardLoading ? (
+          <>Calculating Pokémon Value <Typography component="span" sx={{ fontSize: { xs: '13px', sm: '16px', md: '22px' }, fontWeight: 600 }}>...</Typography></>
+        ) : (
+          <>You will receive{' '}
+            <Typography
+              component="span"
+              sx={{
+                fontSize: { xs: '13px', sm: '16px', md: '22px' },
+                fontWeight: 600,
+              }}
+            >
+              ₽
+            </Typography>
+            {reward || 100}
+          </>
+        )}
       </Typography>
 
       {/* Checkbox to confirm donation */}
@@ -155,7 +160,7 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
           disabled={!isChecked || isSending || isLoading || pokemonCount <= 1} // Disable button if not checked, sending, loading, or only 1 Pokémon left
           onClick={handleSendPokemon}
         >
-          {isSending ? <CircularProgress size={24} /> : `Send ${pokemonName}?`} {/* Show loading spinner or button text */}
+          {isSending ? "Sending..." : `Send ${pokemonName}?`} {/* Show sending text or button text */}
         </Button>
       )}
 
@@ -167,7 +172,6 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
           nickname={pokemonName}
         />
       )}
-
     </Box>
   );
 }
