@@ -74,7 +74,7 @@ const UserParty = ({ componentBackgroundColour, componentHeadingColour, tileColo
   const slots = Array.from({ length: totalSlots }, (_, index) => pokemonData[index] || { id: `empty-${index}` });
 
   if (isLoading) {
-    return <CircularProgress />;
+    return <CircularProgress sx={{ mt: 2 }}/>;
   }
 
   if (error) {
