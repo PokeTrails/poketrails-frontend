@@ -1,8 +1,6 @@
 import { Box, Typography, Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useState, useEffect, useRef } from 'react';
-import sprite from '../assets/pikachu.gif'; // Temporary sprite
-
 import { capitaliseName } from '../utils';
 
 const DonatePopup = ({ nickname, popupData, onClose, onReload }) => {
@@ -61,7 +59,7 @@ const DonatePopup = ({ nickname, popupData, onClose, onReload }) => {
           >
             <img
               ref={spriteRef}
-              src={sprite} // Use temporary sprite
+              src={popupData.sprite}
               alt={nickname}
               style={{
                 maxWidth: '100%',
