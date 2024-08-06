@@ -2,22 +2,32 @@ import { useState, useEffect } from 'react';
 import { Box, Button, Typography, Checkbox, FormControlLabel, CircularProgress } from '@mui/material';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import usePopup from '../hooks/usePopup';
-import DonatePopup from '../components/DonatePopup';
-import usePokemonCount from '../hooks/usePokemonCount'; // Import the custom hook
-import useLoading from '../hooks/useLoading'; // Import the useLoading hook
-import useDonationReward from '../hooks/useDonationReward'; // Import the new custom hook
+import usePopup from '../hooks/usePopup'; // Custom hook for managing popup state
+import DonatePopup from '../components/DonatePopup'; // Component for displaying donation result
+import usePokemonCount from '../hooks/usePokemonCount'; // Custom hook for fetching Pokémon count
+import useLoading from '../hooks/useLoading'; // Custom hook for managing loading state
+import useDonationReward from '../hooks/useDonationReward'; // Custom hook for fetching donation reward
+import useError from '../hooks/useError'; // Import the custom hook for error handling
 
+// Component for handling Pokémon donation
 export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
+  // State to manage checkbox status
   const [isChecked, setIsChecked] = useState(false);
+  // State to manage sending status
   const [isSending, setIsSending] = useState(false);
-  const [error, setError] = useState(null);
+  
+  // Error state management from custom hook
+  const { error, setError, clearError } = useError();
+  // Popup state management from custom hook
   const { openPopup, closePopup, showPopup, popupData } = usePopup();
-  const { isLoading, setIsLoading } = useLoading(); // Initialize useLoading hook
+  // Loading state management from custom hook
+  const { isLoading, setIsLoading } = useLoading();
+  // Fetch Pokémon count using custom hook
   const { pokemonCount, loading: countLoading, error: countError } = usePokemonCount(jwt, apiURL);
+  // Fetch donation reward using custom hook
   const { reward, loading: rewardLoading, error: rewardError } = useDonationReward(pokemonID, jwt, apiURL);
 
-  // Set loading state based on the countLoading state
+  // Effect to set loading state based on Pokémon count and reward fetching
   useEffect(() => {
     if (countLoading || rewardLoading) {
       setIsLoading(true);
@@ -25,6 +35,12 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
       setIsLoading(false);
     }
   }, [countLoading, rewardLoading, setIsLoading]);
+
+  // Effect to handle errors from Pokémon count and reward fetching
+  useEffect(() => {
+    if (countError) setError('Failed to fetch Pokémon count.');
+    if (rewardError) setError('Failed to fetch donation reward.');
+  }, [countError, rewardError, setError]);
 
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
@@ -34,16 +50,16 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
     if (!pokemonID || !jwt) return;
 
     setIsSending(true);
-    setError(null);
+    clearError(); // Clear any previous errors
 
     try {
-      // Send Pokémon donation request to the server
+      // Send donation request to the server
       const response = await axios.patch(`${apiURL}/pokemon/donate/${pokemonID}`, {}, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
-      })
-      // Sets donation popup to true and assigns response data
+      });
+      // Show popup with response data
       openPopup(response.data);
     } catch (err) {
       console.error('Error sending Pokémon:', err);
@@ -53,8 +69,8 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
     }
   };
 
-  if (countError) return <Typography color="error">Failed to fetch Pokémon count.</Typography>;
-  if (rewardError) return <Typography color="error">Failed to fetch donation reward.</Typography>;
+  // Display error messages
+  if (error) return <Typography color="error">{error}</Typography>;
 
   return (
     <Box
@@ -68,6 +84,7 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
         padding: 2,
       }}
     >
+      {/* Prompt for donation */}
       <Typography
         variant="body1"
         gutterBottom
@@ -79,7 +96,7 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
         Would you like to send this Pokémon to Professor Oak?
       </Typography>
       
-      {/* Show amount user will receive from donation */}
+      {/* Show the amount user will receive from donation */}
       <Typography
         variant="body1"
         gutterBottom
@@ -98,9 +115,10 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
         >
           ₽
         </Typography>
-        {rewardLoading ? <CircularProgress size={24} /> : reward || 100} {/* Show loading spinner or reward */}
+        {rewardLoading ? <CircularProgress size={24} /> : reward || 100} {/* Show loading spinner or fetched reward */}
       </Typography>
 
+      {/* Checkbox to confirm donation */}
       <FormControlLabel
         control={
           <Checkbox
@@ -124,6 +142,7 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
         }}
       />
 
+      {/* Button to send Pokémon */}
       {pokemonName && (
         <Button
           variant="contained"
@@ -136,16 +155,11 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
           disabled={!isChecked || isSending || isLoading || pokemonCount <= 1} // Disable button if not checked, sending, loading, or only 1 Pokémon left
           onClick={handleSendPokemon}
         >
-          {isSending ? <CircularProgress size={24} /> : `Send ${pokemonName}?`}
+          {isSending ? <CircularProgress size={24} /> : `Send ${pokemonName}?`} {/* Show loading spinner or button text */}
         </Button>
       )}
 
-      {error && (
-        <Typography color="error" sx={{ mt: 2 }}>
-          {error}
-        </Typography>
-      )}
-
+      {/* Show donation result popup if applicable */}
       {showPopup && (
         <DonatePopup
           popupData={popupData}
@@ -158,9 +172,10 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
   );
 }
 
+// Define prop types for the component
 DonatePokemon.propTypes = {
-  pokemonName: PropTypes.string,
-  pokemonID: PropTypes.string,
-  jwt: PropTypes.string.isRequired,
-  apiURL: PropTypes.string.isRequired,
+  pokemonName: PropTypes.string, // Name of the Pokémon to be donated
+  pokemonID: PropTypes.string, // ID of the Pokémon to be donated
+  jwt: PropTypes.string.isRequired, // JWT token for authentication
+  apiURL: PropTypes.string.isRequired, // Base URL for API requests
 };
