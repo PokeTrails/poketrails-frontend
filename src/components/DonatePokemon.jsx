@@ -1,17 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Button, Typography, Checkbox, FormControlLabel, CircularProgress } from '@mui/material';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import usePopup from '../hooks/usePopup';
 import DonatePopup from '../components/DonatePopup';
 import usePokemonCount from '../hooks/usePokemonCount'; // Import the custom hook
+import useLoading from '../hooks/useLoading'; // Import the useLoading hook
 
 export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
   const [isChecked, setIsChecked] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState(null);
   const { openPopup, closePopup, showPopup, popupData } = usePopup();
+  const { isLoading, setIsLoading } = useLoading(); // Initialize useLoading hook
   const { pokemonCount, loading: countLoading, error: countError } = usePokemonCount(jwt, apiURL);
+
+  useEffect(() => {
+    if (countLoading) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [countLoading, setIsLoading]);
 
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
@@ -24,12 +34,12 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
     setError(null);
 
     try {
-      await axios.patch(`${apiURL}/pokemon/donate/${pokemonID}`, {}, {
+      const response = await axios.patch(`${apiURL}/pokemon/donate/${pokemonID}`, {}, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
-      });
-      openPopup({ message: 'Donation successful!' }); // Pass any additional data if needed
+      })
+      openPopup(response.data);
     } catch (err) {
       console.error('Error sending Pokémon:', err);
       setError('Failed to send Pokémon.');
@@ -90,13 +100,14 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
             checked={isChecked}
             onChange={handleCheckboxChange}
             color="primary"
-            disabled={pokemonCount <= 1} // Disable checkbox if only 1 Pokémon is left
+            disabled={isLoading || pokemonCount <= 1} // Disable checkbox if loading or only 1 Pokémon left
           />
         }
-        label={pokemonCount <= 1 
-          ? "You can't donate your last Pokémon" 
-          : "I confirm that I want to send this Pokémon"
-        }
+        label={isLoading
+          ? "Loading..."
+          : pokemonCount <= 1
+          ? "You can't donate your last Pokémon"
+          : "I confirm that I want to send this Pokémon"}
         sx={{ 
           mt: 1, 
           mb: 2,
@@ -115,7 +126,7 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
             height: { xs: '40px', md: '50px' }, 
             fontSize: { xs: '13px', sm: '14px', md: '16px', lg: '18px' } 
           }}
-          disabled={!isChecked || isSending || countLoading || pokemonCount <= 1} // Disable button if not checked, sending, or only 1 Pokémon left
+          disabled={!isChecked || isSending || isLoading || pokemonCount <= 1} // Disable button if not checked, sending, loading, or only 1 Pokémon left
           onClick={handleSendPokemon}
         >
           {isSending ? <CircularProgress size={24} /> : `Send ${pokemonName}?`}
