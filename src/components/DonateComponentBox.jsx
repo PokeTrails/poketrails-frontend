@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
 import PokemonParty from './UserParty';
 import SelectedPokemon from './SelectedPokemon';
 import useLoading from '../hooks/useLoading';
 import DonatePokemon from './DonatePokemon';
 import ProfessorChat from './ProfessorChat';
+import ProfessorStoreHeading from './ProfessorStoreHeading';
 
 export default function DonateComponentBox({ componentDetails, headingColour }) {
   const jwt = localStorage.getItem('jwt');
@@ -36,27 +37,13 @@ export default function DonateComponentBox({ componentDetails, headingColour }) 
           borderRadius: 2,
         }}
       >
-        <Box
-          sx={{
-            backgroundColor: componentDetails.componentHeadingColour,
-            pt: 1,
-            pb: 0.5,
-            mb: 1,
-            borderTopLeftRadius: 2,
-            borderTopRightRadius: 2,
-          }}
-        >
-          <Typography
-            sx={{ color: headingColour }}
-            variant="h4"
-            fontSize={{ xs: '20px', md: '25px' }}
-            fontWeight={500}
-            gutterBottom
-            textAlign="center"
-          >
-            {componentDetails.heading}
-          </Typography>
-        </Box>
+
+        {/* Heading for Component */}
+        <ProfessorStoreHeading 
+        componentHeadingColour={componentDetails.componentHeadingColour}
+        headingColour={headingColour}
+        heading={componentDetails.heading}
+        />
 
         <Box
           sx={{

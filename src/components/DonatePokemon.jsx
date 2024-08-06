@@ -52,7 +52,7 @@ export default function DonatePokemon({ pokemonName }) {
       >
         ₽
       </Typography>
-      100 for this Pokémon
+      100
     </Typography>
 
 
