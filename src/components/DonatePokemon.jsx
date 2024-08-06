@@ -4,12 +4,14 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import usePopup from '../hooks/usePopup';
 import DonatePopup from '../components/DonatePopup';
+import usePokemonCount from '../hooks/usePokemonCount'; // Import the custom hook
 
 export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
   const [isChecked, setIsChecked] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState(null);
   const { openPopup, closePopup, showPopup, popupData } = usePopup();
+  const { pokemonCount, loading: countLoading, error: countError } = usePokemonCount(jwt, apiURL);
 
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
@@ -22,13 +24,12 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
     setError(null);
 
     try {
-      const response = await axios.patch(`${apiURL}/pokemon/donate/${pokemonID}`, {}, {
+      await axios.patch(`${apiURL}/pokemon/donate/${pokemonID}`, {}, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       });
-      console.log(response.data);
-      openPopup(response.data);
+      openPopup({ message: 'Donation successful!' }); // Pass any additional data if needed
     } catch (err) {
       console.error('Error sending Pokémon:', err);
       setError('Failed to send Pokémon.');
@@ -36,6 +37,8 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
       setIsSending(false);
     }
   };
+
+  if (countError) return <Typography color="error">Failed to fetch Pokémon count.</Typography>;
 
   return (
     <Box
@@ -87,9 +90,13 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
             checked={isChecked}
             onChange={handleCheckboxChange}
             color="primary"
+            disabled={pokemonCount <= 1} // Disable checkbox if only 1 Pokémon is left
           />
         }
-        label="I confirm that I want to send this Pokémon"
+        label={pokemonCount <= 1 
+          ? "You can't donate your last Pokémon" 
+          : "I confirm that I want to send this Pokémon"
+        }
         sx={{ 
           mt: 1, 
           mb: 2,
@@ -108,8 +115,8 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
             height: { xs: '40px', md: '50px' }, 
             fontSize: { xs: '13px', sm: '14px', md: '16px', lg: '18px' } 
           }}
-          disabled={!isChecked || isSending} // Disable button if checkbox is not checked or sending is in progress
-          onClick={handleSendPokemon} // Call the function when clicked
+          disabled={!isChecked || isSending || countLoading || pokemonCount <= 1} // Disable button if not checked, sending, or only 1 Pokémon left
+          onClick={handleSendPokemon}
         >
           {isSending ? <CircularProgress size={24} /> : `Send ${pokemonName}?`}
         </Button>
@@ -123,9 +130,9 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
 
       {showPopup && (
         <DonatePopup
-        popupData={popupData}
-        onClose={closePopup}
-        nickname={pokemonName}
+          popupData={popupData}
+          onClose={closePopup}
+          nickname={pokemonName}
         />
       )}
 
