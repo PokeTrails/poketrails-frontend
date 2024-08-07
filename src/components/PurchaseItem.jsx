@@ -18,7 +18,7 @@ export default function PurchaseItem({ itemData }) {
 
   // Use usePopup hook for managing popup state and actions
   const { showPopup, popupData, openPopup, closePopup } = usePopup();
-
+  
   const handleButtonClick = async () => {
     try {
       // Determine action based on item level
@@ -26,14 +26,20 @@ export default function PurchaseItem({ itemData }) {
       const action = isUpgrading ? 'upgrading' : 'buying';
 
       // Send request based on action
-      const response = await axios.patch(`${apiURL}/store/buy/${itemData._id}`, {}, {
+      await axios.patch(`${apiURL}/store/buy/${itemData._id}`, {}, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       });
 
-      // Set popup data based on action
+      // If the item is an egg, request to add a Pokémon to the party
       if (itemData.isEgg) {
+        await axios.post(`${apiURL}/pokemon`, {}, {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        });
+
         openPopup({
           title: 'Purchase Successful',
           message: `Purchase successful, take good care of that egg!`,
@@ -52,7 +58,7 @@ export default function PurchaseItem({ itemData }) {
           type: 'success',
         });
       }
-      
+
     } catch (err) {
       console.log('Error:', err);
       // Handle error
