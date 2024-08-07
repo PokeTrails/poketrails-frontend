@@ -32,7 +32,7 @@ export default function ItemDescription({ itemData }) {
           {/* Item Name with Conditional Level */}
           <Typography
             variant="h5"
-            sx={{ color: 'black', textAlign: 'left', mt: 2 }}
+            sx={{ color: 'black', textAlign: 'left' }}
             fontWeight={600}
             fontSize={{ xs: '18px', md: '22px' }}
           >
@@ -44,8 +44,8 @@ export default function ItemDescription({ itemData }) {
           {/* Item Description */}
           <Typography
             variant="h6"
-            fontSize={{ xs: '16px', md: '18px' }}
-            sx={{ color: 'black', textAlign: 'left', mt: 2 }}
+            fontSize={{ xs: '14px', md: '18px' }}
+            sx={{ color: 'black', textAlign: 'left', mt: 1 }}
           >
             {itemData.description}
           </Typography>
@@ -64,7 +64,7 @@ export default function ItemDescription({ itemData }) {
               <Typography
                 variant="h6"
                 fontWeight={500}
-                fontSize={{ xs: '16px', md: '18px' }}
+                fontSize={{ xs: '14px', md: '18px' }}
                 sx={{ color: 'black', textAlign: 'left' }}
               >
                 {itemData.isFullyUpgraded ? 'No' : 'Yes'}

@@ -2,14 +2,16 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Typography, Grid, RadioGroup, FormControlLabel, Radio, CircularProgress } from '@mui/material';
-
-import itemImage from '../assets/store_images/happiness_share.png'; // Placeholder image for items
+import useItemImage from '../hooks/useItemImage';
 
 const StoreInventory = ({ componentBackgroundColour, componentHeadingColour, tileColour, apiURL, jwt, onItemSelect }) => {
   const [itemsData, setItemsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
+
+  // Fetch images for all items using the useItemImage hook
+  const itemImageMap = useItemImage();
 
   useEffect(() => {
     const fetchStoreData = async () => {
@@ -22,32 +24,23 @@ const StoreInventory = ({ componentBackgroundColour, componentHeadingColour, til
 
         const fetchedData = response.data;
 
-        const updatedData = await Promise.all(
-          fetchedData.map(async (item) => {
-            if (item) {
-              try {
-                const itemResponse = await axios.get(`${apiURL}/store/view/${item._id}`, {
-                  headers: {
-                    Authorization: `Bearer ${jwt}`,
-                  },
-                });
+        const updatedData = fetchedData.map((item) => {
+          const itemName = item.itemName;
+          const image = itemImageMap[itemName] || itemImageMap['Basic Egg']; // Use image from hook or default to eggImage
 
-                return {
-                  id: item._id,
-                  itemName: itemResponse.data.itemName,
-                  price: itemResponse.data.price,
-                  owned: itemResponse.data.owned,
-                  isFullyUpgraded: itemResponse.data.isFullyUpgraded,
-                  sprite: itemResponse.data.sprite || itemImage, // Placeholder or actual image
-                };
-              } catch (itemError) {
-                console.error(`Error fetching details for item ID ${item._id}:`, itemError);
-                return null; // Skip item if error occurs
-              }
-            }
-            return null; // Slot is empty
-          })
-        );
+          // Log item and image URL for debugging
+          console.log('Item:', item);
+          console.log('Image URL:', image);
+
+          return {
+            id: item._id,
+            itemName,
+            price: item.price,
+            owned: item.owned,
+            isFullyUpgraded: item.isFullyUpgraded,
+            sprite: image,
+          };
+        });
 
         // Ensure there are exactly 6 items
         const slots = [...updatedData];
@@ -65,7 +58,7 @@ const StoreInventory = ({ componentBackgroundColour, componentHeadingColour, til
     };
 
     fetchStoreData();
-  }, [apiURL, jwt]);
+  }, [apiURL, jwt, itemImageMap]);
 
   const handleItemSelect = (event) => {
     const selected = event.target.value;
@@ -153,6 +146,9 @@ const StoreInventory = ({ componentBackgroundColour, componentHeadingColour, til
                         style={{
                           maxWidth: '100%',
                           maxHeight: '100%',
+                        }}
+                        onError={(e) => {
+                          e.target.src = '/path/to/default_image.png'; // Fallback image
                         }}
                       />
                     ) : (
