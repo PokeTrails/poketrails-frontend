@@ -13,7 +13,7 @@ function StoreButton({ itemData, handleButtonClick }) {
     : itemData.level === 3
     ? 'grey'
     : '#4FC493'; // Button color for upgrade
-
+  
   return (
     <Box>
       <Box sx={{ 
@@ -21,7 +21,7 @@ function StoreButton({ itemData, handleButtonClick }) {
         flexDirection: 'column', 
         alignItems: 'center', 
         justifyContent: 'flex-end',
-        width: {xs: '200px', md: '300px'},
+        width: { xs: '200px', md: '300px' },
         height: { xs: '100px', md: '0px' },
       }}>
         {!itemData.isEgg && (
@@ -37,8 +37,14 @@ function StoreButton({ itemData, handleButtonClick }) {
 
       <Button
         variant="contained"
-        color={itemData.isEgg || itemData.level === 0 ? 'primary' : 'default'}
-        sx={{ width: '90%', maxWidth: '300px', height: '15%', backgroundColor: buttonColor, fontSize: { xs: '14px', md: '16px' } }}
+        sx={{ 
+          width: '90%', 
+          maxWidth: '300px', 
+          height: '15%', 
+          backgroundColor: buttonColor, 
+          fontSize: { xs: '14px', md: '16px' }, 
+          color: itemData.level === 3 ? 'grey' : 'white' // Set text color if needed
+        }}
         onClick={handleButtonClick}
         disabled={itemData.level === 3 && !itemData.isEgg}
       >

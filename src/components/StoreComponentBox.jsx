@@ -94,7 +94,8 @@ export default function StoreComponentBox({ componentDetails, headingColour }) {
             <PurchaseItem
               itemData={itemData} 
               tileColour={componentDetails.tileColour} 
-              componentBackgroundColour={componentDetails.componentBackgroundColour} 
+              componentBackgroundColour={componentDetails.componentBackgroundColour}
+              jwt={jwt}
             />
           </Box>
         )}

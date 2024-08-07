@@ -28,10 +28,6 @@ const StoreInventory = ({ componentBackgroundColour, componentHeadingColour, til
           const itemName = item.itemName;
           const image = itemImageMap[itemName] || itemImageMap['Basic Egg']; // Use image from hook or default to eggImage
 
-          // Log item and image URL for debugging
-          console.log('Item:', item);
-          console.log('Image URL:', image);
-
           return {
             id: item._id,
             itemName,
