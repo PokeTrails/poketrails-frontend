@@ -18,8 +18,6 @@ import useLoading from '../hooks/useLoading';
 import SelectTrainerSprite from './SelectTrainerSprite';
 
 export default function Signup() {
-
-  // Declare states for form fields
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [selectedSprite, setSelectedSprite] = useState('default_female');
@@ -28,40 +26,33 @@ export default function Signup() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  // API URL from .env file
   const apiURL = import.meta.env.VITE_API_SERVER_URL;
   const navigate = useNavigate();
 
-  // Import hooks for error and loading states
   const { error, setError, clearError } = useError();
   const { isLoading, setIsLoading } = useLoading();
 
-  // Event handlers for password visibility
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
-  // Event handler for sprite selection
   const handleSpriteChange = (event) => {
     setSelectedSprite(event.target.value);
   };
 
-  // Event handler for form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
-    clearError(); // Clear any existing errors
+    clearError();
 
     if (password !== confirmPassword) {
       setError('Passwords do not match. Please try again');
       return;
     }
 
-    // Set loading state to true to disable form submission
     setIsLoading(true);
 
-    // Make a POST request to the API to create a new user
     try {
       const response = await axios.post(`${apiURL}/user/create`, {
         username,
@@ -69,22 +60,21 @@ export default function Signup() {
         trainerName,
         trainerSprite: selectedSprite,
       });
-      // Store the JWT token in local storage and navigate to the home page
       const { jwt } = response.data;
       localStorage.setItem('jwt', jwt);
+      localStorage.setItem('firstLogin', 'true');
 
-      navigate('/home');
+      navigate('/party'); // Redirect to the Party page
     } 
-    // Catch any errors and set the error state
     catch (error) {
       console.error(error);
       setError(`An error occurred, please try again. ${error}`);
     } 
-    // Set loading state to false after the request is complete
     finally {
       setIsLoading(false);
     }
   };
+
 
   return (
     // Form component with form fields and submit button

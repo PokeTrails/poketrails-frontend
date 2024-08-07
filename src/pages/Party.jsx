@@ -7,9 +7,17 @@ import TrailLog from '../components/TrailLog';
 import Background from '../components/Background';
 import backgroundImg from '../assets/main_background.jpg';
 
+
+import SignupPopup from '../components/SignupPopup';
+
+import useGetEgg from '../hooks/useGetEgg';
+import usePopup from '../hooks/usePopup';
+
 export default function Party() {
   const jwt = localStorage.getItem('jwt');
   const apiURL = `${import.meta.env.VITE_API_SERVER_URL}`;
+  
+  const { showPopup, popupData, openPopup, closePopup } = usePopup();
 
   const componentDetails = {
     componentHeadingColour: "rgba(122, 220, 185, 0.6)",
@@ -17,12 +25,19 @@ export default function Party() {
     tileColour: "rgba(164, 218, 195, 0.7)",
   };
 
+  const firstLoginPopup = {
+    title: "Welcome to the PokéTrails!",
+    message: "We are sending you an egg and some goodies to start your adventure! \n Take a look around while you wait for it to hatch and have fun!",
+    message2: "",
+    type: "success",
+  };
+
   const backgroundColour = "#C9EECF";
 
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [alerts, setAlerts] = useState([]);
   const [currentHappiness, setCurrentHappiness] = useState(0);
-  const [fadeOut, setFadeOut] = useState(false); // For handling fade out effect
+  const [fadeOut, setFadeOut] = useState(false);
 
   const handlePokemonSelect = (pokemon) => {
     setSelectedPokemon(pokemon);
@@ -38,6 +53,13 @@ export default function Party() {
   };
 
   useEffect(() => {
+    // Check for the popup flag in localStorage
+    const showPopupFlag = localStorage.getItem('firstLogin');
+    if (showPopupFlag === 'true') {
+      console.log("POPUP ACTIVE")
+      openPopup(firstLoginPopup); // Show the popup
+    }
+
     let fadeTimer;
 
     if (alerts.length > 0) {
@@ -47,7 +69,7 @@ export default function Party() {
     }
 
     return () => clearTimeout(fadeTimer); // Cleanup timer on component unmount or alert change
-  }, [alerts]);
+  }, [alerts, openPopup]);
 
   return (
     <Background backgroundImg={backgroundImg} backgroundColour={backgroundColour}>
@@ -100,8 +122,9 @@ export default function Party() {
           componentHeadingColour={componentDetails.componentHeadingColour}
           />
         </Box>
+        
       </Box>
-
+          
       {alerts.length > 0 && (
         <Collapse in={alerts.length > 0} sx={{ opacity: fadeOut ? 0 : 1, transition: 'opacity 0.5s ease-in-out' }}>
           <Box
@@ -117,6 +140,8 @@ export default function Party() {
           </Box>
         </Collapse>
       )}
+    
+      {showPopup && <SignupPopup data={popupData} onClose={closePopup} />}
     </Background>
   );
 }

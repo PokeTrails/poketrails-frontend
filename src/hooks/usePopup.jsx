@@ -10,6 +10,9 @@ function usePopup() {
   };
 
   const closePopup = () => {
+    if (localStorage.getItem('firstLogin')){
+      localStorage.removeItem('firstLogin');
+    }
     setShowPopup(false);
     window.location.reload();
     setPopupData(null);
