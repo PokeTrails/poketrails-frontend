@@ -1,23 +1,25 @@
 import { useEffect } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import PropTypes from 'prop-types';
+
+import useCheckFirstLogin from '../hooks/useCheckFirstLogin';
 import useGetEgg from '../hooks/useGetEgg';
 
 function SignupPopup({ data, onClose }) {
   const { title, message, type } = data;
   const { eggResponse, error, clearError, getEgg } = useGetEgg();
-
+  const { isFirstLogin, error: checkFirstLoginError, clearError: clearCheckFirstLoginError } = useCheckFirstLogin();
 
 
   useEffect(() => {
     // Check if this is the user's first login
-    if (localStorage.getItem('firstLogin') === 'true') {
+    if (localStorage.getItem('firstLogin') === 'true' && isFirstLogin) {
       // Fetch the egg and show the popup
       getEgg();
       // Remove the flag to prevent this from happening again
       localStorage.removeItem('firstLogin');
     }
-  }, [getEgg]);
+  }, [getEgg, isFirstLogin]);
 
   // Display the response or error from the hook if needed
   useEffect(() => {
