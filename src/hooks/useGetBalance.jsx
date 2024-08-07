@@ -22,8 +22,8 @@ function useGetBalance() {
         setBalance(response.data.balance);
         setVouchers(response.data.vouchers);
       } catch (err) {
-        console.error('Error fetching donation reward:', err);
-        setError('Failed to fetch donation reward.');
+        console.error('Error:', err);
+        setError('?');
       }
     };
     getBalance();

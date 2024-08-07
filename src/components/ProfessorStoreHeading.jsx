@@ -25,7 +25,7 @@ export default function ProfessorStoreHeading({ headingColour, componentHeadingC
                     position: 'relative', // Position relative to adjust text center
                 }}
                 variant="h4"
-                fontSize={{ xs: '20px', md: '25px' }}
+                fontSize={{ xs: '18px', md: '25px' }}
                 fontWeight={500}
                 gutterBottom
             >
