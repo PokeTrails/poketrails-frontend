@@ -1,0 +1,94 @@
+import { useState } from 'react';
+import { Box, Typography } from '@mui/material';
+import PropTypes from 'prop-types';
+
+import useLoading from '../hooks/useLoading';
+import usePopup from '../hooks/usePopup';
+import PurchasePopup from './PurchasePopup';
+
+export default function ItemDescription({ itemData }) {
+  const [error, setError] = useState(null);
+  const { isLoading } = useLoading();
+
+  // Use usePopup hook for managing popup state and actions
+  const { showPopup, popupData, openPopup, closePopup } = usePopup();
+
+  // Determine display level
+  const displayLevel = itemData?.level === 3 ? itemData.level : itemData.level + 1;
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '50%',
+        maxWidth: '50vw',
+        ml: {md: 4},
+        justifyContent: 'center', // Center content vertically
+      }}
+    >
+      {itemData ? (
+        <>
+          {/* Item Name with Conditional Level */}
+          <Typography
+            variant="h5"
+            sx={{ color: 'black', textAlign: 'left', mt: 2 }}
+            fontWeight={600}
+            fontSize={{ xs: '18px', md: '22px' }}
+          >
+            {itemData.isEgg 
+              ? itemData.itemName 
+              : `${itemData.itemName} Lvl ${displayLevel}`}
+          </Typography>
+
+          {/* Item Description */}
+          <Typography
+            variant="h6"
+            fontSize={{ xs: '16px', md: '18px' }}
+            sx={{ color: 'black', textAlign: 'left', mt: 2 }}
+          >
+            {itemData.description}
+          </Typography>
+
+          {/* Conditionally Render Upgrade Status */}
+          {!itemData.isEgg && (
+            <>
+              <Typography
+                variant="h6"
+                fontWeight={600}
+                fontSize={{ xs: '16px', md: '20px' }}
+                sx={{ color: 'black', textAlign: 'left', mt: 2 }}
+              >
+                Upgradable?
+              </Typography>
+              <Typography
+                variant="h6"
+                fontWeight={500}
+                fontSize={{ xs: '16px', md: '18px' }}
+                sx={{ color: 'black', textAlign: 'left' }}
+              >
+                {itemData.isFullyUpgraded ? 'No' : 'Yes'}
+              </Typography>
+            </>
+          )}
+        </>
+      ) : (
+        <Typography variant="h6" sx={{ color: 'gray', textAlign: 'left' }}>
+          No item selected
+        </Typography>
+      )}
+    </Box>
+  );
+}
+
+ItemDescription.propTypes = {
+  itemData: PropTypes.shape({
+    itemName: PropTypes.string,
+    sprite: PropTypes.string,
+    eggHatched: PropTypes.bool,
+    level: PropTypes.number,
+    description: PropTypes.string,
+    isEgg: PropTypes.bool,
+    isFullyUpgraded: PropTypes.bool,
+  }),
+};
