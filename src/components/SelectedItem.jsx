@@ -12,9 +12,11 @@ export default function SelectedItem({ itemData }) {
   // Get the image based on item name using the custom hook
   const itemImage = useItemImage(itemData?.itemName);
 
-  // Determine the price display based on whether the item is an egg
-  const priceText = itemData?.isEgg
-    ? `${itemData?.price} `  // Just the price text for eggs
+  // Determine the price display based on whether the item is fully upgraded or an egg
+  const priceText = itemData?.isFullyUpgraded
+    ? '₽0'  // Price is 0 for fully upgraded items
+    : itemData?.isEgg
+    ? `${itemData?.price}`  // Just the price text for eggs
     : `₽${itemData?.price}`;  // Price with ruble symbol for other items
 
   return (
@@ -99,6 +101,7 @@ SelectedItem.propTypes = {
   itemData: PropTypes.shape({
     price: PropTypes.number,
     isEgg: PropTypes.bool,
+    isFullyUpgraded: PropTypes.bool, // Added to prop types
     itemName: PropTypes.string,  // Ensure itemName is included
   }),
 };

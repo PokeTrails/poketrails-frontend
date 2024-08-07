@@ -8,7 +8,9 @@ import usePopup from '../hooks/usePopup';
 import PurchasePopup from './PurchasePopup';
 import StoreButton from './StoreButton';
 
-export default function PurchaseItem({ itemData, jwt }) {
+export default function PurchaseItem({ itemData }) {
+  const jwt = localStorage.getItem('jwt');
+
   const [error, setError] = useState(null);
   const { isLoading } = useLoading();
 
@@ -19,18 +21,37 @@ export default function PurchaseItem({ itemData, jwt }) {
 
   const handleButtonClick = async () => {
     try {
-      const response = await axios.patch(`${apiURL}/store/buy/${itemData._id}`, {
+      // Determine action based on item level
+      const isUpgrading = itemData.level > 0;
+      const action = isUpgrading ? 'upgrading' : 'buying';
+
+      // Send request based on action
+      const response = await axios.patch(`${apiURL}/store/buy/${itemData._id}`, {}, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       });
-      
-      // Set popup data based on server response
-      openPopup({
-        title: 'Purchase Successful',
-        message: `You have successfully purchased ${itemData.itemName}.`,
-        type: 'success',
-      });
+
+      // Set popup data based on action
+      if (itemData.isEgg) {
+        openPopup({
+          title: 'Purchase Successful',
+          message: `Purchase successful, take good care of that egg!`,
+          type: 'success',
+        });
+      } else if (isUpgrading) {
+        openPopup({
+          title: 'Upgrade Successful',
+          message: `Upgrade successful! ${itemData.itemName} has been upgraded to level ${itemData.level + 1}.`,
+          type: 'success',
+        });
+      } else {
+        openPopup({
+          title: 'Purchase Successful',
+          message: `You have successfully purchased the ${itemData.itemName}.`,
+          type: 'success',
+        });
+      }
       
     } catch (err) {
       console.log('Error:', err);
