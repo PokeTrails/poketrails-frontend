@@ -10,13 +10,12 @@ import backgroundImg from '../assets/main_background.jpg';
 
 import SignupPopup from '../components/SignupPopup';
 
-import useGetEgg from '../hooks/useGetEgg';
 import usePopup from '../hooks/usePopup';
 
 export default function Party() {
   const jwt = localStorage.getItem('jwt');
   const apiURL = `${import.meta.env.VITE_API_SERVER_URL}`;
-  
+
   const { showPopup, popupData, openPopup, closePopup } = usePopup();
 
   const componentDetails = {
@@ -26,8 +25,8 @@ export default function Party() {
   };
 
   const firstLoginPopup = {
-    title: "Welcome to the PokéTrails!",
-    message: "We are sending you an egg and some goodies to start your adventure! \n Take a look around while you wait for it to hatch and have fun!",
+    title: "Welcome to PokéTrails!",
+    message: "We have sent you an egg that will hatch soon! Keep a close eye on it. \n\n As thanks for using our app, we've also given you an egg voucher which you can redeem at any time in the shop. \n \n Have fun!",
     message2: "",
     type: "success",
   };

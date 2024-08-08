@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import useError from './useError';
+
+
+// Deprecated, check not needed as egg functionality completed from server-side
 
 const useCheckFirstLogin = () => {
   const [isFirstLogin, setIsFirstLogin] = useState(false);
