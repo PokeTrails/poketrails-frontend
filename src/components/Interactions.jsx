@@ -3,8 +3,10 @@ import axios from 'axios';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import InteractionButton from './InteractionButton';
-import usePlayCryAudio from '../hooks/usePlayCryAudio';
 import EvolvePopup from './EvolvePopup';
+
+import useGetTrailData from '../hooks/useGetTrailData';
+import usePlayCryAudio from '../hooks/usePlayCryAudio';
 import usePopup from '../hooks/usePopup';
 
 import { capitaliseName } from '../utils';
@@ -18,6 +20,8 @@ export default function Interactions({ componentBackgroundColour, componentHeadi
   const [maxLevel, setMaxLevel] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [cryUrl, setCryUrl] = useState('');
+
+  const { currentlyOnTrail } = useGetTrailData(pokemonID) || {}; // Fixed parameter here
 
   const playCryAudio = usePlayCryAudio(onAlert);
   const { showPopup, popupData, openPopup, closePopup } = usePopup();
@@ -123,9 +127,6 @@ export default function Interactions({ componentBackgroundColour, componentHeadi
     }
   };
 
-  // Render evolve button if Pokémon can evolve
-  const renderEvolvePopup = currentLevel < maxLevel;
-
   // Check if Pokémon can evolve to enable the evolve button
   const pokemonCanEvolve = currentLevel < maxLevel && !isEgg && currentHappiness >= targetHappiness;
 
@@ -165,8 +166,12 @@ export default function Interactions({ componentBackgroundColour, componentHeadi
           alignItems: 'center',
         }}
       >
-        {/* Display loading spinner while fetching data, otherwise render buttons */}
-        {isLoading ? (
+        {currentlyOnTrail ? (
+          // Render message if the Pokémon is on a trail
+          <Typography variant="h6" color="textSecondary">
+            This Pokémon is currently exploring a trail
+          </Typography>
+        ) : isLoading ? (
           <CircularProgress />
         ) : (
           <>
@@ -187,7 +192,7 @@ export default function Interactions({ componentBackgroundColour, componentHeadi
             />
 
             {/* Render evolve button if Pokémon can evolve */}
-            {renderEvolvePopup && (
+            {currentLevel < maxLevel && (
               <InteractionButton
                 onClick={handleEvolveClick}
                 disabled={!pokemonCanEvolve}

@@ -29,7 +29,7 @@ export default function DonateComponentBox({ componentDetails, headingColour }) 
     setIsLoading(false);
   };
 
-  const { currentlyOnTrail, wildCompleted, rockyCompleted, frostyCompleted, wetCompleted } = useGetTrailData(selectedPokemon) || {};
+  const { currentlyOnTrail } = useGetTrailData(selectedPokemon) || {};
 
   return (
     // Overall Box Component holding everything

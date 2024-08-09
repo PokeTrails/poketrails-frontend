@@ -78,7 +78,7 @@ export default function TrailData({ pokemonName, trail, pokemonID }) {
             sx={{ 
               width: {xs: '100%', md: '80%', lg: '70%'}, 
               height: {xs: '40px', md: '50px'}, 
-              fontSize: { xs: '13px', sm: '14px', md: '16px', lg: '18px' }
+              fontSize: { xs: '13px', sm: '14px', md: '16px' }
             }}
             onClick={handleSendPokemonClick}
           >
@@ -94,7 +94,7 @@ export default function TrailData({ pokemonName, trail, pokemonID }) {
             sx={{ 
               width: {xs: '100%', md: '80%', lg: '70%'}, 
               height: {xs: '40px', md: '50px'}, 
-              fontSize: { xs: '13px', sm: '14px', md: '16px', lg: '18px' }
+              fontSize: { xs: '13px', sm: '14px', md: '16px' }
             }}
             onClick={handleRetrievePokemonClick}
           >
