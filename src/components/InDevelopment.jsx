@@ -1,6 +1,9 @@
 import { Typography, Box, Button, Container } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export default function InDevelopment() {
+  const navigate = useNavigate();
+
   return (
     <Container 
       sx={{ 
@@ -10,6 +13,7 @@ export default function InDevelopment() {
         justifyContent: 'center', 
         minHeight: '100vh', 
         textAlign: 'center', 
+        p: 3
       }}
     >
       <Typography 
@@ -42,7 +46,7 @@ export default function InDevelopment() {
       <Button 
         variant="contained" 
         color="primary" 
-        onClick={() => window.history.back()}
+        onClick={() => navigate('/home')}
       >
         Go Back
       </Button>
