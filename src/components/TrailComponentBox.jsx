@@ -6,11 +6,14 @@ import SelectedPokemon from './SelectedPokemon';
 import TrailLog from './TrailLog';
 import TrailData from '../components/TrailData';
 import useLoading from '../hooks/useLoading';
+import useGetTrailData from '../hooks/useGetTrailData';
 
 export default function TrailComponentBox({ componentDetails, headingColour }) {
   const { isLoading, setIsLoading } = useLoading();
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [pokemonName, setPokemonName] = useState('');
+
+  const { trailLogData }= useGetTrailData(selectedPokemon) || {};
 
   const handlePokemonSelect = useCallback((pokemon) => {
     setIsLoading(true);
@@ -154,6 +157,7 @@ export default function TrailComponentBox({ componentDetails, headingColour }) {
               <TrailLog
                 componentBackgroundColour={componentDetails.componentBackgroundColour}
                 componentHeadingColour={componentDetails.componentHeadingColour}
+                trailLogData={trailLogData}
               />
             </Box>
           </Box>
@@ -169,6 +173,7 @@ export default function TrailComponentBox({ componentDetails, headingColour }) {
           <TrailLog
             componentBackgroundColour={componentDetails.componentBackgroundColour}
             componentHeadingColour={componentDetails.componentHeadingColour}
+            trailLogData={trailLogData}
           />
         </Box>        
       </Box>

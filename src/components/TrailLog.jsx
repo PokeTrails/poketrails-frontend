@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
-export default function TrailLog( { componentBackgroundColour, componentHeadingColour } ) {
+export default function TrailLog( { componentBackgroundColour, componentHeadingColour, trailLogData } ) {
   return (
     <Box
       sx={{
@@ -51,4 +51,5 @@ export default function TrailLog( { componentBackgroundColour, componentHeadingC
 TrailLog.propTypes = {
   componentBackgroundColour: PropTypes.string,
   componentHeadingColour: PropTypes.string,
+  trailLogData: PropTypes.array,
 };
