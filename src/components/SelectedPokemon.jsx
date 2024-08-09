@@ -7,12 +7,12 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 import useLoading from '../hooks/useLoading';
 import usePopup from '../hooks/usePopup'; // Import the usePopup hook
-import { capitaliseName } from '../utils';
+import { capitaliseName, formatTime } from '../utils';
 import eggSprite from '../assets/pokemon_egg_animated.gif';
 import shinyIcon from '../assets/shiny_icon.png';
 import HatchPopup from './HatchPopup';
 
-export default function SelectedPokemon({ componentBackgroundColour, tileColour, jwt, apiURL, pokemonID, currentHappiness, onPokemonNameChange }) {
+export default function SelectedPokemon({ componentBackgroundColour, tileColour, pokemonID, currentHappiness, onPokemonNameChange }) {
   const [pokemonData, setPokemonData] = useState(null);
   const { isLoading, setIsLoading } = useLoading();
   const [error, setError] = useState(null);
@@ -20,8 +20,9 @@ export default function SelectedPokemon({ componentBackgroundColour, tileColour,
   const [isEditing, setIsEditing] = useState(false);
   const [newNickname, setNewNickname] = useState('');
   const [isHatching, setIsHatching] = useState(false);
-  
-  // Use usePopup hook for managing popup state and actions
+
+  const jwt = localStorage.getItem('jwt');
+  const apiURL = `${import.meta.env.VITE_API_SERVER_URL}`;
   const { showPopup, popupData, openPopup, closePopup } = usePopup();
 
   useEffect(() => {
@@ -39,7 +40,7 @@ export default function SelectedPokemon({ componentBackgroundColour, tileColour,
         setPokemonData(response.data);
         setError(null);
 
-        if (response.data.eggHatched === false && response.data.timeLeft) {
+        if (response.data.eggHatched === false) {
           setTimeLeft(response.data.timeLeft);
         }
 
@@ -70,17 +71,6 @@ export default function SelectedPokemon({ componentBackgroundColour, tileColour,
 
     return () => clearInterval(timer);
   }, [timeLeft]);
-
-  const formatTime = (milliseconds) => {
-    if (milliseconds <= 0) return '00:00:00';
-
-    const totalSeconds = Math.floor(milliseconds / 1000);
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-
-    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-  };
 
   const handleEditClick = () => {
     if (pokemonData) {
@@ -330,8 +320,8 @@ export default function SelectedPokemon({ componentBackgroundColour, tileColour,
 SelectedPokemon.propTypes = {
   componentBackgroundColour: PropTypes.string,
   tileColour: PropTypes.string,
-  jwt: PropTypes.string.isRequired,
-  apiURL: PropTypes.string.isRequired,
+  jwt: PropTypes.string,
+  apiURL: PropTypes.string,
   pokemonID: PropTypes.string,
   currentHappiness: PropTypes.number,
   onPokemonNameChange: PropTypes.func,

@@ -3,18 +3,15 @@ import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import useLoading from '../hooks/useLoading';
-import usePopup from '../hooks/usePopup';
-import PurchasePopup from './PurchasePopup';
 
 export default function ItemDescription({ itemData }) {
   const [error, setError] = useState(null);
   const { isLoading } = useLoading();
 
-  // Use usePopup hook for managing popup state and actions
-  const { showPopup, popupData, openPopup, closePopup } = usePopup();
 
-  // Determine display level
-  const displayLevel = itemData?.level === 3 ? itemData.level : itemData.level + 1;
+  // Determine display level, if 'Max' show 'Max' directly
+  const displayLevel = itemData?.level === 'Max' ? 'Max' : itemData?.level + 1;
+  console.log(itemData.description)
 
   return (
     <Box
@@ -23,7 +20,7 @@ export default function ItemDescription({ itemData }) {
         flexDirection: 'column',
         height: '50%',
         maxWidth: '50vw',
-        ml: {md: 4},
+        ml: { md: 4 },
         justifyContent: 'center', // Center content vertically
       }}
     >
@@ -86,7 +83,7 @@ ItemDescription.propTypes = {
     itemName: PropTypes.string,
     sprite: PropTypes.string,
     eggHatched: PropTypes.bool,
-    level: PropTypes.number,
+    level: PropTypes.oneOfType([PropTypes.number, PropTypes.string]), // Allow both number and string for level
     description: PropTypes.string,
     isEgg: PropTypes.bool,
     isFullyUpgraded: PropTypes.bool,

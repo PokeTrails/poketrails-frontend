@@ -68,7 +68,7 @@ export default function Party() {
     }
 
     return () => clearTimeout(fadeTimer); // Cleanup timer on component unmount or alert change
-  }, [alerts, openPopup]);
+  }, [alerts, openPopup, firstLoginPopup]);
 
   return (
     <Background backgroundImg={backgroundImg} backgroundColour={backgroundColour}>
@@ -87,8 +87,6 @@ export default function Party() {
           <SelectedPokemon 
             componentBackgroundColour={componentDetails.componentBackgroundColour}
             tileColour={componentDetails.tileColour}
-            jwt={jwt}
-            apiURL={apiURL}
             pokemonID={selectedPokemon}
             currentHappiness={currentHappiness}
             />

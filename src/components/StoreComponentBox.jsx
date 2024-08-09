@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import PropTypes from 'prop-types';
 import StoreInventory from './StoreInventory';
 import ProfessorStoreHeading from './ProfessorStoreHeading';
 import SelectedItem from './SelectedItem';
 import PurchaseItem from './PurchaseItem';
 import ItemDescription from './ItemDescription';
-
 import useGetItemDetails from '../hooks/useGetItemDetails';
 
 export default function StoreComponentBox({ componentDetails, headingColour }) {
@@ -38,52 +37,67 @@ export default function StoreComponentBox({ componentDetails, headingColour }) {
           heading={componentDetails.heading}
         />
 
-        <Box
-          sx={{
-            display: { xs: 'flex', md: 'flex' },
-            flexDirection: 'row',
-            width: '100%',
-            mb: 2,
-            mt: 4,
-          }}
-        >
-          {/* Selected Item Display */}
+        {/* Loading Spinner or Content */}
+        {isLoading ? (
           <Box
             sx={{
               display: 'flex',
-              alignItems: 'center',
-              pl: {xs: 6},
-            }}
-          >
-            <SelectedItem 
-              itemData={itemData}
-              tileColour={componentDetails.tileColour} 
-              componentBackgroundColour={componentDetails.componentBackgroundColour} 
-            />
-          </Box>
-
-          {/* Item Name and Description */}
-          <Box
-            sx={{
-              display: { xs: 'flex', md: 'block' },
               justifyContent: 'center',
               alignItems: 'center',
-              flex: { xs: '1 1 100%' },
-              pr: {xs: 2},
+              height: '200px', // Adjust based on your layout
+              width: '100%',
             }}
           >
-            {itemData && (
-              <ItemDescription 
-                itemData={itemData} 
+            <CircularProgress />
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              display: { xs: 'flex', md: 'flex' },
+              flexDirection: 'row',
+              width: '100%',
+              mb: 2,
+              mt: 4,
+            }}
+          >
+            {/* Selected Item Display */}
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                pl: { xs: 6 },
+              }}
+            >
+              <SelectedItem 
+                itemData={itemData}
                 tileColour={componentDetails.tileColour} 
                 componentBackgroundColour={componentDetails.componentBackgroundColour} 
               />
-            )}
+            </Box>
+
+            {/* Item Name and Description */}
+            <Box
+              sx={{
+                display: { xs: 'flex', md: 'block' },
+                justifyContent: 'center',
+                alignItems: 'center',
+                flex: { xs: '1 1 100%' },
+                pr: { xs: 2 },
+              }}
+            >
+              {itemData && (
+                <ItemDescription 
+                  itemData={itemData} 
+                  tileColour={componentDetails.tileColour} 
+                  componentBackgroundColour={componentDetails.componentBackgroundColour} 
+                />
+              )}
+            </Box>
           </Box>
-        </Box>
+        )}
 
         {/* Purchase Item */}
-        {itemData && (
+        {!isLoading && itemData && (
           <Box
             sx={{
               display: 'flex',
