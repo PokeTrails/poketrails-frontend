@@ -12,7 +12,7 @@ import eggSprite from '../assets/pokemon_egg_animated.gif';
 import shinyIcon from '../assets/shiny_icon.png';
 import HatchPopup from './HatchPopup';
 
-export default function SelectedPokemon({ componentBackgroundColour, tileColour, jwt, apiURL, pokemonID, currentHappiness, onPokemonNameChange }) {
+export default function SelectedPokemon({ componentBackgroundColour, tileColour, pokemonID, currentHappiness, onPokemonNameChange }) {
   const [pokemonData, setPokemonData] = useState(null);
   const { isLoading, setIsLoading } = useLoading();
   const [error, setError] = useState(null);
@@ -20,7 +20,9 @@ export default function SelectedPokemon({ componentBackgroundColour, tileColour,
   const [isEditing, setIsEditing] = useState(false);
   const [newNickname, setNewNickname] = useState('');
   const [isHatching, setIsHatching] = useState(false);
-  
+
+  const jwt = localStorage.getItem('jwt');
+  const apiURL = `${import.meta.env.VITE_API_SERVER_URL}`;
   // Use usePopup hook for managing popup state and actions
   const { showPopup, popupData, openPopup, closePopup } = usePopup();
 

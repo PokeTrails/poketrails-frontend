@@ -87,8 +87,6 @@ export default function Party() {
           <SelectedPokemon 
             componentBackgroundColour={componentDetails.componentBackgroundColour}
             tileColour={componentDetails.tileColour}
-            jwt={jwt}
-            apiURL={apiURL}
             pokemonID={selectedPokemon}
             currentHappiness={currentHappiness}
             />

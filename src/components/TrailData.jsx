@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import CompletedTrail from '../components/CompletedTrail';
 import { capitaliseName } from '../utils';
 
-export default function TrailData({ pokemonName, trail }) {
+import useGetTrailData from '../hooks/useGetTrailData';
+
+export default function TrailData({ pokemonName, trail, pokemonID }) {
+
+  const { currentlyOnTrail, wildCompleted, rockyCompleted, frostyCompleted, wetCompleted } = useGetTrailData(pokemonID) || {};
+
   return (
     <Box
       sx={{
@@ -19,10 +24,10 @@ export default function TrailData({ pokemonName, trail }) {
       <Box sx={{ mt: {xs: 0, md: 5} }}>
       {pokemonName && (
         <>
-            <CompletedTrail trailType="Wild" textColour="#188831" />
-            <CompletedTrail trailType="Rocky" textColour="#C47C53" />
-            <CompletedTrail trailType="Frosty" textColour="#6FABD7" />
-            <CompletedTrail trailType="Wet" textColour="#015D9F" />
+            <CompletedTrail completeTotal={wildCompleted} trailType="Wild" textColour="#188831" />
+            <CompletedTrail completeTotal={rockyCompleted} trailType="Rocky" textColour="#C47C53" />
+            <CompletedTrail completeTotal={frostyCompleted} trailType="Frosty" textColour="#6FABD7" />
+            <CompletedTrail completeTotal={wetCompleted} trailType="Wet" textColour="#015D9F" />
         </>
       )}
       </Box>
@@ -57,4 +62,5 @@ export default function TrailData({ pokemonName, trail }) {
 TrailData.propTypes = {
   trail: PropTypes.string.isRequired,
   pokemonName: PropTypes.string,
+  pokemonID: PropTypes.string,
 };

@@ -5,11 +5,14 @@ import { Box, Typography, Grid, RadioGroup, FormControlLabel, Radio, CircularPro
 
 import eggSprite from '../assets/pokemon_egg_animated.gif';
 
-const UserParty = ({ componentBackgroundColour, componentHeadingColour, tileColour, apiURL, jwt, onPokemonSelect }) => {
+const UserParty = ({ componentBackgroundColour, componentHeadingColour, tileColour, onPokemonSelect }) => {
   const [pokemonData, setPokemonData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
+
+  const apiURL = `${import.meta.env.VITE_API_SERVER_URL}`;
+  const jwt = localStorage.getItem('jwt');
 
   useEffect(() => {
     const fetchPartyData = async () => {
@@ -40,7 +43,7 @@ const UserParty = ({ componentBackgroundColour, componentHeadingColour, tileColo
                 } else {
                   return {
                     id: pokemonResponse.data._id,
-                    sprite: pokemonResponse.data.sprite,
+                    sprite: pokemonResponse.data.sprite
                   };
                 }
               } catch (pokemonError) {
