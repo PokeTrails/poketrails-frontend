@@ -17,10 +17,10 @@ const RetrievePokemonPopup = ({ data, onClose, pokemonName, trail }) => (
     }}
   >
     <Typography variant="h6" component="div" gutterBottom>
-        {pokemonName} has returned!
+      Your Pokémon has returned!
     </Typography>
     <Typography variant="body1" component="div">
-      {pokemonName} has been retrieved successfully from the {trail} trail! <br />
+      {pokemonName} has successfully returned from the {trail} trail! <br />
     </Typography>
     <Typography variant="body1" component="div">
       <br />
