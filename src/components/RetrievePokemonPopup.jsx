@@ -19,6 +19,14 @@ const RetrievePokemonPopup = ({ data, onClose, pokemonName, trail }) => (
     <Typography variant="h6" component="div" gutterBottom>
       Your Pokémon has returned!
     </Typography>
+    <img
+      src={data.sprite}
+      alt={pokemonName}
+      style={{
+        maxWidth: '100%',
+        animation: 'fadeIn 3s forwards',
+      }}
+    />
     <Typography variant="body1" component="div">
       {pokemonName} has successfully returned from the {trail} trail! <br />
     </Typography>
@@ -37,6 +45,14 @@ const RetrievePokemonPopup = ({ data, onClose, pokemonName, trail }) => (
     <Button variant="contained" color="primary" onClick={onClose} sx={{ mt: 2 }}>
       Close
     </Button>
+    <style>
+      {`
+        @keyframes fadeIn {
+          100% { opacity: 1; }
+            0% { opacity: 0; }
+          }
+      `}
+    </style>
   </Box>
 );
 

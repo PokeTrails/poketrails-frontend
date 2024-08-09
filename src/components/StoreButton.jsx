@@ -33,7 +33,7 @@ function StoreButton({ itemData, handleButtonClick, disabled }) {
             <Typography sx={{ mb: 2 }}>
               <span style={{ fontWeight: itemData.level === 1 ? 600 : 400 }}>Level 1</span> &rarr;
               <span style={{ fontWeight: itemData.level === 2 ? 600 : 400 }}>Level 2</span> &rarr;
-              <span style={{ fontWeight: itemData.level === 3 ? 600 : 400 }}>Level 3</span>
+              <span style={{ fontWeight: itemData.level === 'Max' ? 600 : 400 }}>Level 3</span>
             </Typography>
           </Box>
         )}

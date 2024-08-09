@@ -54,15 +54,11 @@ export default function StoreComponentBox({ componentDetails, headingColour }) {
               pl: {xs: 6},
             }}
           >
-            {isLoading ? (
-              <CircularProgress sx={{ size: 80 }} />
-            ) : (
-              <SelectedItem 
-                itemData={itemData}
-                tileColour={componentDetails.tileColour} 
-                componentBackgroundColour={componentDetails.componentBackgroundColour} 
-              />
-            )}
+            <SelectedItem 
+              itemData={itemData}
+              tileColour={componentDetails.tileColour} 
+              componentBackgroundColour={componentDetails.componentBackgroundColour} 
+            />
           </Box>
 
           {/* Item Name and Description */}

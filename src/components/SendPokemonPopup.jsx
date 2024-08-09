@@ -25,12 +25,28 @@ const SendPokemonPopup = ({ data, onClose, pokemonName, trail }) => {
       <Typography variant="h6" component="div" gutterBottom>
         Sending {pokemonName}
       </Typography>
+      <img
+        src={data.sprite}
+        alt={pokemonName}
+        style={{
+          maxWidth: '100%',
+          animation: 'fadeOut 3s forwards', // Play animation once
+        }}
+      />
       <Typography variant="body1" component="div">
         {pokemonName} is being sent on the {trail} trail. <br /> It will return in {formatTime(countdown)}.
       </Typography>
       <Button variant="contained" color="primary" onClick={onClose} sx={{ mt: 2 }}>
         Close
       </Button>
+      <style>
+        {`
+          @keyframes fadeOut {
+            0% { opacity: 1; }
+          100% { opacity: 0; }
+          }
+        `}
+      </style>
     </Box>
   );
 };

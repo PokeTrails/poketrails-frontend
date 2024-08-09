@@ -34,7 +34,7 @@ export default function PurchaseItem({ itemData }) {
       if (itemData.isEgg) {
         openPopup({
           title: 'Purchase Successful',
-          message: `Purchase successful, take good care of that egg!`,
+          message: `We've added an egg to your party, take good care of it!`,
           type: 'success',
         });
       } else if (itemData.level > 0) {

@@ -3,18 +3,15 @@ import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import useLoading from '../hooks/useLoading';
-import usePopup from '../hooks/usePopup';
-import PurchasePopup from './PurchasePopup';
 
 export default function ItemDescription({ itemData }) {
   const [error, setError] = useState(null);
   const { isLoading } = useLoading();
 
-  // Use usePopup hook for managing popup state and actions
-  const { showPopup, popupData, openPopup, closePopup } = usePopup();
 
   // Determine display level, if 'Max' show 'Max' directly
   const displayLevel = itemData?.level === 'Max' ? 'Max' : itemData?.level + 1;
+  console.log(itemData.description)
 
   return (
     <Box
