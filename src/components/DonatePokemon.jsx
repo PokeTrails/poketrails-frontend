@@ -10,7 +10,7 @@ import useDonationReward from '../hooks/useDonationReward'; // Custom hook for f
 import useError from '../hooks/useError'; // Import the custom hook for error handling
 
 // Component for handling Pokémon donation
-export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
+export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL, currentlyOnTrail }) {
   // State to manage checkbox status
   const [isChecked, setIsChecked] = useState(false);
   // State to manage sending status
@@ -130,11 +130,13 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
             checked={isChecked}
             onChange={handleCheckboxChange}
             color="primary"
-            disabled={isLoading || pokemonCount <= 1} // Disable checkbox if loading or only 1 Pokémon left
+            disabled={isLoading || pokemonCount <= 1 || currentlyOnTrail} // Disable checkbox if loading, only 1 Pokémon left, or Pokémon is on a trail
           />
         }
         label={isLoading
           ? "Loading..."
+          : currentlyOnTrail
+          ? "You cannot send a Pokémon that is on a trail"
           : pokemonCount <= 1
           ? "You can't donate your last Pokémon"
           : "I confirm that I want to send this Pokémon"}
@@ -157,7 +159,7 @@ export default function DonatePokemon({ pokemonName, pokemonID, jwt, apiURL }) {
             height: { xs: '40px', md: '50px' }, 
             fontSize: { xs: '13px', sm: '14px', md: '16px', lg: '18px' } 
           }}
-          disabled={!isChecked || isSending || isLoading || pokemonCount <= 1} // Disable button if not checked, sending, loading, or only 1 Pokémon left
+          disabled={!isChecked || isSending || isLoading || pokemonCount <= 1 || currentlyOnTrail} // Disable button if not checked, sending, loading, only 1 Pokémon left, or Pokémon is on a trail
           onClick={handleSendPokemon}
         >
           {isSending ? "Sending..." : `Send ${pokemonName}?`} {/* Show sending text or button text */}
@@ -182,4 +184,5 @@ DonatePokemon.propTypes = {
   pokemonID: PropTypes.string, // ID of the Pokémon to be donated
   jwt: PropTypes.string.isRequired, // JWT token for authentication
   apiURL: PropTypes.string.isRequired, // Base URL for API requests
+  currentlyOnTrail: PropTypes.bool, // Whether the Pokémon is currently on a trail
 };

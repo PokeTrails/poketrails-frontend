@@ -3,7 +3,10 @@ import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
 import PokemonParty from './UserParty';
 import SelectedPokemon from './SelectedPokemon';
+
+import useGetTrailData from '../hooks/useGetTrailData';
 import useLoading from '../hooks/useLoading';
+
 import DonatePokemon from './DonatePokemon';
 import ProfessorChat from './ProfessorChat';
 import ProfessorStoreHeading from './ProfessorStoreHeading';
@@ -20,10 +23,13 @@ export default function DonateComponentBox({ componentDetails, headingColour }) 
     setSelectedPokemon(pokemon);
   };
 
+
   const handlePokemonNameChange = (name) => {
     setPokemonName(name);
     setIsLoading(false);
   };
+
+  const { currentlyOnTrail, wildCompleted, rockyCompleted, frostyCompleted, wetCompleted } = useGetTrailData(selectedPokemon) || {};
 
   return (
     // Overall Box Component holding everything
@@ -89,6 +95,7 @@ export default function DonateComponentBox({ componentDetails, headingColour }) 
               pokemonName={pokemonName}
               pokemonID={selectedPokemon}
               apiURL={apiURL}
+              currentlyOnTrail={currentlyOnTrail}
               jwt={jwt} />
             ) : (
               'Please select a valid Pokémon'
