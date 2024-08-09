@@ -7,7 +7,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 import useLoading from '../hooks/useLoading';
 import usePopup from '../hooks/usePopup'; // Import the usePopup hook
-import { capitaliseName } from '../utils';
+import { capitaliseName, formatTime } from '../utils';
 import eggSprite from '../assets/pokemon_egg_animated.gif';
 import shinyIcon from '../assets/shiny_icon.png';
 import HatchPopup from './HatchPopup';
@@ -73,17 +73,6 @@ export default function SelectedPokemon({ componentBackgroundColour, tileColour,
 
     return () => clearInterval(timer);
   }, [timeLeft]);
-
-  const formatTime = (milliseconds) => {
-    if (milliseconds <= 0) return '00:00:00';
-
-    const totalSeconds = Math.floor(milliseconds / 1000);
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-
-    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-  };
 
   const handleEditClick = () => {
     if (pokemonData) {

@@ -27,6 +27,7 @@ const useSendPokemonOnTrail = () => {
       });
 
       return response.data; // Return the API response data
+      
     } catch (err) {
       console.error('Error sending Pokémon on trail:', err);
       setGlobalError('Failed to send Pokémon on trail.');
