@@ -174,8 +174,8 @@ UserParty.propTypes = {
   componentBackgroundColour: PropTypes.string,
   componentHeadingColour: PropTypes.string,
   tileColour: PropTypes.string,
-  apiURL: PropTypes.string.isRequired,
-  jwt: PropTypes.string.isRequired,
+  apiURL: PropTypes.string,
+  jwt: PropTypes.string,
   onPokemonSelect: PropTypes.func.isRequired,
 };
 

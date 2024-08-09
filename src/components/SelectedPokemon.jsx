@@ -23,7 +23,6 @@ export default function SelectedPokemon({ componentBackgroundColour, tileColour,
 
   const jwt = localStorage.getItem('jwt');
   const apiURL = `${import.meta.env.VITE_API_SERVER_URL}`;
-  // Use usePopup hook for managing popup state and actions
   const { showPopup, popupData, openPopup, closePopup } = usePopup();
 
   useEffect(() => {
@@ -43,7 +42,6 @@ export default function SelectedPokemon({ componentBackgroundColour, tileColour,
 
         if (response.data.eggHatched === false) {
           setTimeLeft(response.data.timeLeft);
-          console.log("Running this check")
         }
 
         // Lift the Pokémon name to the parent component
@@ -322,8 +320,8 @@ export default function SelectedPokemon({ componentBackgroundColour, tileColour,
 SelectedPokemon.propTypes = {
   componentBackgroundColour: PropTypes.string,
   tileColour: PropTypes.string,
-  jwt: PropTypes.string.isRequired,
-  apiURL: PropTypes.string.isRequired,
+  jwt: PropTypes.string,
+  apiURL: PropTypes.string,
   pokemonID: PropTypes.string,
   currentHappiness: PropTypes.number,
   onPokemonNameChange: PropTypes.func,

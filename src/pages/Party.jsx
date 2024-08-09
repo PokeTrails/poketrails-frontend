@@ -68,7 +68,7 @@ export default function Party() {
     }
 
     return () => clearTimeout(fadeTimer); // Cleanup timer on component unmount or alert change
-  }, [alerts, openPopup]);
+  }, [alerts, openPopup, firstLoginPopup]);
 
   return (
     <Background backgroundImg={backgroundImg} backgroundColour={backgroundColour}>

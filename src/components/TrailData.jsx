@@ -15,7 +15,7 @@ export default function TrailData({ pokemonName, trail, pokemonID }) {
   const { currentlyOnTrail, wildCompleted, rockyCompleted, frostyCompleted, wetCompleted } = useGetTrailData(pokemonID) || {};
   const { sendPokemonOnTrail } = useSendPokemonOnTrail();
   const { retrievePokemonFromTrail, loading: retrieveLoading } = useRetrievePokemonFromTrail();
-  const { showPopup, popupData, openPopup, closePopup } = usePopup();
+  const { popupData, openPopup, closePopup } = usePopup();
   const { timeLeft, loading } = useCheckTrailTime(pokemonID);
 
   // Use the custom countdown hook
