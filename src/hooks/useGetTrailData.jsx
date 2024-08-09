@@ -29,6 +29,7 @@ export default function useGetTrailData(pokemonID) {
             rockyCompleted: data.rockyCompleted,
             frostyCompleted: data.frostyCompleted,
             wetCompleted: data.wetCompleted,
+            onTrailTitle: data.onTrailTitle,
           });
         }
       } catch (err) {

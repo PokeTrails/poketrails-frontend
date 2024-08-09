@@ -12,7 +12,7 @@ import SendPokemonPopup from '../components/SendPokemonPopup';
 import RetrievePokemonPopup from '../components/RetrievePokemonPopup';
 
 export default function TrailData({ pokemonName, trail, pokemonID }) {
-  const { currentlyOnTrail, wildCompleted, rockyCompleted, frostyCompleted, wetCompleted } = useGetTrailData(pokemonID) || {};
+  const { currentlyOnTrail, wildCompleted, rockyCompleted, frostyCompleted, wetCompleted, onTrailTitle } = useGetTrailData(pokemonID) || {};
   const { sendPokemonOnTrail } = useSendPokemonOnTrail();
   const { retrievePokemonFromTrail, loading: retrieveLoading } = useRetrievePokemonFromTrail();
   const { popupData, openPopup, closePopup } = usePopup();
@@ -67,7 +67,7 @@ export default function TrailData({ pokemonName, trail, pokemonID }) {
           gutterBottom
           sx={{ fontSize: { xs: '13px', sm: '14px', md: '16px' }, mt: {xs: 2}, mb: 2 }}
         >
-          {!currentlyOnTrail ? `${capitaliseName(pokemonName)} is ready to explore the ${trail} trail` : `${capitaliseName(pokemonName)} is already exploring a trail`}
+          {!currentlyOnTrail ? `${capitaliseName(pokemonName)} is ready to explore the ${trail} trail` : `${capitaliseName(pokemonName)} is already exploring the ${onTrailTitle}.`}
         </Typography>
 
         {!currentlyOnTrail && (
