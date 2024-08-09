@@ -1,16 +1,13 @@
-import { useEffect, useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import CompletedTrail from '../components/CompletedTrail';
-
 import { capitaliseName, formatTime } from '../utils';
-
 import useGetTrailData from '../hooks/useGetTrailData';
 import useSendPokemonOnTrail from '../hooks/useSendPokemonOnTrail';
 import useRetrievePokemonFromTrail from '../hooks/useRetrievePokemonFromTrail';
 import usePopup from '../hooks/usePopup';
 import useCheckTrailTime from '../hooks/useCheckTrailTime';
-
+import useCountdown from '../hooks/useCountdown'; // Import the custom hook
 import SendPokemonPopup from '../components/SendPokemonPopup';
 import RetrievePokemonPopup from '../components/RetrievePokemonPopup';
 
@@ -21,31 +18,13 @@ export default function TrailData({ pokemonName, trail, pokemonID }) {
   const { showPopup, popupData, openPopup, closePopup } = usePopup();
   const { timeLeft, loading } = useCheckTrailTime(pokemonID);
 
-  const [countdown, setCountdown] = useState(timeLeft);
-
-  useEffect(() => {
-    if (currentlyOnTrail && timeLeft !== null) {
-      setCountdown(timeLeft);
-    }
-  }, [timeLeft, currentlyOnTrail]);
-
-  useEffect(() => {
-    if (currentlyOnTrail && countdown > 0) {
-      const timer = setInterval(() => {
-        setCountdown(prevTime => (prevTime > 0 ? prevTime - 1000 : 0));
-      }, 1000);
-
-      return () => clearInterval(timer);
-    }
-  }, [currentlyOnTrail, countdown]);
+  // Use the custom countdown hook
+  const countdown = useCountdown(timeLeft, currentlyOnTrail);
 
   const handleSendPokemonClick = async () => {
     if (pokemonID && trail) {
       const result = await sendPokemonOnTrail(pokemonID, trail);
       openPopup(result);
-      if (result.timeLeft) {
-        setCountdown(result.timeLeft);
-      }
     }
   };
 
