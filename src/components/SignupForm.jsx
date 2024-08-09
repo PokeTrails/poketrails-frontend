@@ -54,7 +54,7 @@ export default function Signup() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(`${apiURL}/user/create`, {
+      const response = await axios.post(`${apiURL}/user/signup`, {
         username,
         password,
         trainerName,
@@ -68,12 +68,19 @@ export default function Signup() {
     } 
     catch (error) {
       console.error(error);
-      setError(`An error occurred, please try again. ${error}`);
+
+      // Check if the error has a response and a message from the server
+      if (error.response && error.response.data && error.response.data.message) {
+        setError(`Error: ${error.response.data.message}`);
+      } else {
+        setError('An error occurred, please try again.');
+      }
     } 
     finally {
       setIsLoading(false);
     }
   };
+
 
 
   return (

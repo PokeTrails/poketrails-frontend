@@ -42,7 +42,7 @@ export default function LoginForm() {
     // Set loading to true while the request is being made
     setIsLoading(true);
     try {
-      const response = await axios.post(`${apiURL}/login`, {
+      const response = await axios.post(`${apiURL}/user/login`, {
         username,
         password,
       });
@@ -53,10 +53,12 @@ export default function LoginForm() {
       navigate('/home');
 
     } catch (error) {
-      // Log the error to the console and set an error message
-      console.error(error);
-      setError('Invalid username or password.');
-
+      // Check if the error has a response and a message from the server
+      if (error.response && error.response.data && error.response.data.message) {
+        setError(`Error: ${error.response.data.message}`);
+      } else {
+        setError('An error occurred while reaching the database, please try again.');
+      }
     } finally {
       // Set loading to false after the request is complete
       setIsLoading(false);
