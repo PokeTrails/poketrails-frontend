@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import CompletedTrail from '../components/CompletedTrail';
@@ -6,18 +7,52 @@ import { capitaliseName } from '../utils';
 import useGetTrailData from '../hooks/useGetTrailData';
 import useSendPokemonOnTrail from '../hooks/useSendPokemonOnTrail';
 import usePopup from '../hooks/usePopup';
+import useCheckTrailTime from '../hooks/useCheckTrailTime'; // Import the new hook
 
 import TrailPopup from '../components/TrailPopup';
 
-export default function TrailData({ pokemonName, pokemonID, trail  }) {
+const formatTime = (time) => {
+  const hours = Math.floor(time / 3600000);
+  const minutes = Math.floor((time % 3600000) / 60000);
+  const seconds = Math.floor((time % 60000) / 1000);
+
+  return [
+    hours.toString().padStart(2, '0'),
+    minutes.toString().padStart(2, '0'),
+    seconds.toString().padStart(2, '0')
+  ].join(':');
+};
+
+export default function TrailData({ pokemonName, trail, pokemonID }) {
   const { currentlyOnTrail, wildCompleted, rockyCompleted, frostyCompleted, wetCompleted } = useGetTrailData(pokemonID) || {};
   const { sendPokemonOnTrail } = useSendPokemonOnTrail();
-  const { showPopup, popupData, openPopup, closePopup } = usePopup();
+  const { showPopup, popupData, closePopup } = usePopup();
+  const { timeLeft, loading } = useCheckTrailTime(pokemonID);
 
-  const handleButtonClick = () => {
+  const [countdown, setCountdown] = useState(timeLeft);
+
+  useEffect(() => {
+    if (currentlyOnTrail && timeLeft !== null) {
+      setCountdown(timeLeft);
+    }
+  }, [timeLeft, currentlyOnTrail]);
+
+  useEffect(() => {
+    if (currentlyOnTrail && countdown > 0) {
+      const timer = setInterval(() => {
+        setCountdown(prevTime => (prevTime > 0 ? prevTime - 1000 : 0));
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [currentlyOnTrail, countdown]);
+
+  const handleButtonClick = async () => {
     if (pokemonID && trail) {
-      console.log(`Sending ${pokemonID} on ${trail} trail`);
-      sendPokemonOnTrail(pokemonID, trail);
+      const result = await sendPokemonOnTrail(pokemonID, trail);
+      if (result.timeLeft) {
+        setCountdown(result.timeLeft);
+      }
     }
   };
 
@@ -28,7 +63,7 @@ export default function TrailData({ pokemonName, pokemonID, trail  }) {
         flexDirection: 'column',
         alignItems: 'center', // Center horizontally
         justifyContent: 'space-between', // Center vertically
-        height: {xs: '100', md: '30vh'}, // Ensure the Box takes full height of its parent
+        height: {xs: '100%', md: '30vh'}, // Ensure the Box takes full height of its parent
         textAlign: 'center' // Center text content
       }}
     >
@@ -54,12 +89,12 @@ export default function TrailData({ pokemonName, pokemonID, trail  }) {
           {pokemonName ? `${capitaliseName(pokemonName)} is ready to explore the ${trail} trail` : ''}
         </Typography>
 
-        {/* Render Button if Pokemon is ready to go on trail and if not an egg */}
-        {pokemonName && (
+        {/* Render Button if Pokemon is not on trail */}
+        {!currentlyOnTrail && (
           <Button
             variant="contained"
             size="medium"
-            disabled={currentlyOnTrail} // Disable button if currentlyOnTrail is true
+            disabled={countdown > 0 || loading} // Disable button if countdown is active or loading
             sx={{ 
               width: {xs: '100%', md: '80%', lg: '70%'}, 
               height: {xs: '40px', md: '50px'}, 
@@ -67,13 +102,29 @@ export default function TrailData({ pokemonName, pokemonID, trail  }) {
             }}
             onClick={handleButtonClick} // Handle button click
           >
-            Send {pokemonName}?
+            {countdown > 0 ? `${formatTime(countdown)}` : `Send ${pokemonName}?`} 
+          </Button>
+        )}
+
+        {/* Render Button if Pokemon is on trail */}
+        {currentlyOnTrail && (
+          <Button
+            variant="contained"
+            size="medium"
+            disabled={countdown > 0 || loading} // Disable button if countdown is active or loading
+            sx={{ 
+              width: {xs: '100%', md: '80%', lg: '70%'}, 
+              height: {xs: '40px', md: '50px'}, 
+              fontSize: { xs: '13px', sm: '14px', md: '16px', lg: '18px' }
+            }}
+            onClick={handleButtonClick} // Handle button click
+          >
+            {countdown > 0 ? `${formatTime(countdown)}` : `Claim rewards`} 
           </Button>
         )}
       </Box>
 
       {showPopup && <TrailPopup data={popupData} onClose={closePopup} />}
-
     </Box>
   );
 }

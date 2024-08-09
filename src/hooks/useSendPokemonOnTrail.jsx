@@ -15,11 +15,10 @@ const useSendPokemonOnTrail = () => {
     try {
       const jwt = localStorage.getItem('jwt');
       const apiURL = `${import.meta.env.VITE_API_SERVER_URL}/trail/simulate`;
-      const trailTitle = `${trail} Trail`;
 
-      await axios.post(apiURL, {
-        title: trailTitle,
-        pokemonId: pokemonID
+      const response = await axios.post(apiURL, {
+        title: `${trail} Trail`,
+        pokemonId: pokemonID,
       }, {
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -27,10 +26,12 @@ const useSendPokemonOnTrail = () => {
         },
       });
 
+      return response.data; // Return the API response data
     } catch (err) {
       console.error('Error sending Pokémon on trail:', err);
       setGlobalError('Failed to send Pokémon on trail.');
       setError(err.message);
+      return { error: err.message }; // Return error message in case of failure
     } finally {
       setIsLoading(false);
     }
