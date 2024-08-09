@@ -245,13 +245,12 @@ export default function Signup() {
       </Button>
 
       {isLoading && (
-        <Typography variant="body2" color="error" sx={{ mt: 1 }}>
-          Loading please wait...
-        </Typography>
-      )}
-
-      {isLoading && (
-        <img src={pikachuLoading} alt="Pikachu loading" style={{ marginTop: '20px', width: '100px', height: 'auto' }} />
+        <>
+          <img src={pikachuLoading} alt="Pikachu loading" style={{ marginTop: '20px', width: '100px', height: 'auto' }} />
+          <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+            Loading please wait...
+          </Typography>
+        </>
       )}
       
     </Box>
