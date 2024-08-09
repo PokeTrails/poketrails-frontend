@@ -41,8 +41,9 @@ export default function SelectedPokemon({ componentBackgroundColour, tileColour,
         setPokemonData(response.data);
         setError(null);
 
-        if (response.data.eggHatched === false && response.data.timeLeft) {
+        if (response.data.eggHatched === false) {
           setTimeLeft(response.data.timeLeft);
+          console.log("Running this check")
         }
 
         // Lift the Pokémon name to the parent component
