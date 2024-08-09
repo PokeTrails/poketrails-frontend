@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, CircularProgress } from '@mui/material';
 import PropTypes from 'prop-types';
 import StoreInventory from './StoreInventory';
 import ProfessorStoreHeading from './ProfessorStoreHeading';
 import SelectedItem from './SelectedItem';
 import PurchaseItem from './PurchaseItem';
 import ItemDescription from './ItemDescription';
-
 import useGetItemDetails from '../hooks/useGetItemDetails';
 
 export default function StoreComponentBox({ componentDetails, headingColour }) {
@@ -55,11 +54,15 @@ export default function StoreComponentBox({ componentDetails, headingColour }) {
               pl: {xs: 6},
             }}
           >
-            <SelectedItem 
-              itemData={itemData}
-              tileColour={componentDetails.tileColour} 
-              componentBackgroundColour={componentDetails.componentBackgroundColour} 
-            />
+            {isLoading ? (
+              <CircularProgress sx={{ size: 80 }} />
+            ) : (
+              <SelectedItem 
+                itemData={itemData}
+                tileColour={componentDetails.tileColour} 
+                componentBackgroundColour={componentDetails.componentBackgroundColour} 
+              />
+            )}
           </Box>
 
           {/* Item Name and Description */}
@@ -72,7 +75,7 @@ export default function StoreComponentBox({ componentDetails, headingColour }) {
               pr: {xs: 2},
             }}
           >
-            {itemData && (
+            {itemData && !isLoading && (
               <ItemDescription 
                 itemData={itemData} 
                 tileColour={componentDetails.tileColour} 
@@ -83,7 +86,7 @@ export default function StoreComponentBox({ componentDetails, headingColour }) {
         </Box>
 
         {/* Purchase Item */}
-        {itemData && (
+        {!isLoading && itemData && (
           <Box
             sx={{
               display: 'flex',
