@@ -53,7 +53,7 @@ export default function TrailLog({ componentBackgroundColour, componentHeadingCo
                                                 <Typography
                                                     variant="body2"
                                                     component="span"
-                                                    sx={{ fontWeight: "bold", color: "primary.main" }}>
+                                                    sx={{ fontWeight: "bold", color: "primary.main"}}>
                                                     {time}
                                                 </Typography>
                                                 <Typography variant="body2" component="span" sx={{ display: "block" }}>

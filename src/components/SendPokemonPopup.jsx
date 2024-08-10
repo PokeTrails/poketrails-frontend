@@ -19,7 +19,8 @@ const SendPokemonPopup = ({ data, onClose, pokemonName, trail }) => {
         bgcolor: 'background.paper',
         boxShadow: 24,
         p: 4,
-        borderRadius: 2
+        borderRadius: 2,
+        zIndex: 2
       }}
     >
       <Typography variant="h6" component="div" gutterBottom>
