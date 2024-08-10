@@ -11,7 +11,7 @@ export default function TrailLog({ componentBackgroundColour, componentHeadingCo
                 pb: 3,
                 backgroundColor: componentBackgroundColour || "rgba(164, 218, 195, 0.5)",
                 width: { xs: "100vw", md: "35vw" },
-                maxWidth: "400px",
+                maxWidth: {xs: '100%', md: '400px'},
                 maxHeight: "500px",
                 mt: 0
             }}>
