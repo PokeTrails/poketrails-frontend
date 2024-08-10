@@ -1,55 +1,78 @@
-import { Box, Typography } from '@mui/material';
-import PropTypes from 'prop-types';
+import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
+import PropTypes from "prop-types";
 
-export default function TrailLog( { componentBackgroundColour, componentHeadingColour, trailLogData } ) {
-  return (
-    <Box
-      sx={{
-        borderRadius: 2,
-        height: { xs: '30vh', md: '50vh' },
-        pb: 3,
-        backgroundColor: componentBackgroundColour || 'rgba(164, 218, 195, 0.5)',
-        width: { xs: '100vw', md: '35vw' },
-        maxWidth: '550px',
-        maxHeight: '500px',
-        mt: 0
-      }}
-    >
-      <Box
-        sx={{
-            borderRadius: 2,
-            backgroundColor: componentHeadingColour || 'rgba(122, 220, 185, 0.6)',
-            pt: 1,
-            pb: 0.5,
-            mb: 1,
-        }}
-      >
-        <Typography variant="h4" fontSize={{ xs: '20px', md: '25px' }} gutterBottom textAlign="center">
-          Trail Log
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: 3,
-          overflow: 'auto',
-          height: 'calc(100% - 54px)',
-        }}
-      >
-        <Typography variant="body1">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Similique pariatur aliquid sit dolor delectus nobis officiis enim itaque excepturi, fugiat provident doloremque, saepe rem perspiciatis? Quasi optio quisquam iure vel!
-          Voluptates quod quaerat animi alias porro necessitatibus quis possimus nam. Natus in, modi sequi qui deserunt quis illum sint temporibus cum ullam eum reprehenderit cumque at. Totam nesciunt placeat vitae?
-          Impedit animi voluptatibus dolorem recusandae ex at quod fugiat fugit vitae.
-        </Typography>
-      </Box>
-    </Box>
-  );
+export default function TrailLog({ componentBackgroundColour, componentHeadingColour, trailLogData }) {
+    const data = Array.isArray(trailLogData) ? trailLogData : [];
+    return (
+        <Box
+            sx={{
+                borderRadius: 2,
+                height: { xs: "30vh", md: "50vh" },
+                pb: 3,
+                backgroundColor: componentBackgroundColour || "rgba(164, 218, 195, 0.5)",
+                width: { xs: "100vw", md: "35vw" },
+                maxWidth: {xs: '100%', md: '400px'},
+                maxHeight: "500px",
+                mt: 0
+            }}>
+            <Box
+                sx={{
+                    borderRadius: 2,
+                    backgroundColor: componentHeadingColour || "rgba(122, 220, 185, 0.6)",
+                    pt: 1,
+                    pb: 0.5,
+                    mb: 1
+                }}>
+                <Typography variant="h4" fontSize={{ xs: "20px", md: "25px" }} gutterBottom textAlign="center">
+                    Trail Log
+                </Typography>
+            </Box>
+            <Box
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "left",
+                    overflow: "auto",
+                    height: "calc(100% - 54px)"
+                }}>
+                {data.length === 0 ? (
+                    <Typography variant="body1" color="text.secondary" sx={{mt: 3}}>
+                        Pokémon has not found anything
+                    </Typography>
+                ) : (
+                    <List>
+                        {data.map((log, index) => {
+                            // Split the log into time and message
+                            const [time, message] = log.split("\n");
+                            return (
+                                <ListItem key={index}>
+                                    <ListItemText
+                                        primary={
+                                            <>
+                                                <Typography
+                                                    variant="body2"
+                                                    component="span"
+                                                    sx={{ fontWeight: "bold", color: "primary.main"}}>
+                                                    {time}
+                                                </Typography>
+                                                <Typography variant="body2" component="span" sx={{ display: "block" }}>
+                                                    {message}
+                                                </Typography>
+                                            </>
+                                        }
+                                    />
+                                </ListItem>
+                            );
+                        })}
+                    </List>
+                )}
+            </Box>
+        </Box>
+    );
 }
 
 TrailLog.propTypes = {
-  componentBackgroundColour: PropTypes.string,
-  componentHeadingColour: PropTypes.string,
-  trailLogData: PropTypes.array,
+    componentBackgroundColour: PropTypes.string,
+    componentHeadingColour: PropTypes.string,
+    trailLogData: PropTypes.array
 };

@@ -7,10 +7,10 @@ import TrailLog from '../components/TrailLog';
 import Background from '../components/Background';
 import backgroundImg from '../assets/main_background.jpg';
 
-
 import SignupPopup from '../components/SignupPopup';
 
 import usePopup from '../hooks/usePopup';
+import useGetTrailData from '../hooks/useGetTrailData';
 
 export default function Party() {
   const jwt = localStorage.getItem('jwt');
@@ -37,6 +37,7 @@ export default function Party() {
   const [alerts, setAlerts] = useState([]);
   const [currentHappiness, setCurrentHappiness] = useState(0);
   const [fadeOut, setFadeOut] = useState(false);
+  const { trailLogData, currentlyOnTrail }= useGetTrailData(selectedPokemon) || {};
 
   const handlePokemonSelect = (pokemon) => {
     setSelectedPokemon(pokemon);
@@ -103,6 +104,8 @@ export default function Party() {
             <TrailLog 
             componentBackgroundColour={componentDetails.componentBackgroundColour}
             componentHeadingColour={componentDetails.componentHeadingColour}
+            trailLogData={trailLogData}
+            currentlyOnTrail={currentlyOnTrail}
             />
           </Box>
         </Box>
@@ -117,6 +120,8 @@ export default function Party() {
           <TrailLog 
           componentBackgroundColour={componentDetails.componentBackgroundColour}
           componentHeadingColour={componentDetails.componentHeadingColour}
+          trailLogData={trailLogData}
+          currentlyOnTrail={currentlyOnTrail}
           />
         </Box>
         

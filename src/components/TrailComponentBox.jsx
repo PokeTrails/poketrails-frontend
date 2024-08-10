@@ -13,7 +13,7 @@ export default function TrailComponentBox({ componentDetails, headingColour }) {
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [pokemonName, setPokemonName] = useState('');
 
-  const { trailLogData }= useGetTrailData(selectedPokemon) || {};
+  const { trailLogData, currentlyOnTrail }= useGetTrailData(selectedPokemon) || {};
 
   const handlePokemonSelect = useCallback((pokemon) => {
     setIsLoading(true);
@@ -158,6 +158,7 @@ export default function TrailComponentBox({ componentDetails, headingColour }) {
                 componentBackgroundColour={componentDetails.componentBackgroundColour}
                 componentHeadingColour={componentDetails.componentHeadingColour}
                 trailLogData={trailLogData}
+                currentlyOnTrail={currentlyOnTrail}
               />
             </Box>
           </Box>
@@ -174,6 +175,7 @@ export default function TrailComponentBox({ componentDetails, headingColour }) {
             componentBackgroundColour={componentDetails.componentBackgroundColour}
             componentHeadingColour={componentDetails.componentHeadingColour}
             trailLogData={trailLogData}
+            currentlyOnTrail={currentlyOnTrail}
           />
         </Box>        
       </Box>

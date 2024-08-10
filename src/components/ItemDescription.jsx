@@ -43,6 +43,7 @@ export default function ItemDescription({ itemData }) {
             variant="h6"
             fontSize={{ xs: '14px', md: '18px' }}
             sx={{ color: 'black', textAlign: 'left', mt: 1 }}
+            whiteSpace="pre-line"
           >
             {itemData.description}
           </Typography>
