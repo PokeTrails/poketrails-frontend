@@ -88,7 +88,7 @@ export default function TrailData({ pokemonName, trail, pokemonID }) {
               gutterBottom
               sx={{ fontSize: { xs: '13px', sm: '14px', md: '16px' }, mt: { xs: 2 }, mb: 2 }}
             >
-              {!currentlyOnTrail ? `${capitaliseName(pokemonName)} is ready to explore the ${trail} trail` : `${capitaliseName(pokemonName)} is already exploring the ${onTrailTitle}.`}
+              {!currentlyOnTrail ? `${capitaliseName(pokemonName)} is ready to explore the ${trail} trail` : `${capitaliseName(pokemonName)} is currently exploring the ${onTrailTitle}.`}
             </Typography>
 
             {!currentlyOnTrail && (
