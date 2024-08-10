@@ -32,12 +32,11 @@ export default function TrailLog({ componentBackgroundColour, componentHeadingCo
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "left",
-                    padding: 3,
                     overflow: "auto",
                     height: "calc(100% - 54px)"
                 }}>
                 {data.length === 0 ? (
-                    <Typography variant="body1" color="text.secondary">
+                    <Typography variant="body1" color="text.secondary" sx={{mt: 3}}>
                         Pokémon has not found anything
                     </Typography>
                 ) : (

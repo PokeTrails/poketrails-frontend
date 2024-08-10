@@ -8,16 +8,17 @@ import Background from '../components/Background';
 import backgroundImg from '../assets/main_background.jpg';
 
 
+
 import SignupPopup from '../components/SignupPopup';
 
 import usePopup from '../hooks/usePopup';
+import useGetTrailData from '../hooks/useGetTrailData';
 
 export default function Party() {
   const jwt = localStorage.getItem('jwt');
   const apiURL = `${import.meta.env.VITE_API_SERVER_URL}`;
 
-  const { showPopup, popupData, openPopup, closePopup } = usePopup();
-
+  
   const componentDetails = {
     componentHeadingColour: "rgba(122, 220, 185, 0.6)",
     componentBackgroundColour: "rgba(164, 218, 195, 0.5)",
@@ -27,7 +28,6 @@ export default function Party() {
   const firstLoginPopup = {
     title: "Welcome to PokéTrails!",
     message: "We have sent you an egg that will hatch soon! Keep a close eye on it. \n\n As thanks for using our app, we've also given you an egg voucher which you can redeem at any time in the shop. \n \n Have fun!",
-    message2: "",
     type: "success",
   };
 
@@ -37,6 +37,9 @@ export default function Party() {
   const [alerts, setAlerts] = useState([]);
   const [currentHappiness, setCurrentHappiness] = useState(0);
   const [fadeOut, setFadeOut] = useState(false);
+
+  const { showPopup, popupData, openPopup, closePopup } = usePopup();
+  const { trailLogData, currentlyOnTrail }= useGetTrailData(selectedPokemon) || {};
 
   const handlePokemonSelect = (pokemon) => {
     setSelectedPokemon(pokemon);
@@ -55,7 +58,6 @@ export default function Party() {
     // Check for the popup flag in localStorage
     const showPopupFlag = localStorage.getItem('firstLogin');
     if (showPopupFlag === 'true') {
-      console.log("POPUP ACTIVE")
       openPopup(firstLoginPopup); // Show the popup
     }
 
@@ -103,6 +105,8 @@ export default function Party() {
             <TrailLog 
             componentBackgroundColour={componentDetails.componentBackgroundColour}
             componentHeadingColour={componentDetails.componentHeadingColour}
+            trailLogData={trailLogData}
+            currentlyOnTrail={currentlyOnTrail}
             />
           </Box>
         </Box>
@@ -117,6 +121,8 @@ export default function Party() {
           <TrailLog 
           componentBackgroundColour={componentDetails.componentBackgroundColour}
           componentHeadingColour={componentDetails.componentHeadingColour}
+          trailLogData={trailLogData}
+          currentlyOnTrail={currentlyOnTrail}
           />
         </Box>
         
