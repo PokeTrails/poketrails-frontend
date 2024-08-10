@@ -3,6 +3,8 @@ import axios from "axios";
 import { Box, Typography, Grid, CircularProgress, Dialog, DialogContent, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
+import { capitaliseName } from "../utils";
+
 const Pokedex = () => {
     const [pokemonData, setPokemonData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -87,7 +89,7 @@ const Pokedex = () => {
             sx={{
                 mt: 2,
                 pb: 3,
-                backgroundColor: "rgba(164, 218, 195, 0.5)",
+                backgroundColor: "#E4BCAF",
                 width: { xs: "100%", md: "90%" },
                 maxWidth: "1200px",
                 mx: "auto",
@@ -96,13 +98,13 @@ const Pokedex = () => {
             <Box
                 sx={{
                     borderRadius: 2,
-                    backgroundColor: "rgba(122, 220, 185, 0.6)",
+                    backgroundColor: "#DFAB9A",
                     pt: 1,
                     pb: 0.5,
                     mb: 1
                 }}>
                 <Typography variant="h4" fontSize={{ xs: "20px", md: "25px" }} gutterBottom textAlign="center">
-                    Pokedex
+                    Pokédex
                 </Typography>
             </Box>
 
@@ -114,12 +116,11 @@ const Pokedex = () => {
                     borderRadius: 2,
                     background: "rgba(255, 255, 255, 0.2)",
                     backdropFilter: "blur(15px)",
-                    border: "1px solid rgba(255, 255, 255, 0.3)",
                     marginLeft: "20px",
                     marginRight: "20px",
                     marginTop: "20px"
                 }}>
-                <Typography variant="h5" gutterBottom>
+                <Typography variant="h5" gutterBottom fontSize={{xs: '18px', md: '22px'}}>
                     Donated Pokémon
                 </Typography>
                 <Grid container spacing={2}>
@@ -135,13 +136,13 @@ const Pokedex = () => {
                                 onClick={() => handlePokemonClick(pokemon)}
                                 sx={{
                                     border: 1,
-                                    borderColor: "black",
+                                    borderColor: "#DBAF8E",
                                     borderRadius: 2,
-                                    backgroundColor: "#c0c0c0",
+                                    backgroundColor: "#FBAF8E",
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    width: { xs: "80px", sm: "100px", md: "130px" },
+                                    width: { xs: "80px", sm: "100px", md: "90px" },
                                     height: { xs: "80px", sm: "100px", md: "90px" },
                                     margin: "8px",
                                     cursor: "pointer",
@@ -170,13 +171,12 @@ const Pokedex = () => {
                     borderRadius: 2,
                     background: "rgba(255, 255, 255, 0.2)",
                     backdropFilter: "blur(15px)",
-                    border: "1px solid rgba(255, 255, 255, 0.3)",
                     marginLeft: "20px",
                     marginRight: "20px",
                     position: "relative",
                     minHeight: "300px" // Ensure there's enough space for floating Pokémon
                 }}>
-                <Typography variant="h5" gutterBottom>
+                <Typography variant="h5" gutterBottom fontSize={{xs: '18px', md: '22px'}}>
                     Non-Donated Pokémon
                 </Typography>
                 <Grid container spacing={2} sx={{ position: "relative" }}>
@@ -194,7 +194,7 @@ const Pokedex = () => {
                                 onMouseLeave={handleMouseLeave}
                                 sx={{
                                     position: "relative",
-                                    width: { xs: "80px", sm: "70px", md: "130px" },
+                                    width: { xs: "80px", sm: "70px", md: "90px" },
                                     height: { xs: "80px", sm: "70px", md: "90px" },
                                     margin: "8px",
                                     cursor: "default",
@@ -250,7 +250,7 @@ const Pokedex = () => {
                             style={{ width: "200px", height: "200px", transition: "none" }}
                         />
                         <Typography variant="h6" sx={{ mt: 2 }}>
-                            {selectedPokemon.nickname} ({selectedPokemon.species})
+                            {capitaliseName(selectedPokemon.species)} #{selectedPokemon.species_id}
                         </Typography>
                         <Typography sx={{ mt: 1, textAlign: "center" }}>{selectedPokemon.flavour_text}</Typography>
                         <Typography sx={{ mt: 1, textAlign: "center" }}>

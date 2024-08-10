@@ -168,7 +168,7 @@ export default function Interactions({ componentBackgroundColour, componentHeadi
       >
         {currentlyOnTrail ? (
           // Render message if the Pokémon is on a trail
-          <Typography variant="h6" color="textSecondary">
+          <Typography variant="h6" fontSize={{xs: '16px', md: '20px'}} color="textSecondary">
             This Pokémon is currently exploring a trail
           </Typography>
         ) : isLoading ? (
