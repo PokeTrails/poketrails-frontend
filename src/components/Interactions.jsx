@@ -77,11 +77,11 @@ export default function Interactions({ componentBackgroundColour, componentHeadi
       // Display alert based on interaction response
       if (response.status === 200) {
         if (response.data.happiness_increased) {
-          message = `Happiness increased by ${response.data.happiness_increased}.`;
+          message = capitaliseName(response.data.message) + " Happiness increased by " + response.data.happiness_increased + ".";
           playCryAudio(cryUrl, 1);
           severity = 'success';
         } else if (response.data.happiness_reduced) {
-          message = `Happiness reduced by ${response.data.happiness_reduced}.`;
+          message = `${capitaliseName(response.data.message)} Happiness reduced by ${response.data.happiness_reduced}.`;
           playCryAudio(cryUrl, 0.7); // Play cry at a lower pitch if happiness is reduced
           severity = 'error';
         } else if (response.data.message) {
@@ -90,7 +90,7 @@ export default function Interactions({ componentBackgroundColour, componentHeadi
       }
 
       // Display alert
-      onAlert(capitaliseName(message), severity);
+      onAlert(message, severity);
     } catch (err) {
       console.error(`Error handling ${action} interaction:`, err);
       let message = 'Failed to perform interaction';
