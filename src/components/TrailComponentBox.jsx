@@ -159,7 +159,6 @@ export default function TrailComponentBox({ componentDetails, headingColour }) {
                 componentHeadingColour={componentDetails.componentHeadingColour}
                 trailLogData={trailLogData}
                 currentlyOnTrail={currentlyOnTrail}
-                pokemonName={pokemonName}
               />
             </Box>
           </Box>
@@ -177,7 +176,6 @@ export default function TrailComponentBox({ componentDetails, headingColour }) {
             componentHeadingColour={componentDetails.componentHeadingColour}
             trailLogData={trailLogData}
             currentlyOnTrail={currentlyOnTrail}
-            pokemonName={pokemonName}
           />
         </Box>        
       </Box>
