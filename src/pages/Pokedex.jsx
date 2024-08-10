@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Box, Typography, Grid, CircularProgress, Dialog, DialogContent, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -10,11 +10,7 @@ const Pokedex = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedPokemon, setSelectedPokemon] = useState(null);
-    const [hoveredPokemon, setHoveredPokemon] = useState(null);
-    const [pokemonPositions, setPokemonPositions] = useState({});
-
-    // Ref for tracking mouse position
-    const mouseRef = useRef({ x: 0, y: 0 });
+    const [nonDonatedPopup, setNonDonatedPopup] = useState(null);
 
     const apiURL = `${import.meta.env.VITE_API_SERVER_URL}/pokedex`;
     const jwt = localStorage.getItem("jwt");
@@ -42,36 +38,19 @@ const Pokedex = () => {
     const handlePokemonClick = (pokemon) => {
         if (pokemon.donated) {
             setSelectedPokemon(pokemon);
+        } else {
+            setNonDonatedPopup(pokemon);
         }
     };
 
     const handleCloseDialog = () => {
         setSelectedPokemon(null);
+        setNonDonatedPopup(null);
     };
 
-    const handleMouseEnter = (pokemonId, event) => {
-        setHoveredPokemon(pokemonId);
-        const rect = event.currentTarget.getBoundingClientRect();
-        setPokemonPositions((prev) => ({
-            ...prev,
-            [pokemonId]: rect
-        }));
+    const handleCloseNonDonatedPopup = () => {
+        setNonDonatedPopup(null);
     };
-
-    const handleMouseMove = (event) => {
-        mouseRef.current = { x: event.clientX, y: event.clientY };
-    };
-
-    const handleMouseLeave = () => {
-        setHoveredPokemon(null);
-    };
-
-    useEffect(() => {
-        window.addEventListener("mousemove", handleMouseMove);
-        return () => {
-            window.removeEventListener("mousemove", handleMouseMove);
-        };
-    }, []);
 
     if (isLoading) {
         return <CircularProgress sx={{ mt: 2 }} />;
@@ -86,7 +65,6 @@ const Pokedex = () => {
 
     const nonDonatedPokemons = pokemonData.filter((pokemon) => !pokemon.donated);
     const sortedNonDonatedPokemons = nonDonatedPokemons.sort((a, b) => a.species_id - b.species_id);
-
 
     return (
         <Box
@@ -181,7 +159,7 @@ const Pokedex = () => {
                     minHeight: "300px" // Ensure there's enough space for floating Pokémon
                 }}>
                 <Typography variant="h5" gutterBottom fontSize={{xs: '18px', md: '22px'}}>
-                    Non-Donated Pokémon
+                    Undiscovered Pokémon
                 </Typography>
                 <Grid container spacing={2} sx={{ position: "relative" }}>
                     {sortedNonDonatedPokemons.map((pokemon) => (
@@ -193,47 +171,29 @@ const Pokedex = () => {
                             md={2}
                             sx={{ display: "flex", justifyContent: "center" }}>
                             <Box
-                                className="non-donated"
-                                onMouseEnter={(event) => handleMouseEnter(pokemon._id, event)}
-                                onMouseLeave={handleMouseLeave}
+                                onClick={() => handlePokemonClick(pokemon)}
                                 sx={{
-                                    position: "relative",
-                                    width: { xs: "80px", sm: "70px", md: "90px" },
-                                    height: { xs: "80px", sm: "70px", md: "90px" },
+                                    border: 1,
+                                    borderColor: "#DBAF8E",
+                                    borderRadius: 2,
+                                    backgroundColor: "#FBAF8E",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    width: { xs: "80px", sm: "100px", md: "90px" },
+                                    height: { xs: "80px", sm: "100px", md: "90px" },
                                     margin: "8px",
-                                    cursor: "default",
-                                    overflow: "hidden",
-                                    transition: "transform 7.5s ease", // Smooth transition
-                                    transform:
-                                        hoveredPokemon === pokemon._id
-                                            ? `translate(${
-                                                  mouseRef.current.x - (pokemonPositions[pokemon._id]?.left || 0) - 1000
-                                              }px, ${
-                                                  mouseRef.current.y -
-                                                  (pokemonPositions[pokemon._id]?.right || 0) -
-                                                  1000
-                                              }px)`
-                                            : "translate(0, 0)" // Reset position
+                                    cursor: "pointer",
+                                    overflow: "hidden"
                                 }}>
-                                <Box
-                                    sx={{
-                                        position: "absolute",
-                                        top: 0,
-                                        left: 0,
-                                        width: "100%",
-                                        height: "100%",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        background: "black",
-                                        maskImage: `url(${pokemon.sprite})`,
-                                        maskSize: "contain",
-                                        maskRepeat: "no-repeat",
-                                        maskPosition: "center",
-                                        WebkitMaskImage: `url(${pokemon.sprite})`,
-                                        WebkitMaskSize: "contain",
-                                        WebkitMaskRepeat: "no-repeat",
-                                        WebkitMaskPosition: "center"
+                                <img
+                                    src={pokemon.sprite}
+                                    alt={pokemon.nickname}
+                                    style={{
+                                        maxWidth: "100%",
+                                        maxHeight: "100%",
+                                        objectFit: "contain",
+                                        filter: "grayscale(100%) brightness(0%)" // Apply black color filter to sprite
                                     }}
                                 />
                             </Box>
@@ -251,7 +211,11 @@ const Pokedex = () => {
                         <img
                             src={selectedPokemon.sprite}
                             alt={selectedPokemon.nickname}
-                            style={{ width: "200px", height: "auto", transition: "none" }}
+                            style={{ 
+                                height: 'auto',
+                                maxWidth: "100px", 
+                                maxHeight: "130px",
+                                transition: "none" }}
                         />
                         <Typography variant="h6" sx={{ mt: 2 }}>
                             {capitaliseName(selectedPokemon.species)} #{selectedPokemon.species_id}
@@ -259,6 +223,32 @@ const Pokedex = () => {
                         <Typography sx={{ mt: 1, textAlign: "center" }}>{selectedPokemon.flavour_text}</Typography>
                         <Typography sx={{ mt: 1, textAlign: "center" }}>
                             Discovered Date: {new Date(selectedPokemon.createdAt).toLocaleDateString()}
+                        </Typography>
+                    </DialogContent>
+                </Dialog>
+            )}
+
+            {nonDonatedPopup && (
+                <Dialog open={true} onClose={handleCloseNonDonatedPopup}>
+                    <DialogContent sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        <IconButton sx={{ position: "absolute", top: 8, right: 8 }} onClick={handleCloseNonDonatedPopup}>
+                            <CloseIcon />
+                        </IconButton>
+                        <img
+                            src={nonDonatedPopup.sprite} // Use nonDonatedPopup.sprite instead of selectedPokemon.sprite
+                            alt={nonDonatedPopup.nickname} // Use nonDonatedPopup.nickname
+                            style={{ 
+                                height: 'auto',
+                                maxWidth: "100px", 
+                                maxHeight: "130px", 
+                                transition: "none", 
+                                filter: "grayscale(100%) brightness(0%)" }}
+                        />
+                        <Typography variant="h6" sx={{ mt: 2 }}>
+                            ??? #{nonDonatedPopup.species_id}
+                        </Typography>
+                        <Typography sx={{ mt: 1, textAlign: "center" }}>
+                            You need to donate this Pokémon before you can view its details.
                         </Typography>
                     </DialogContent>
                 </Dialog>
