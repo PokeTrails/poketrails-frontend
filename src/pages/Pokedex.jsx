@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Box, Typography, Grid, CircularProgress, Dialog, DialogContent, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -82,7 +82,11 @@ const Pokedex = () => {
     }
 
     const donatedPokemons = pokemonData.filter((pokemon) => pokemon.donated);
+    const sortedDonatedPokemon = donatedPokemons.sort((a, b) => a.species_id - b.species_id);
+
     const nonDonatedPokemons = pokemonData.filter((pokemon) => !pokemon.donated);
+    const sortedNonDonatedPokemons = nonDonatedPokemons.sort((a, b) => a.species_id - b.species_id);
+
 
     return (
         <Box
@@ -124,7 +128,7 @@ const Pokedex = () => {
                     Donated Pokémon
                 </Typography>
                 <Grid container spacing={2}>
-                    {donatedPokemons.map((pokemon) => (
+                    {sortedDonatedPokemon.map((pokemon) => (
                         <Grid
                             item
                             key={pokemon._id}
@@ -180,7 +184,7 @@ const Pokedex = () => {
                     Non-Donated Pokémon
                 </Typography>
                 <Grid container spacing={2} sx={{ position: "relative" }}>
-                    {nonDonatedPokemons.map((pokemon) => (
+                    {sortedNonDonatedPokemons.map((pokemon) => (
                         <Grid
                             item
                             key={pokemon._id}
@@ -247,7 +251,7 @@ const Pokedex = () => {
                         <img
                             src={selectedPokemon.sprite}
                             alt={selectedPokemon.nickname}
-                            style={{ width: "200px", height: "200px", transition: "none" }}
+                            style={{ width: "200px", height: "auto", transition: "none" }}
                         />
                         <Typography variant="h6" sx={{ mt: 2 }}>
                             {capitaliseName(selectedPokemon.species)} #{selectedPokemon.species_id}
