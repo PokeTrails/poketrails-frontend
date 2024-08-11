@@ -1,0 +1,149 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 2,
+    "pending": 0,
+    "failures": 1,
+    "start": "2024-08-11T09:30:25.059Z",
+    "end": "2024-08-11T09:30:34.833Z",
+    "duration": 9774,
+    "testsRegistered": 3,
+    "passPercent": 66.66666666666666,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "b58a779d-405a-4b85-b004-576d5306c65f",
+      "title": "",
+      "fullFile": "cypress/e2e/SignupForm.cy.js",
+      "file": "cypress/e2e/SignupForm.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "2c85af85-ca0e-47db-9e66-628abbd63324",
+          "title": "Signup Form",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "signs up successfully with valid data",
+              "fullTitle": "Signup Form signs up successfully with valid data",
+              "timedOut": null,
+              "duration": 5568,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Use fixture data for valid signup details\ncy.get('@signupData').then(signup => {\n  cy.get('#username').type(signup.validUser.username);\n  cy.get('#trainer-name').type(signup.validUser.trainerName);\n  cy.get('#password').type(signup.validUser.password);\n  cy.get('#confirm-password').type(signup.validUser.confirmPassword);\n  // Submit the form\n  cy.get('button[type=submit]').click();\n  // Check if redirected to the party page\n  cy.url().should('include', '/party');\n});",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 4000ms: expected 'https://dev.poketrails.com/signup' to include '/party'",
+                "estack": "AssertionError: Timed out retrying after 4000ms: expected 'https://dev.poketrails.com/signup' to include '/party'\n    at Context.eval (webpack://poketrails-frontend/./cypress/e2e/SignupForm.cy.js:22:17)",
+                "diff": null
+              },
+              "uuid": "dfbf51c2-23a4-4dfe-bace-fddc6494c962",
+              "parentUUID": "2c85af85-ca0e-47db-9e66-628abbd63324",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "shows an error message when passwords do not match",
+              "fullTitle": "Signup Form shows an error message when passwords do not match",
+              "timedOut": null,
+              "duration": 1380,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Use fixture data for mismatched passwords\ncy.get('@signupData').then(signup => {\n  cy.get('#username').type(signup.validUser.username);\n  cy.get('#trainer-name').type(signup.validUser.trainerName);\n  cy.get('#password').type(signup.validUser.password);\n  cy.get('#confirm-password').type(signup.invalidUser.mismatchedPassword);\n  // Submit the form\n  cy.get('button[type=submit]').click();\n  // Check if an error message is displayed\n  cy.contains('Passwords do not match. Please try again').should('be.visible');\n});",
+              "err": {},
+              "uuid": "80b8040b-6937-46fa-a978-cefe698a7260",
+              "parentUUID": "2c85af85-ca0e-47db-9e66-628abbd63324",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "shows an error message when username is already taken",
+              "fullTitle": "Signup Form shows an error message when username is already taken",
+              "timedOut": null,
+              "duration": 1926,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Use fixture data for a username that already exists\ncy.get('@signupData').then(signup => {\n  cy.get('#username').type(signup.existingUser.username);\n  cy.get('#trainer-name').type(signup.existingUser.trainerName);\n  cy.get('#password').type(signup.existingUser.password);\n  cy.get('#confirm-password').type(signup.existingUser.confirmPassword);\n  // Submit the form\n  cy.get('button[type=submit]').click();\n  // Check if an error message is displayed\n  cy.contains('Error: User with this username already exists').should('be.visible');\n});",
+              "err": {},
+              "uuid": "7b77805a-10a9-4afb-a34f-cd757fffb2c3",
+              "parentUUID": "2c85af85-ca0e-47db-9e66-628abbd63324",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "80b8040b-6937-46fa-a978-cefe698a7260",
+            "7b77805a-10a9-4afb-a34f-cd757fffb2c3"
+          ],
+          "failures": [
+            "dfbf51c2-23a4-4dfe-bace-fddc6494c962"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 8874,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/report/mochawesome-report",
+        "charts": true,
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

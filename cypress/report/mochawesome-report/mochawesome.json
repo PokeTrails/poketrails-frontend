@@ -1,0 +1,163 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 4,
+    "passes": 4,
+    "pending": 0,
+    "failures": 0,
+    "start": "2024-08-11T09:29:56.401Z",
+    "end": "2024-08-11T09:30:05.837Z",
+    "duration": 9436,
+    "testsRegistered": 4,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "397c0c1b-09e1-4f2b-ab1b-08da0948943a",
+      "title": "",
+      "fullFile": "cypress/e2e/Home.cy.js",
+      "file": "cypress/e2e/Home.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "18922e33-b498-4bb2-9a61-8fcc3fc70138",
+          "title": "Home Page",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders the main menu heading",
+              "fullTitle": "Home Page renders the main menu heading",
+              "timedOut": null,
+              "duration": 2089,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.contains('Main Menu').should('be.visible');",
+              "err": {},
+              "uuid": "bc785413-a058-49eb-8301-e654599643c9",
+              "parentUUID": "18922e33-b498-4bb2-9a61-8fcc3fc70138",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "renders the subheading",
+              "fullTitle": "Home Page renders the subheading",
+              "timedOut": null,
+              "duration": 2129,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.contains('Select from one of the options below').should('be.visible');",
+              "err": {},
+              "uuid": "e5dca7cd-4c14-467f-890f-513064dd10a5",
+              "parentUUID": "18922e33-b498-4bb2-9a61-8fcc3fc70138",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "renders all menu items with correct text",
+              "fullTitle": "Home Page renders all menu items with correct text",
+              "timedOut": null,
+              "duration": 1842,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const menuItems = ['Party', 'Trails', 'Store', 'Pokédex'];\nmenuItems.forEach(item => {\n  cy.contains(item).should('be.visible');\n});",
+              "err": {},
+              "uuid": "53ea1a67-553d-42eb-9f9a-a82f3c0ae4a9",
+              "parentUUID": "18922e33-b498-4bb2-9a61-8fcc3fc70138",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "navigates to the correct page when a menu item is clicked",
+              "fullTitle": "Home Page navigates to the correct page when a menu item is clicked",
+              "timedOut": null,
+              "duration": 2274,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.contains('Party').click();\ncy.url().should('include', '/party');\ncy.visit('https://dev.poketrails.com/home'); // Go back to the home page\ncy.contains('Store').click();\ncy.url().should('include', '/store');\ncy.visit('https://dev.poketrails.com/home'); // Go back to the home page\ncy.contains('Pokédex').click();\ncy.url().should('include', '/pokedex');",
+              "err": {},
+              "uuid": "9745596c-4fd7-462b-b794-963cf9de2882",
+              "parentUUID": "18922e33-b498-4bb2-9a61-8fcc3fc70138",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "bc785413-a058-49eb-8301-e654599643c9",
+            "e5dca7cd-4c14-467f-890f-513064dd10a5",
+            "53ea1a67-553d-42eb-9f9a-a82f3c0ae4a9",
+            "9745596c-4fd7-462b-b794-963cf9de2882"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 8334,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/report/mochawesome-report",
+        "charts": true,
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}
