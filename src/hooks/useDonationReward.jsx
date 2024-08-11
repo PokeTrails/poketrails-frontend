@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import useLoading from '../hooks/useLoading'; // Import your custom useLoading hook
 
+// Custom hook to fetch the expected reward for donating a Pokémon
 function useDonationReward(pokemonID, jwt, apiURL) {
   const [reward, setReward] = useState(null);
   const { isLoading, setIsLoading } = useLoading();
@@ -10,6 +11,7 @@ function useDonationReward(pokemonID, jwt, apiURL) {
   useEffect(() => {
     if (!pokemonID || !jwt) return;
 
+    // Fetch the expected reward for donating a Pokémon
     const fetchReward = async () => {
       setIsLoading(true); // Set loading state to true
       try {

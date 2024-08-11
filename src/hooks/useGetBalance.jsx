@@ -4,11 +4,13 @@ import axios from 'axios';
 const jwt = localStorage.getItem('jwt');
 const apiURL = `${import.meta.env.VITE_API_SERVER_URL}`;
 
+// Custom hook to fetch user balance
 function useGetBalance() {
   const [balance, setBalance] = useState(null);
   const [vouchers, setVouchers] = useState(null);
   const [error, setError] = useState(null);
 
+  // Fetch user balance and vouchers
   useEffect(() => {
     if (!jwt) return;
 

@@ -6,14 +6,17 @@ import { Box, Typography, Grid, RadioGroup, FormControlLabel, Radio, CircularPro
 import eggSprite from '../assets/pokemon_egg_animated.gif';
 
 const UserParty = ({ componentBackgroundColour, componentHeadingColour, tileColour, onPokemonSelect }) => {
+  // Initialise state variables
   const [pokemonData, setPokemonData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
 
+  // Get JWT and apiURL data
   const apiURL = `${import.meta.env.VITE_API_SERVER_URL}`;
   const jwt = localStorage.getItem('jwt');
 
+  // Fetch party data for the user
   useEffect(() => {
     const fetchPartyData = async () => {
       try {
@@ -23,8 +26,10 @@ const UserParty = ({ componentBackgroundColour, componentHeadingColour, tileColo
           },
         });
 
+        // Extract the Pokémon IDs from the response
         const fetchedData = response.data.slots;
 
+        // Fetch details for each Pokémon in the party
         const updatedData = await Promise.all(
           fetchedData.map(async (pokemonID) => {
             if (pokemonID) {
@@ -55,6 +60,7 @@ const UserParty = ({ componentBackgroundColour, componentHeadingColour, tileColo
           })
         );
 
+        // Update the state with the fetched data
         setPokemonData(updatedData);
         setIsLoading(false);
       } catch (err) {
@@ -67,19 +73,23 @@ const UserParty = ({ componentBackgroundColour, componentHeadingColour, tileColo
     fetchPartyData();
   }, [apiURL, jwt]);
 
+  // Handle Pokémon selection
   const handlePokemonSelect = (event) => {
     const selected = event.target.value;
     setSelectedPokemon(selected);
     onPokemonSelect(selected);
   };
 
+  // Define the total number of slots in the party
   const totalSlots = 6;
   const slots = Array.from({ length: totalSlots }, (_, index) => pokemonData[index] || { id: `empty-${index}` });
 
+  // Display loading spinner while fetching data
   if (isLoading) {
     return <CircularProgress sx={{ mt: 2 }}/>;
   }
 
+  // Display error message if data fetching failed
   if (error) {
     return <Typography color="error">{error}</Typography>;
   }
@@ -109,6 +119,8 @@ const UserParty = ({ componentBackgroundColour, componentHeadingColour, tileColo
           Party
         </Typography>
       </Box>
+      
+      {/* Create Radio Buttons to select Pokemon from Party */}
       <RadioGroup
         value={selectedPokemon}
         onChange={handlePokemonSelect}

@@ -2,6 +2,8 @@ import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
 
 const InteractionButton = ({ onClick, disabled, label }) => {
+
+  // Returns the button component for interactions page
   return (
     <Button
       variant="contained"

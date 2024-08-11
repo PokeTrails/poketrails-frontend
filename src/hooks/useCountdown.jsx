@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 
+// Custom hook to manage countdown state
 const useCountdown = (initialTime, isActive) => {
   const [countdown, setCountdown] = useState(initialTime);
 
+  // Update countdown every second
   useEffect(() => {
     let timer;
 

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 
+// Custom hook to retrieve Pokémon from the trail
 const useRetrievePokemonFromTrail = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);

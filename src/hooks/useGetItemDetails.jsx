@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+// Custom hook to fetch item details
 function useGetItemDetails(itemID) {
   const [itemData, setItemData] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Fetch item details when itemID changes
   useEffect(() => {
     if (!itemID) {
       setItemData(null);

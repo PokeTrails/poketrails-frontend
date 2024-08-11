@@ -5,6 +5,7 @@ import pathfinderTrainersImage from '../assets/store_images/running_shoes.png';
 import amuletCoinImage from '../assets/store_images/amulet_coin.png';
 import eggImage from '../assets/store_images/egg.png';
 
+// Map of item names to their corresponding images
 const imageMap = {
   'Happiness Share': happinessShareImage,
   'Shiny Charm': shinyCharmImage,

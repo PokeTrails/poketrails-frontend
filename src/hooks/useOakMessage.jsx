@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { capitaliseName } from '../utils';
 
+// Custom hook to generate a message from Professor Oak using the Pokémon's name
 export const useOakMessage = (pokemonName) => {
   const [message, setMessage] = useState('');
 

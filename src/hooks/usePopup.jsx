@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+// Custom hook to manage popup state
 function usePopup() {
   const [showPopup, setShowPopup] = useState(false);
   const [popupData, setPopupData] = useState(null);

@@ -1,7 +1,7 @@
 import { Box, Typography, Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import { formatTime } from '../utils';
-import useCountdown from '../hooks/useCountdown'; // Import the custom hook
+import useCountdown from '../hooks/useCountdown';
 
 const SendPokemonPopup = ({ data, onClose, pokemonName, trail }) => {
   // Use the countdown hook to dynamically update the time left
