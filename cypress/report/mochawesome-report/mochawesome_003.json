@@ -1,0 +1,240 @@
+{
+  "stats": {
+    "suites": 3,
+    "tests": 6,
+    "passes": 6,
+    "pending": 0,
+    "failures": 0,
+    "start": "2024-08-11T09:30:17.022Z",
+    "end": "2024-08-11T09:30:24.119Z",
+    "duration": 7097,
+    "testsRegistered": 6,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "5e746ed3-c1ed-4901-b091-663ebdce6a1d",
+      "title": "",
+      "fullFile": "cypress/e2e/Navbar.cy.js",
+      "file": "cypress/e2e/Navbar.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "94c33b2d-b93c-4009-be6d-0bcf50abb2d0",
+          "title": "Navbar",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "84170973-8f7c-40e6-a08e-7cf10cb62bf9",
+              "title": "When logged in",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should display the app logo on navbar",
+                  "fullTitle": "Navbar When logged in should display the app logo on navbar",
+                  "timedOut": null,
+                  "duration": 1954,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.get('.MuiTypography-h6 > img').should('be.visible');",
+                  "err": {},
+                  "uuid": "af30a026-e6c4-4286-9c75-cdb7d9cf8faa",
+                  "parentUUID": "84170973-8f7c-40e6-a08e-7cf10cb62bf9",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "should show navigation buttons for all pages on desktop",
+                  "fullTitle": "Navbar When logged in should show navigation buttons for all pages on desktop",
+                  "timedOut": null,
+                  "duration": 1578,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "const pages = ['Home', 'Party', 'Trails', 'Pokédex', 'Store'];\ncy.viewport('macbook-15');\npages.forEach(page => {\n  cy.contains(page).should('be.visible');\n});",
+                  "err": {},
+                  "uuid": "477ee327-7f93-4b5a-9d5d-0ddb51891925",
+                  "parentUUID": "84170973-8f7c-40e6-a08e-7cf10cb62bf9",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "should navigate to correct pages when navigation buttons are clicked",
+                  "fullTitle": "Navbar When logged in should navigate to correct pages when navigation buttons are clicked",
+                  "timedOut": null,
+                  "duration": 1949,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.contains('Party').click();\ncy.url().should('include', '/party');\ncy.contains('Trails').click();\ncy.url().should('include', '/trails');",
+                  "err": {},
+                  "uuid": "6f06223f-41ae-46d5-ba73-5f618fd8f625",
+                  "parentUUID": "84170973-8f7c-40e6-a08e-7cf10cb62bf9",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "af30a026-e6c4-4286-9c75-cdb7d9cf8faa",
+                "477ee327-7f93-4b5a-9d5d-0ddb51891925",
+                "6f06223f-41ae-46d5-ba73-5f618fd8f625"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 5481,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "14056473-1190-42dc-9ad2-b892946e5a77",
+              "title": "When logged out",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should display the Sign Up/Log In button",
+                  "fullTitle": "Navbar When logged out should display the Sign Up/Log In button",
+                  "timedOut": null,
+                  "duration": 216,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.visit('https://dev.poketrails.com/login'); // Go to login page\ncy.get('.MuiButton-outlined').should('be.visible');\ncy.visit('https://dev.poketrails.com/login'); // Go to sign up page\ncy.get('.MuiButton-outlined').should('be.visible');",
+                  "err": {},
+                  "uuid": "635ddf37-cd48-4a87-8235-9a4d7f0ae593",
+                  "parentUUID": "14056473-1190-42dc-9ad2-b892946e5a77",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "should navigate to login page on clicking Sign Up button",
+                  "fullTitle": "Navbar When logged out should navigate to login page on clicking Sign Up button",
+                  "timedOut": null,
+                  "duration": 193,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.visit('https://dev.poketrails.com/login');\ncy.get('.MuiButton-outlined').click();\ncy.url().should('include', '/signup');",
+                  "err": {},
+                  "uuid": "0a023ef2-2951-4fbf-a83b-fbbc009f1c3a",
+                  "parentUUID": "14056473-1190-42dc-9ad2-b892946e5a77",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "should navigate to login page on clicking Log In button",
+                  "fullTitle": "Navbar When logged out should navigate to login page on clicking Log In button",
+                  "timedOut": null,
+                  "duration": 190,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.visit('https://dev.poketrails.com/signup');\ncy.get('.MuiButton-outlined').click();\ncy.url().should('include', '/login');",
+                  "err": {},
+                  "uuid": "7337318d-a2f2-436b-8f0a-e383d3a45a59",
+                  "parentUUID": "14056473-1190-42dc-9ad2-b892946e5a77",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "635ddf37-cd48-4a87-8235-9a4d7f0ae593",
+                "0a023ef2-2951-4fbf-a83b-fbbc009f1c3a",
+                "7337318d-a2f2-436b-8f0a-e383d3a45a59"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 599,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/report/mochawesome-report",
+        "charts": true,
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

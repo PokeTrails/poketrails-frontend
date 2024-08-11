@@ -9,22 +9,28 @@ import useLoading from '../hooks/useLoading';
 import useGetTrailData from '../hooks/useGetTrailData';
 
 export default function TrailComponentBox({ componentDetails, headingColour }) {
+
+  // Initialise state variables
   const { isLoading, setIsLoading } = useLoading();
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [pokemonName, setPokemonName] = useState('');
 
+  // Fetch trail data for selected Pokémon
   const { trailLogData, currentlyOnTrail }= useGetTrailData(selectedPokemon) || {};
 
+  // Handle Pokémon selection
   const handlePokemonSelect = useCallback((pokemon) => {
     setIsLoading(true);
     setSelectedPokemon(pokemon);
   }, [setIsLoading]);
 
+  // Handle Pokémon name change
   const handlePokemonNameChange = useCallback((name) => {
     setPokemonName(name);
     setIsLoading(false);
   }, [setIsLoading]);
 
+  // Reset loading state after selecting a Pokémon
   useEffect(() => {
     if (selectedPokemon) {
       // Assuming fetching data might be async

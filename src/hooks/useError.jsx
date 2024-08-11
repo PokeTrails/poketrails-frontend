@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+// Custom hook to manage error state
 function useError() {
   const [error, setError] = useState('');
 

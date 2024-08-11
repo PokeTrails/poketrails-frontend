@@ -13,10 +13,11 @@ import usePopup from '../hooks/usePopup';
 import useGetTrailData from '../hooks/useGetTrailData';
 
 export default function Party() {
+  // Get JWT and apiURL data
   const jwt = localStorage.getItem('jwt');
   const apiURL = `${import.meta.env.VITE_API_SERVER_URL}`;
 
-  const { showPopup, popupData, openPopup, closePopup } = usePopup();
+  const { showPopup, popupData, openPopup, closePopup } = usePopup(); // Import usePopup hook
 
   const componentDetails = {
     componentHeadingColour: "rgba(122, 220, 185, 0.6)",
@@ -24,15 +25,17 @@ export default function Party() {
     tileColour: "rgba(164, 218, 195, 0.7)",
   };
 
+  // Variable to store popup message for user first login
   const firstLoginPopup = {
     title: "Welcome to PokéTrails!",
     message: "We have sent you an egg that will hatch soon! Keep a close eye on it. \n\n As thanks for using our app, we've also given you an egg voucher which you can redeem at any time in the shop. \n \n Have fun!",
-    message2: "",
     type: "success",
   };
 
+  // Define background colour for the page
   const backgroundColour = "#C9EECF";
 
+  // Initialise state variables
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [alerts, setAlerts] = useState([]);
   const [currentHappiness, setCurrentHappiness] = useState(0);
@@ -62,6 +65,7 @@ export default function Party() {
 
     let fadeTimer;
 
+    // Set a timer to fade out the alert after 3 seconds
     if (alerts.length > 0) {
       fadeTimer = setTimeout(() => {
         setFadeOut(true); // Start fade-out after 3 seconds

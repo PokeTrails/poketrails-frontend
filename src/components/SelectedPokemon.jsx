@@ -5,14 +5,18 @@ import PropTypes from 'prop-types';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 
-import useLoading from '../hooks/useLoading';
-import usePopup from '../hooks/usePopup'; // Import the usePopup hook
-import { capitaliseName, formatTime } from '../utils';
 import eggSprite from '../assets/pokemon_egg_animated.gif';
 import shinyIcon from '../assets/shiny_icon.png';
+
+import { capitaliseName, formatTime } from '../utils';
+import useLoading from '../hooks/useLoading';
+import usePopup from '../hooks/usePopup';
+
 import HatchPopup from './HatchPopup';
 
 export default function SelectedPokemon({ componentBackgroundColour, tileColour, pokemonID, currentHappiness, onPokemonNameChange }) {
+
+  // Initialise state variables
   const [pokemonData, setPokemonData] = useState(null);
   const { isLoading, setIsLoading } = useLoading();
   const [error, setError] = useState(null);
@@ -21,16 +25,19 @@ export default function SelectedPokemon({ componentBackgroundColour, tileColour,
   const [newNickname, setNewNickname] = useState('');
   const [isHatching, setIsHatching] = useState(false);
 
+  // Get JWT and apiURL data
   const jwt = localStorage.getItem('jwt');
   const apiURL = `${import.meta.env.VITE_API_SERVER_URL}`;
   const { showPopup, popupData, openPopup, closePopup } = usePopup();
 
+  // Fetch Pokémon data for the selected Pokémon
   useEffect(() => {
     const fetchPokemonData = async () => {
       if (!pokemonID) return;
 
       setIsLoading(true);
 
+      // Fetch Pokémon data
       try {
         const response = await axios.get(`${apiURL}/pokemon/${pokemonID}`, {
           headers: {
@@ -82,6 +89,7 @@ export default function SelectedPokemon({ componentBackgroundColour, tileColour,
   const handleSaveClick = async () => {
     if (!pokemonData) return;
 
+    // Update the nickname
     try {
       await axios.patch(`${apiURL}/pokemon/nickname/${pokemonID}`, { nickname: newNickname }, {
         headers: {
@@ -96,10 +104,12 @@ export default function SelectedPokemon({ componentBackgroundColour, tileColour,
     }
   };
 
+  // Handle cancel button click
   const handleCancelClick = () => {
     setIsEditing(false);
   };
 
+  // Handle hatch button click
   const handleHatchClick = async () => {
     setIsHatching(true);
     try {
@@ -161,6 +171,7 @@ export default function SelectedPokemon({ componentBackgroundColour, tileColour,
             justifyContent: 'center',
           }}
         >
+          {/* Display a loading spinner while fetching data */}
           {isLoading ? (
             <CircularProgress sx={{ width: '70%' }} />
           ) : pokemonData ? (
@@ -186,6 +197,7 @@ export default function SelectedPokemon({ componentBackgroundColour, tileColour,
         </Box>
       </Box>
 
+      {/* Display Pokémon nickname and species */}
       {pokemonData && (
         <Box
           sx={{

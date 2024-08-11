@@ -15,9 +15,11 @@ import pikachuLoading from '../assets/pikachu.gif';
 
 import useError from '../hooks/useError';
 import useLoading from '../hooks/useLoading';
+
 import SelectTrainerSprite from './SelectTrainerSprite';
 
 export default function Signup() {
+  // Initialise state variables
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [selectedSprite, setSelectedSprite] = useState('default_female');
@@ -26,22 +28,27 @@ export default function Signup() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  // Get JWT and apiURL data
   const apiURL = import.meta.env.VITE_API_SERVER_URL;
   const navigate = useNavigate();
 
+  // Custom hooks for handling errors and loading states
   const { error, setError, clearError } = useError();
   const { isLoading, setIsLoading } = useLoading();
 
+  // Functions for handling password visibility toggles
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
+  // Function for handling sprite selection
   const handleSpriteChange = (event) => {
     setSelectedSprite(event.target.value);
   };
 
+  // Function for handling form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     clearError();
@@ -53,6 +60,7 @@ export default function Signup() {
 
     setIsLoading(true);
 
+    // Send a POST request to the server with the form data
     try {
       const response = await axios.post(`${apiURL}/user/signup`, {
         username,
@@ -77,7 +85,7 @@ export default function Signup() {
       }
     } 
     finally {
-      setIsLoading(false);
+      setIsLoading(false); // Reset loading state
     }
   };
 

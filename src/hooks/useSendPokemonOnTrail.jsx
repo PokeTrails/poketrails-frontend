@@ -3,6 +3,7 @@ import axios from 'axios';
 import useError from './useError';
 import useLoading from './useLoading';
 
+// Custom hook to send Pokémon on trail
 const useSendPokemonOnTrail = () => {
   const [error, setError] = useState(null);
   const { setError: setGlobalError, clearError } = useError();

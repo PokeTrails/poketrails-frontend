@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+// Custom hook to fetch the number of Pokémon in the user's party
 const usePokemonCount = (jwt, apiURL) => {
   const [pokemonCount, setPokemonCount] = useState(null);
   const [loading, setLoading] = useState(true);

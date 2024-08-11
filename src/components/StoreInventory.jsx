@@ -13,6 +13,7 @@ const StoreInventory = ({ componentBackgroundColour, componentHeadingColour, til
   // Fetch images for all items using the useItemImage hook
   const itemImageMap = useItemImage();
 
+  // Fetch store data for the user
   useEffect(() => {
     const fetchStoreData = async () => {
       try {
@@ -44,6 +45,7 @@ const StoreInventory = ({ componentBackgroundColour, componentHeadingColour, til
           slots.push(null);
         }
 
+        // Update state variables
         setItemsData(slots);
         setIsLoading(false);
       } catch (err) {
@@ -56,16 +58,19 @@ const StoreInventory = ({ componentBackgroundColour, componentHeadingColour, til
     fetchStoreData();
   }, [apiURL, jwt, itemImageMap]);
 
+  // Handle item selection
   const handleItemSelect = (event) => {
     const selected = event.target.value;
     setSelectedItem(selected);
     onItemSelect(selected);
   };
 
+  // Render the component
   if (isLoading) {
     return <CircularProgress sx={{ mt: 2 }} />;
   }
 
+  // Display an error message if fetching data failed
   if (error) {
     return <Typography color="error">{error}</Typography>;
   }

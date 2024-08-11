@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+// Custom hook to check trail time
 const useCheckTrailTime = (pokemonID) => {
   const [timeLeft, setTimeLeft] = useState(null);
   const [loading, setLoading] = useState(true);
   const jwt = localStorage.getItem('jwt'); // Get JWT from local storage
 
+  // Fetch trail time and update every 10 seconds
   useEffect(() => {
     if (pokemonID) {
       const fetchTimeLeft = async () => {

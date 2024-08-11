@@ -1,0 +1,18 @@
+{
+    "validUser": {
+      "username": "newUser123",
+      "trainerName": "Ash",
+      "password": "Password123!",
+      "confirmPassword": "Password123!"
+    },
+    "invalidUser": {
+      "mismatchedPassword": "DifferentPassword!"
+    },
+    "existingUser": {
+      "username": "user3",
+      "trainerName": "Existing User",
+      "password": "Password123!",
+      "confirmPassword": "Password123!"
+    }
+  }
+  

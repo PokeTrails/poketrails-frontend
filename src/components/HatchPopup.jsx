@@ -19,7 +19,7 @@ const HatchPopup = ({ data, onClose, onReload }) => {
         transform: 'translate(-50%, -50%)',
         width: { xs: '80vw', sm: '50vw', md: '30vw' },
         maxWidth: '500px',
-        backgroundColor: data.isShiny ? '#ffff8b' : '#f5f5f5',
+        backgroundColor: data.isShiny ? '#ffeb3b' : '#f5f5f5',
         borderRadius: 2,
         boxShadow: 3,
         p: 3,

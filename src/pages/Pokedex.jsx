@@ -6,6 +6,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { capitaliseName } from "../utils";
 
 const Pokedex = () => {
+
+    // Initialise state variables
     const [pokemonData, setPokemonData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -15,6 +17,8 @@ const Pokedex = () => {
     const apiURL = `${import.meta.env.VITE_API_SERVER_URL}/pokedex`;
     const jwt = localStorage.getItem("jwt");
 
+
+    // Fetch Pokémon data from the server
     useEffect(() => {
         const fetchPokedexData = async () => {
             try {
@@ -35,6 +39,7 @@ const Pokedex = () => {
         fetchPokedexData();
     }, [apiURL, jwt]);
 
+    // Handle Pokémon click event
     const handlePokemonClick = (pokemon) => {
         if (pokemon.donated) {
             setSelectedPokemon(pokemon);
@@ -43,23 +48,29 @@ const Pokedex = () => {
         }
     };
 
+    // Handle close dialog event
     const handleCloseDialog = () => {
         setSelectedPokemon(null);
         setNonDonatedPopup(null);
     };
 
+    // Handle close non-donated popup event
     const handleCloseNonDonatedPopup = () => {
         setNonDonatedPopup(null);
     };
 
+
+    // Display loading spinner while fetching data
     if (isLoading) {
         return <CircularProgress sx={{ mt: 2 }} />;
     }
 
+    // Display error message if data fetching failed
     if (error) {
         return <Typography color="error">{error}</Typography>;
     }
 
+    // Sort the Pokémon data into donated and non-donated by Pokedex ID
     const donatedPokemons = pokemonData.filter((pokemon) => pokemon.donated);
     const sortedDonatedPokemon = donatedPokemons.sort((a, b) => a.species_id - b.species_id);
 

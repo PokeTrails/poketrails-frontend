@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+// Custom hook to fetch Pokémon trail data
 export default function useGetTrailData(pokemonID) {
   const [pokemonTrailData, setPokemonTrailData] = useState(null);
 
+  // Fetch Pokémon trail data
   useEffect(() => {
     const fetchData = async () => {
       if (!pokemonID) return; // Only fetch data if pokemonID is present
@@ -20,6 +22,7 @@ export default function useGetTrailData(pokemonID) {
 
         const data = response.data;
 
+        // Check if the Pokémon has hatched
         if (!data.eggHatched) {
           setPokemonTrailData(null); // Set data to null if the Pokemon is still an egg
         } else {
